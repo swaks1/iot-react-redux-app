@@ -4,6 +4,5 @@ iot-react-redux-app
 React with Redux web application for managing iot devices
 
 To Start:
-
-npm install
-npm start
+-npm install
+-npm start
