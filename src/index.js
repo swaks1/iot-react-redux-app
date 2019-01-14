@@ -1,12 +1,25 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import './index.css'
+import '../node_modules/toastr/build/toastr.min.css';
+import React from 'react'
+import { render } from 'react-dom'
+import { BrowserRouter } from 'react-router-dom'
+import App from './components/App';
+import { Provider } from 'react-redux'
+import configureStore from './redux/store/configureStore'
+import { loadCourses } from './redux/actions/courseActions'
+import { loadAuthors } from './redux/actions/authorActions';
+import { loadDevices } from './redux/actions/deviceActions';
 
-ReactDOM.render(<App />, document.getElementById('root'));
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
+const store = configureStore();
+store.dispatch(loadCourses());
+store.dispatch(loadAuthors());
+store.dispatch(loadDevices());
+
+render((
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>
+), document.getElementById('root'));
