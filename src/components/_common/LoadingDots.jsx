@@ -27,7 +27,7 @@ class LoadingDots extends React.Component {
       text += '.';
       dots--;
     }
-    return <span {...this.props} style={{ fontSize: "3em" }}>{text}&nbsp;</span>;
+    return <span {...this.props} style={{ color:"white",fontSize: "1.5em",marginLeft:"10px" }}>{`Loading ${text}`}&nbsp;</span>;
   }
 }
 
