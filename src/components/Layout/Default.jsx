@@ -14,13 +14,14 @@ import routes from "../../routes.js";
 import logo from "../../assets/img/react-logo.png";
 
 
-var ps;
-
 class DefaultLayout extends React.Component {
 
   constructor(props) {
     super(props);
+
     this.mainPanel = React.createRef(); //creating ref for the Main Panel later to add scroll
+    this.ps = null;
+
     this.state = {
       backgroundColor: "blue",
       sidebarOpened:
@@ -33,13 +34,13 @@ class DefaultLayout extends React.Component {
       document.documentElement.className += " perfect-scrollbar-on";
       document.documentElement.classList.remove("perfect-scrollbar-off");
       let mainPanelNode = this.mainPanel.current;
-      ps = new PerfectScrollbar(mainPanelNode, { suppressScrollX: true });
+      this.ps = new PerfectScrollbar(mainPanelNode, { suppressScrollX: true });
     }
   }
 
   componentWillUnmount() {
     if (navigator.platform.indexOf("Win") > -1) {
-      ps.destroy();
+      this.ps.destroy();
       document.documentElement.className += " perfect-scrollbar-off";
       document.documentElement.classList.remove("perfect-scrollbar-on");
     }
