@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
-import { Route, Switch, withRouter } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import PerfectScrollbar from "perfect-scrollbar"; //javascript plugin used to create scrollbars on windows
 
 // core components for the layout
@@ -10,32 +10,33 @@ import Footer from "./Parts/Footer.jsx";
 import Sidebar from "./Parts/Sidebar.jsx";
 import FixedPlugin from "./Parts/FixedPlugin.jsx";
 
-import LoadingDots from '../_common/LoadingDots';
 import routes from "../../routes.js";
 import logo from "../../assets/img/react-logo.png";
+
 
 var ps;
 
 class DefaultLayout extends React.Component {
+
   constructor(props) {
     super(props);
+    this.mainPanel = React.createRef(); //creating ref for the Main Panel later to add scroll
     this.state = {
       backgroundColor: "blue",
       sidebarOpened:
         document.documentElement.className.indexOf("nav-open") !== -1
     };
   }
+
   componentDidMount() {
     if (navigator.platform.indexOf("Win") > -1) {
       document.documentElement.className += " perfect-scrollbar-on";
       document.documentElement.classList.remove("perfect-scrollbar-off");
-      ps = new PerfectScrollbar(this.refs.mainPanel, { suppressScrollX: true });
-      let tables = document.querySelectorAll(".table-responsive");
-      for (let i = 0; i < tables.length; i++) {
-        ps = new PerfectScrollbar(tables[i]);
-      }
+      let mainPanelNode = this.mainPanel.current;
+      ps = new PerfectScrollbar(mainPanelNode, { suppressScrollX: true });
     }
   }
+
   componentWillUnmount() {
     if (navigator.platform.indexOf("Win") > -1) {
       ps.destroy();
@@ -43,60 +44,54 @@ class DefaultLayout extends React.Component {
       document.documentElement.classList.remove("perfect-scrollbar-on");
     }
   }
+
   componentDidUpdate(e) {
+    console.log("Default.jsx Updated");
     if (e.history.action === "PUSH") {
-      if (navigator.platform.indexOf("Win") > -1) {
-        let tables = document.querySelectorAll(".table-responsive");
-        for (let i = 0; i < tables.length; i++) {
-          ps = new PerfectScrollbar(tables[i]);
-        }
-      }
       document.documentElement.scrollTop = 0;
       document.scrollingElement.scrollTop = 0;
-      this.refs.mainPanel.scrollTop = 0;
+      this.mainPanel.current.scrollTop = 0;
     }
   }
 
   // this function opens and closes the sidebar on small devices
   toggleSidebar = () => {
     document.documentElement.classList.toggle("nav-open");
-    this.setState({ sidebarOpened: !this.state.sidebarOpened });
+    this.setState((prevState) => ({ sidebarOpened: !prevState.sidebarOpened }));
   };
+
+  // return array of routes which are possible to render
   getRoutes = routes => {
     return routes.map((prop, key) => {
-      if (prop.layout === "/app") {
-        return (
-          <Route
-            path={prop.layout + prop.path}
-            component={prop.component}
-            key={key}
-          />
-        );
-      } else {
-        return null;
-      }
+      return (
+        <Route
+          path={prop.path}
+          component={prop.component}
+          key={key}
+        />
+      );
     });
   };
+
   handleBgClick = color => {
     this.setState({ backgroundColor: color });
   };
+
   getBrandText = path => {
     for (let i = 0; i < routes.length; i++) {
-      if (
-        this.props.location.pathname.indexOf(
-          routes[i].layout + routes[i].path
-        ) !== -1
-      ) {
+      if (this.props.location.pathname.indexOf(routes[i].path) !== -1) {
         return routes[i].name;
       }
     }
     return "Brand";
   };
+
   render() {
-    console.log(this.props.test)
+    console.log(`Render Default.jsx .. ${this.props.test}`);
     return (
       <>
         <div className="wrapper">
+
           <Sidebar
             {...this.props}
             routes={routes}
@@ -108,9 +103,10 @@ class DefaultLayout extends React.Component {
             }}
             toggleSidebar={this.toggleSidebar}
           />
+
           <div
             className="main-panel"
-            ref="mainPanel"
+            ref={this.mainPanel}
             data={this.state.backgroundColor}
           >
             <Navbar
@@ -120,18 +116,15 @@ class DefaultLayout extends React.Component {
               sidebarOpened={this.state.sidebarOpened}
             />
 
-            {this.props.loading && <LoadingDots interval={100} dots={20} />}
-
-            <Switch>{this.getRoutes(routes)}</Switch>
+            <div className="content">
+              <Switch>{this.getRoutes(routes)}</Switch>
+            </div>
             
-            {
-              // we don't want the Footer to be rendered on map page
-              //this.props.location.pathname.indexOf("maps") !== -1 ? null : (
-              <Footer fluid />
-              //)
-            }
+            <Footer fluid />
+
           </div>
         </div>
+
         <FixedPlugin
           bgColor={this.state.backgroundColor}
           handleBgClick={this.handleBgClick}

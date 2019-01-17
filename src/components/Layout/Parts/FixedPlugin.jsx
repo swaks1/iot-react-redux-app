@@ -4,12 +4,14 @@ import React, { Component } from "react";
 import { Button } from "reactstrap";
 
 class FixedPlugin extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
       classes: "dropdown show-dropdown"
     };
   }
+
   handleClick = () => {
     if (this.state.classes === "dropdown show-dropdown") {
       this.setState({ classes: "dropdown show-dropdown show" });
@@ -17,6 +19,7 @@ class FixedPlugin extends Component {
       this.setState({ classes: "dropdown show-dropdown" });
     }
   };
+
   activateMode = mode => {
     switch (mode) {
       case "light":
@@ -27,6 +30,7 @@ class FixedPlugin extends Component {
         break;
     }
   };
+
   render() {
     return (
       <div className="fixed-plugin">

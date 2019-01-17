@@ -1,7 +1,8 @@
 import React from "react";
-// nodejs library that concatenates classes
-import classNames from "classnames";
+import classNames from "classnames"; // nodejs library that concatenates classes
 
+import Loader from 'react-loader-spinner'
+import profileImage from "../../../assets/img/anime3.png";
 // reactstrap components
 import {
   Button,
@@ -21,6 +22,7 @@ import {
 } from "reactstrap";
 
 class NavbarWrapper extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -29,12 +31,15 @@ class NavbarWrapper extends React.Component {
       color: "navbar-transparent"
     };
   }
+
   componentDidMount() {
     window.addEventListener("resize", this.updateColor);
   }
+
   componentWillUnmount() {
     window.removeEventListener("resize", this.updateColor);
   }
+
   // function that adds color white/transparent to the navbar on resize (this is for the collapse)
   updateColor = () => {
     if (window.innerWidth < 993 && this.state.collapseOpen) {
@@ -47,6 +52,7 @@ class NavbarWrapper extends React.Component {
       });
     }
   };
+
   // this function opens and closes the collapse on small devices
   toggleCollapse = () => {
     if (this.state.collapseOpen) {
@@ -58,16 +64,18 @@ class NavbarWrapper extends React.Component {
         color: "bg-white"
       });
     }
-    this.setState({
-      collapseOpen: !this.state.collapseOpen
-    });
+    this.setState((prevState) => ({
+      collapseOpen: !prevState.collapseOpen
+    }));
   };
+
   // this function is to open the Search modal
   toggleModalSearch = () => {
-    this.setState({
-      modalSearch: !this.state.modalSearch
-    });
+    this.setState((prevState) => ({
+      modalSearch: !prevState.modalSearch
+    }));
   };
+
   render() {
     return (
       <>
@@ -92,10 +100,22 @@ class NavbarWrapper extends React.Component {
                   <span className="navbar-toggler-bar bar3" />
                 </button>
               </div>
-              <NavbarBrand href="#pablo" onClick={e => e.preventDefault()}>
-                {this.props.brandText}
-              </NavbarBrand>
+              {
+                this.props.loading
+                  ?
+                  <Loader
+                    type="ThreeDots"
+                    color="#007bff"
+                    height="50"
+                    width="50"
+                  />
+                  :
+                  <NavbarBrand href="#pablo" onClick={e => e.preventDefault()}>
+                    {this.props.brandText}
+                  </NavbarBrand>
+              }
             </div>
+
             <button
               aria-expanded={false}
               aria-label="Toggle navigation"
@@ -172,7 +192,7 @@ class NavbarWrapper extends React.Component {
                     onClick={e => e.preventDefault()}
                   >
                     <div className="photo">
-                      <img alt="..." src={require("../../../assets/img/anime3.png")} />
+                      <img alt="..." src={profileImage} />
                     </div>
                     <b className="caret d-none d-lg-block d-xl-block" />
                     <p className="d-lg-none">Log out</p>

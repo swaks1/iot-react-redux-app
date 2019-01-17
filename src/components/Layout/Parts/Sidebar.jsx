@@ -1,11 +1,9 @@
 /*eslint-disable*/
 import React from "react";
 import { NavLink, Link } from "react-router-dom";
-// nodejs library to set properties for components
 import { PropTypes } from "prop-types";
 
-// javascript plugin used to create scrollbars on windows
-import PerfectScrollbar from "perfect-scrollbar";
+import PerfectScrollbar from "perfect-scrollbar";// javascript plugin used to create scrollbars on windows
 
 // reactstrap components
 import { Nav } from "reactstrap";
@@ -13,37 +11,46 @@ import { Nav } from "reactstrap";
 var ps;
 
 class Sidebar extends React.Component {
+
   constructor(props) {
     super(props);
-    this.activeRoute.bind(this);
+    this.sideBar = React.createRef();
+    this.activeRoute.bind(this); //to have proper this context in activeRoute function
   }
+
   // verifies if routeName is the one active (in browser input)
   activeRoute(routeName) {
     return this.props.location.pathname.indexOf(routeName) > -1 ? "active" : "";
   }
+
   componentDidMount() {
     if (navigator.platform.indexOf("Win") > -1) {
-      ps = new PerfectScrollbar(this.refs.sidebar, {
+      ps = new PerfectScrollbar(this.sideBar.current, {
         suppressScrollX: true,
         suppressScrollY: false
       });
     }
   }
-  componentWillUnmount() {
+
+  componentWillUnmount() {    
     if (navigator.platform.indexOf("Win") > -1) {
       ps.destroy();
     }
   }
+
   linkOnClick = () => {
     document.documentElement.classList.remove("nav-open");
   };
-  render() {
-    const { bgColor, routes, rtlActive, logo } = this.props;
-    let logoImg = null;
-    let logoText = null;
+
+  setLogoElements(logo) {
+    var result = {
+      logoImg: null,
+      logoText: null
+    };
+
     if (logo !== undefined) {
       if (logo.outterLink !== undefined) {
-        logoImg = (
+        result.logoImg = (
           <a
             href={logo.outterLink}
             className="simple-text logo-mini"
@@ -55,7 +62,7 @@ class Sidebar extends React.Component {
             </div>
           </a>
         );
-        logoText = (
+        result.logoText = (
           <a
             href={logo.outterLink}
             className="simple-text logo-normal"
@@ -66,7 +73,7 @@ class Sidebar extends React.Component {
           </a>
         );
       } else {
-        logoImg = (
+        result.logoImg = (
           <Link
             to={logo.innerLink}
             className="simple-text logo-mini"
@@ -77,7 +84,7 @@ class Sidebar extends React.Component {
             </div>
           </Link>
         );
-        logoText = (
+        result.logoText = (
           <Link
             to={logo.innerLink}
             className="simple-text logo-normal"
@@ -88,9 +95,18 @@ class Sidebar extends React.Component {
         );
       }
     }
+
+    return result;
+  }
+
+  render() {
+    const { bgColor, routes, logo } = this.props;
+    var logoElements = this.setLogoElements(logo);
+    let { logoImg, logoText } = logoElements;
+
     return (
       <div className="sidebar" data={bgColor}>
-        <div className="sidebar-wrapper" ref="sidebar">
+        <div className="sidebar-wrapper" ref={this.sideBar}>
           {logoImg !== null || logoText !== null ? (
             <div className="logo">
               {logoImg}
@@ -102,20 +118,17 @@ class Sidebar extends React.Component {
               if (prop.redirect) return null;
               return (
                 <li
-                  className={
-                    this.activeRoute(prop.path) +
-                    (prop.pro ? " active-pro" : "")
-                  }
+                  className={this.activeRoute(prop.path)}
                   key={key}
                 >
                   <NavLink
-                    to={prop.layout + prop.path}
+                    to={prop.path}
                     className="nav-link"
                     activeClassName="active"
                     onClick={this.props.toggleSidebar}
                   >
                     <i className={prop.icon} />
-                    <p>{rtlActive ? prop.rtlName : prop.name}</p>
+                    <p>{prop.name}</p>
                   </NavLink>
                 </li>
               );
@@ -128,15 +141,11 @@ class Sidebar extends React.Component {
 }
 
 Sidebar.defaultProps = {
-  rtlActive: false,
   bgColor: "primary",
   routes: [{}]
 };
 
 Sidebar.propTypes = {
-  // if true, then instead of the routes[i].name, routes[i].rtlName will be rendered
-  // insde the links of this component
-  rtlActive: PropTypes.bool,
   bgColor: PropTypes.oneOf(["primary", "blue", "green"]),
   routes: PropTypes.arrayOf(PropTypes.object),
   logo: PropTypes.shape({
