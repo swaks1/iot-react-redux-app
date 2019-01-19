@@ -47,7 +47,6 @@ class DefaultLayout extends React.Component {
   }
 
   componentDidUpdate(e) {
-    console.log("Default.jsx Updated");
     if (e.history.action === "PUSH") {
       document.documentElement.scrollTop = 0;
       document.scrollingElement.scrollTop = 0;
@@ -88,7 +87,7 @@ class DefaultLayout extends React.Component {
   };
 
   render() {
-    console.log(`Render Default.jsx .. ${this.props.test}`);
+    console.log(`Default.jsx .. ${this.props.test}`);
     return (
       <>
         <div className="wrapper">

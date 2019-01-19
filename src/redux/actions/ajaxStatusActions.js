@@ -8,3 +8,7 @@ export function ajaxCallError() {
   return { type: types.AJAX_CALL_ERROR };
 }
 
+export function endAjaxCall() {
+  return { type: types.END_AJAX_CALL };
+}
+

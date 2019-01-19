@@ -15,15 +15,11 @@ import App from './components/App'
 //redux
 import { Provider } from 'react-redux'
 import configureStore from './redux/store/configureStore'
-import { loadCourses } from './redux/actions/courseActions'
-import { loadAuthors } from './redux/actions/authorActions';
-import { loadDevices } from './redux/actions/deviceActions';
+//import { loadDevices } from './redux/actions/deviceActions';
 
 
 const store = configureStore();
-store.dispatch(loadCourses());
-store.dispatch(loadAuthors());
-store.dispatch(loadDevices());
+//store.dispatch(loadDevices()); //can be called here ??
 
 render((
   <Provider store={store}>
