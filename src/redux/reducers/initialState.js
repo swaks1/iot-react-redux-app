@@ -3,5 +3,6 @@ export default {
     devices: {
         data : [],
         loading : false
-    }
+    },
+    commands : []
 }

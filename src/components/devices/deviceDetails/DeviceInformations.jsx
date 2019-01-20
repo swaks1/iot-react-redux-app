@@ -48,6 +48,18 @@ const DeviceInformations = ({ lg, md, sm, device, editMode, onDeviceFieldChange,
                                 }
                             </Col>
                         </FormGroup>
+                        {
+                            editMode === false
+                                ?
+                                <FormGroup row>
+                                    <Label for="active" sm={5}> Send Interval </Label>
+                                    <Col sm={7}>
+                                        <h4>{`${device.sendDataDelay} ms`}</h4>
+                                    </Col>
+                                </FormGroup>
+                                :
+                                null
+                        }
 
                         {
                             editMode === false

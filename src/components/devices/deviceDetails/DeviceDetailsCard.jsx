@@ -6,8 +6,10 @@ import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
 
 import LoaderRow from '../../_common/LoaderRow';
 import DeviceInformations from './DeviceInformations'
+import DeviceCommands from './DeviceCommands'
+import DeviceCommandsHistory from './DeviceCommandsHistory'
 
-const DeviceDetailsCard = ({ device, location, onDeviceFieldChange, editMode, onEditInfo, onSaveInfo }) => {
+const DeviceDetailsCard = ({ device, location, onDeviceFieldChange, editMode, onEditInfo, onSaveInfo, onCommandClick, commands }) => {
     return (
         <>
             <Row>
@@ -33,28 +35,23 @@ const DeviceDetailsCard = ({ device, location, onDeviceFieldChange, editMode, on
                                             device={device}
                                             editMode={editMode}
                                             onEditInfo={onEditInfo}
-                                            onDeviceFieldChange={onDeviceFieldChange} 
-                                            onSaveInfo = {onSaveInfo}/>
-                                        <Col
+                                            onDeviceFieldChange={onDeviceFieldChange}
+                                            onSaveInfo={onSaveInfo} />
+
+                                        <DeviceCommands
                                             lg="4"
                                             md="6"
                                             sm="12"
-                                        >
-                                            <Card className={"bg-light p-3"}>
-                                                <span> {device.name}</span>
-                                            </Card>
-
-                                        </Col>
-                                        <Col
+                                            device={device}
+                                            onCommandClick={onCommandClick}
+                                            onDeviceFieldChange={onDeviceFieldChange}
+                                        />
+                                        <DeviceCommandsHistory
                                             lg="4"
                                             md="6"
                                             sm="12"
-                                        >
-                                            <Card className={"bg-light p-3"}>
-                                                <span> {device.name}</span>
-                                            </Card>
-
-                                        </Col>
+                                            commands={commands}
+                                        />
 
                                     </Row>
                             }

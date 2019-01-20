@@ -3,7 +3,8 @@ import { withRouter } from 'react-router-dom'
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as deviceActions from '../../../redux/actions/deviceActions';
+import * as importedDeviceActions from '../../../redux/actions/deviceActions';
+import * as importedCommandActions from '../../../redux/actions/commandActions';
 
 import toastr from 'toastr';
 
@@ -25,8 +26,11 @@ class DeviceDetails extends React.Component {
     }
 
     componentDidMount() {
-        //const { actions } = this.props;
-        //actions.loadDevices();
+        const { commandActions } = this.props;
+
+        const deviceId = this.props.match.params.id; // from the path '/devices/:id'
+
+        commandActions.loadDeviceCommands(deviceId);
     }
 
 
@@ -64,7 +68,7 @@ class DeviceDetails extends React.Component {
 
     saveDeviceInfo = (event) => {
         event.preventDefault();
-        this.props.actions.saveDeviceInfo(this.state.device)
+        this.props.deviceActions.saveDeviceInfo(this.state.device)
             .then(() => {
                 toastr.success("Saved device info !");
             })
@@ -78,9 +82,30 @@ class DeviceDetails extends React.Component {
             })
     }
 
+    handleCommandClick = (event) => {
+        let id = event.target.id;
+        switch (id) {
+            case "deactivateBtn":
+                console.log("d");
+                break;
+            case "activateBtn":
+                console.log("a");
+                break;
+            case "updateLocationBtn":
+                console.log("u");
+                break;
+            case "changeIntervalBtn":
+                console.log("c");
+                break;
+            default:
+                console.log("unknown btn");
+        }
+    }
+
     render() {
         const { device, editMode } = this.state;
-
+        const { commands } = this.props;
+        
         return (
             <DeviceDetailsCard
                 device={device}
@@ -89,6 +114,8 @@ class DeviceDetails extends React.Component {
                 editMode={editMode}
                 onEditInfo={this.setEditMode}
                 onSaveInfo={this.saveDeviceInfo}
+                onCommandClick={this.handleCommandClick}
+                commands={commands}
             />
         );
     }
@@ -107,13 +134,15 @@ const mapStateToProps = (state, ownProps) => {
     let device = getDeviceById(state.devices.data, deviceId);
 
     return {
-        device
+        device,
+        commands: state.commands
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        actions: bindActionCreators(deviceActions, dispatch)
+        deviceActions: bindActionCreators(importedDeviceActions, dispatch),
+        commandActions: bindActionCreators(importedCommandActions, dispatch)
     };
 };
 

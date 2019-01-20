@@ -43,6 +43,39 @@ class IotApi {
         });
     }
 
+    static activateDeviceCommand(id) {
+        return new Promise((resolve, reject) => {
+            axios.post(`http://localhost:8000/api/command`, {
+                device: id,
+                commandItem: {
+                    commandValue: true,
+                    commandType: "IS_ACTIVE"
+                }
+            })
+                .then(response => {
+                    resolve(response);
+                })
+                .catch(error => {
+                    reject(error);
+                })
+        });
+    }
+
+    static loadCommands(deviceId) {
+        return new Promise((resolve, reject) => {
+            axios.get(`http://localhost:8000/api/command?deviceId=${deviceId}`)
+                .then(response => {
+                    setTimeout(() => {
+                        resolve(response);
+                    }, 1000);
+
+                })
+                .catch(error => {
+                    reject(error);
+                })
+        });
+    }
+
 }
 
 export default IotApi;
