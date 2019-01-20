@@ -15,16 +15,24 @@ import App from './components/App'
 //redux
 import { Provider } from 'react-redux'
 import configureStore from './redux/store/configureStore'
-//import { loadDevices } from './redux/actions/deviceActions';
+import { loadDevices } from './redux/actions/deviceActions';
 
+import toastr from 'toastr'
 
 const store = configureStore();
-//store.dispatch(loadDevices()); //can be called here ??
+store.dispatch(loadDevices())
+  .then(() => {
+    toastr.success(`Loaded devices`);
+  })
+  .catch((error) => {
+    toastr.error(error);
+  })
+
 
 render((
   <Provider store={store}>
     <BrowserRouter>
-      <App test={"Hello from Parent"}/>
+      <App test={"Hello from Parent"} />
     </BrowserRouter>
   </Provider>
 ), document.getElementById('root'));

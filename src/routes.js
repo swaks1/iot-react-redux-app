@@ -1,5 +1,6 @@
-import Dashboard from "./components/Dashboard/Dashboard";
-import Devices from "./components/Devices/Devices";
+import Dashboard from "./components/dashboard/Dashboard";
+import Devices from "./components/devices/Devices";
+import DevicesDetails from "./components/devices/deviceDetails/DeviceDetails";
 
 var prefix = "app";
 
@@ -14,7 +15,15 @@ var routes = [
     path: `/${prefix}/devices`,
     name: "Devices",
     icon: "tim-icons icon-mobile",
-    component: Devices
+    component: Devices,
+    exact : true
+  },
+  {
+    path: `/${prefix}/devices/:id`,
+    name: "DeviceDetails",
+    icon: "tim-icons icon-mobile",
+    component: DevicesDetails,
+    hidden : true
   }
 ];
 export default routes;

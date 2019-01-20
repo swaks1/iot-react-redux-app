@@ -1,7 +1,6 @@
 import * as types from './actionTypes'
 import iotApi from '../../api/iotApi';
 import { beginAjaxCall, ajaxCallError, endAjaxCall } from './ajaxStatusActions'
-import toastr from 'toastr';
 
 
 //ACTIONS
@@ -17,6 +16,10 @@ export function endLoadDevices() {
     return { type: types.END_LOAD_DEVICES }
 }
 
+export function saveDeviceSuccess(device) {
+    return { type: types.SAVE_DEVICE_SUCCESS, device}
+}
+
 //THUNKS thunk async functions that return action   
 export function loadDevices() {
     return function (dispatch) {// this wrapper function in important
@@ -29,9 +32,9 @@ export function loadDevices() {
                 dispatch(loadDevicesSuccess(response.data));
             })
             .catch(error => {                
-                toastr.error(error);
                 dispatch(ajaxCallError());
                 //dispatch(loadDevicesSuccess(error.data))
+                throw(error);
             })
             .finally(() => {
                 dispatch(endLoadDevices());
@@ -50,16 +53,32 @@ export function toggleDeviceToDashboard(checked, id, data) {
         device.isAddedToDashboard = checked;
         dispatch(loadDevicesSuccess(devices));
 
+        dispatch(beginAjaxCall());
         //call to api
         return iotApi.toggleDeviceToDashboard(checked, id)
             .then(response => {
                 dispatch(endAjaxCall());
             })
-            .catch(error => {
-                toastr.error(error);
+            .catch(error => {                
                 dispatch(ajaxCallError());
+                throw(error);
             });
+    }
+}
 
 
+export function saveDeviceInfo(device) {
+    return function (dispatch) {
+
+        dispatch(beginAjaxCall());
+        
+        return iotApi.saveDeviceInfo(device)
+            .then(response => {
+                dispatch(saveDeviceSuccess(device));
+            })
+            .catch(error => {                
+                dispatch(ajaxCallError());
+                throw(error);
+            });
     }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
-import DefaultLayout from "./Layout/Default.jsx";
+import DefaultLayout from "./layout/Default.jsx";
 
 class App extends React.Component {
     render() {

@@ -1,13 +1,13 @@
 import React from "react";
-
 import { withRouter } from 'react-router-dom'
+
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as deviceActions from '../../redux/actions/deviceActions';
 
-import DeviceTable from './DeviceTable'
+import toastr from 'toastr'
 
-
+import DevicesCard from './DevicesCard'
 
 
 class Devices extends React.Component {
@@ -21,8 +21,8 @@ class Devices extends React.Component {
     }
 
     componentDidMount() {
-        const { actions } = this.props;
-        actions.loadDevices();
+        //const { actions } = this.props;
+        //actions.loadDevices();
     }
 
     componentWillReceiveProps(nextProps) {
@@ -34,18 +34,25 @@ class Devices extends React.Component {
 
     handleSwitch = (checked, id) => {
         const { actions, data } = this.props;
-        actions.toggleDeviceToDashboard(checked, id, data);
+        actions.toggleDeviceToDashboard(checked, id, data)
+        .then(() =>{
+            let text = checked ? "Added to dashboard" : "Removed from dashboard";
+            toastr.success(text);
+        })
+        .catch(error => {
+            toastr.error(error);
+        });
     }
 
     render() {
         const { data, loading } = this.props;
 
         return (
-            <DeviceTable
+            <DevicesCard
                 devices={data}
                 loading={loading}
                 onSwitchChange={this.handleSwitch}
-
+                {...this.props}
             />
         );
     }

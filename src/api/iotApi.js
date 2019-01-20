@@ -31,6 +31,18 @@ class IotApi {
         });
     }
 
+    static saveDeviceInfo(device) {
+        return new Promise((resolve, reject) => {
+            axios.put(`http://localhost:8000/api/devices/${device._id}`, device)
+                .then(response => {
+                    resolve(response);
+                })
+                .catch(error => {
+                    reject(error);
+                })
+        });
+    }
+
 }
 
 export default IotApi;

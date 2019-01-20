@@ -1,13 +1,14 @@
 import React from 'react';
 //import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
-import Loader from 'react-loader-spinner';
-import Table from "../_common/Table";
 import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
+import Loader from 'react-loader-spinner';
 import Switch from "react-switch";
+import Table from "../_common/Table";
 
-const DeviceTable = ({ devices, loading, onSwitchChange }) => {
-    return (
+const DevicesCard = ({ devices, loading, onSwitchChange, location }) => {
+    return (        
         <>
             <Row>
                 <Col md="12">
@@ -16,7 +17,7 @@ const DeviceTable = ({ devices, loading, onSwitchChange }) => {
                             <h3 className="title">Devices</h3>
                             <p className="category">
                                 All devices registered on the API
-                     </p>
+                            </p>
                         </CardHeader>
                         <CardBody>
                             <Row>
@@ -52,7 +53,7 @@ const DeviceTable = ({ devices, loading, onSwitchChange }) => {
                                                         devices.map((item, index) =>
                                                             <tr key={item._id}>
                                                                 <td>{item._id}</td>
-                                                                <td>{item.name}</td>
+                                                                <td><Link to={`${location.pathname}/${item._id}`}>{item.name}</Link></td>
                                                                 <td>{item.isActive
                                                                     ? <i className="fa fa-check fa-2x" style={{ color: "green" }}></i>
                                                                     : <i className="fa fa-times fa-2x" style={{ color: "red" }} />}
@@ -86,4 +87,4 @@ const DeviceTable = ({ devices, loading, onSwitchChange }) => {
 };
 
 
-export default DeviceTable;
+export default DevicesCard;

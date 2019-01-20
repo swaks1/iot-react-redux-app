@@ -5,10 +5,10 @@ import { Route, Switch } from "react-router-dom";
 import PerfectScrollbar from "perfect-scrollbar"; //javascript plugin used to create scrollbars on windows
 
 // core components for the layout
-import Navbar from "./Parts/Navbar.jsx";
-import Footer from "./Parts/Footer.jsx";
-import Sidebar from "./Parts/Sidebar.jsx";
-import FixedPlugin from "./Parts/FixedPlugin.jsx";
+import Navbar from "./parts/Navbar.jsx";
+import Footer from "./parts/Footer.jsx";
+import Sidebar from "./parts/Sidebar.jsx";
+import FixedPlugin from "./parts/FixedPlugin.jsx";
 
 import routes from "../../routes.js";
 import logo from "../../assets/img/react-logo.png";
@@ -68,6 +68,7 @@ class DefaultLayout extends React.Component {
           path={prop.path}
           component={prop.component}
           key={key}
+          exact = {prop.exact === true}
         />
       );
     });
