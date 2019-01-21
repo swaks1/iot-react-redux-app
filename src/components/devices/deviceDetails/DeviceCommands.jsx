@@ -5,7 +5,7 @@ import { Card, Row, Col, Button, Input } from 'reactstrap';
 const DeviceCommands = ({ lg, md, sm, device, onDeviceFieldChange, onCommandClick }) => {
     return (
         <>
-            <Col lg md sm>
+            <Col lg={lg} md={md} sm={sm}>
                 <Card style={{ backgroundColor: "#f7f6f6", padding: "20px 20px" }}>
                     <h4>Device Available Commands</h4>
 

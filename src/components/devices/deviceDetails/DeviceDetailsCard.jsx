@@ -8,6 +8,9 @@ import LoaderRow from '../../_common/LoaderRow';
 import DeviceInformations from './DeviceInformations'
 import DeviceCommands from './DeviceCommands'
 import DeviceCommandsHistory from './DeviceCommandsHistory'
+import DeviceLocationMap from './DeviceLocationMap'
+import DeviceDataLineChart from './DeviceDataLineChart'
+import DeviceDataTable from './DeviceDataTable'
 
 const DeviceDetailsCard = ({ device, deviceLoading, location, onRefreshClick, onDeviceFieldChange, editMode, onEditInfo, onSaveInfo, onCommandClick, commandsData, commandsLoading }) => {
     return (
@@ -27,37 +30,72 @@ const DeviceDetailsCard = ({ device, deviceLoading, location, onRefreshClick, on
                                     ?
                                     <LoaderRow />
                                     :
-                                    <Row>
-                                        <DeviceInformations
-                                            lg="4"
-                                            md="6"
-                                            sm="12"
-                                            device={device}
-                                            deviceLoading={deviceLoading}
-                                            onRefreshClick={onRefreshClick}
-                                            editMode={editMode}
-                                            onEditInfo={onEditInfo}
-                                            onDeviceFieldChange={onDeviceFieldChange}
-                                            onSaveInfo={onSaveInfo} />
+                                    <>
+                                        <Row>
+                                            <DeviceInformations
+                                                lg="4"
+                                                md="6"
+                                                sm="12"
+                                                device={device}
+                                                deviceLoading={deviceLoading}
+                                                onRefreshClick={onRefreshClick}
+                                                editMode={editMode}
+                                                onEditInfo={onEditInfo}
+                                                onDeviceFieldChange={onDeviceFieldChange}
+                                                onSaveInfo={onSaveInfo} />
 
-                                        <DeviceCommands
-                                            lg="4"
-                                            md="6"
-                                            sm="12"
-                                            device={device}
-                                            onCommandClick={onCommandClick}
-                                            onDeviceFieldChange={onDeviceFieldChange}
-                                        />
-                                        <DeviceCommandsHistory
-                                            lg="4"
-                                            md="6"
-                                            sm="12"
-                                            commandsData={commandsData}
-                                            onRefreshClick={onRefreshClick}
-                                            commandsLoading={commandsLoading}
-                                        />
+                                            <DeviceCommands
+                                                lg="4"
+                                                md="6"
+                                                sm="12"
+                                                device={device}
+                                                onCommandClick={onCommandClick}
+                                                onDeviceFieldChange={onDeviceFieldChange}
+                                            />
+                                            <DeviceCommandsHistory
+                                                lg="4"
+                                                md="6"
+                                                sm="12"
+                                                commandsData={commandsData}
+                                                onRefreshClick={onRefreshClick}
+                                                commandsLoading={commandsLoading}
+                                            />
+                                        </Row>
+                                        <Row>
+                                            <DeviceDataTable
+                                                lg="4"
+                                                md="4"
+                                                sm="4"
+                                                deviceData={[]}
+                                                deviceDataLoading={() => { }}
+                                                onRefreshClick={() => { }}
+                                            />
+                                            <DeviceDataLineChart
+                                                lg="4"
+                                                md="4"
+                                                sm="4"
+                                                data={{}}
+                                                onButtonClick={() => { }}
+                                            />
+                                            <DeviceDataLineChart
+                                                lg="4"
+                                                md="4"
+                                                sm="4"
+                                                data={{}}
+                                                onButtonClick={() => { }}
+                                            />
+                                        </Row>
 
-                                    </Row>
+                                        <Row>
+                                            <DeviceLocationMap
+                                                lg="12"
+                                                md="12"
+                                                sm="12"
+                                                device={device}
+                                                deviceLoading={deviceLoading}
+                                            />
+                                        </Row>
+                                    </>
                             }
 
 

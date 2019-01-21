@@ -5,22 +5,22 @@ import Loader from 'react-loader-spinner';
 
 import Table from '../../_common/Table'
 
-const DeviceCommandsHistory = ({ lg, md, sm, commandsData, commandsLoading, onRefreshClick }) => {
+const DeviceDataTable = ({ lg, md, sm, deviceData, deviceDataLoading, onRefreshClick }) => {
     return (
         <>
             <Col lg={lg} md={md} sm={sm}>
                 <Card style={{ backgroundColor: "#f7f6f6", padding: "20px 20px" }}>
                     <h4>
-                        Device Commands History &nbsp;
-                                <i
+                        Device Data &nbsp;
+                                {/* <i
                             className="fa fa-sync"
                             style={{ color: "green", cursor: "pointer" }}
-                            id="DeviceCommandsHistory"
+                            id="DeviceData"
                             onClick={onRefreshClick}
-                        ></i>
+                        ></i> */}
                     </h4>
                     {
-                        commandsLoading === true
+                        deviceDataLoading === true
                             ?
                             <div className="text-center" >
                                 <Loader
@@ -34,27 +34,22 @@ const DeviceCommandsHistory = ({ lg, md, sm, commandsData, commandsLoading, onRe
                             <Table>
                                 <thead className="text-primary">
                                     <tr>
-                                        <th className="text-center">Created</th>
+                                        <th className="text-center">Date</th>
                                         <th className="text-center">Type</th>
                                         <th className="text-center">Value</th>
-                                        <th className="text-center">Executed</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {
-                                        commandsData.map((item, index) => {
+                                        deviceData.map((item, index) => {
                                             let [date, time] = item.created.split("T");
                                             time = time.substring(0, time.length - 5);
 
                                             return (
                                                 <tr key={item._id}>
                                                     <td className="text-center">{date} <br /> {time}</td>
-                                                    <td className="text-center">{item.commandItem.commandType}</td>
-                                                    <td className="text-center">{item.commandItem.commandValue}</td>
-                                                    <td className="text-center">{item.executed
-                                                        ? <i className="fa fa-check fa-1x" style={{ color: "green" }}></i>
-                                                        : <i className="fa fa-times fa-1x" style={{ color: "red" }} />}
-                                                    </td>
+                                                    <td className="text-center">{item.dataItem.dataType}</td>
+                                                    <td className="text-center">{item.dataItem.dataValue}</td>
                                                 </tr>
                                             );
                                         })
@@ -70,4 +65,4 @@ const DeviceCommandsHistory = ({ lg, md, sm, commandsData, commandsLoading, onRe
 };
 
 
-export default DeviceCommandsHistory;
+export default DeviceDataTable;

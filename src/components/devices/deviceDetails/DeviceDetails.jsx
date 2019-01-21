@@ -32,7 +32,7 @@ class DeviceDetails extends React.Component {
         commandActions.loadDeviceCommands(deviceId);
 
         // set Interval for refrshing the views every 10 sec
-        this.interval = setInterval(this.reloadDeviceDetails, 10000);
+        this.interval = setInterval(this.reloadDeviceDetails, 30000);
 
     }
 

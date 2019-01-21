@@ -6,29 +6,29 @@ import Loader from 'react-loader-spinner';
 const DeviceInformations = ({ lg, md, sm, device, deviceLoading, onRefreshClick, editMode, onDeviceFieldChange, onEditInfo, onSaveInfo }) => {
     return (
         <>
-            {
-                deviceLoading === true
-                    ?
-                    <Col lg md sm className="text-center" >
-                        <Loader
-                            type="Puff"
-                            color="#00BFFF"
-                            height="100"
-                            width="100"
-                        />
-                    </Col>
-                    :
-                    <Col lg md sm>
-                        <Card style={{ backgroundColor: "#f7f6f6", padding: "20px 20px" }}>
-                            <h4>
-                                Device Information &nbsp;
+            <Col lg={lg} md={md} sm={sm}>
+                <Card style={{ backgroundColor: "#f7f6f6", padding: "20px 20px" }}>
+                    <h4>
+                        Device Information &nbsp;
                                 <i
-                                    className="fa fa-sync"
-                                    style={{ color: "green", cursor: "pointer" }}
-                                    id="DeviceInformations"
-                                    onClick={onRefreshClick}
-                                ></i>
-                            </h4>
+                            className="fa fa-sync"
+                            style={{ color: "green", cursor: "pointer" }}
+                            id="DeviceInformations"
+                            onClick={onRefreshClick}
+                        ></i>
+                    </h4>
+                    {
+                        deviceLoading === true
+                            ?
+                            <div className="text-center" >
+                                <Loader
+                                    type="Puff"
+                                    color="#00BFFF"
+                                    height="100"
+                                    width="100"
+                                />
+                            </div>
+                            :
                             <Form>
                                 <FormGroup row>
                                     <Label for="name" sm={5}> Name</Label>
@@ -139,8 +139,6 @@ const DeviceInformations = ({ lg, md, sm, device, deviceLoading, onRefreshClick,
                                         </>
                                 }
 
-
-
                                 <FormGroup row>
                                     <Col sm={{ size: 4, offset: 0 }}>
                                         {
@@ -151,15 +149,15 @@ const DeviceInformations = ({ lg, md, sm, device, deviceLoading, onRefreshClick,
                                                     color="link"
                                                     style={{ paddingLeft: "0px" }}
                                                     onClick={onEditInfo}>Edit Info</Button>
-
                                         }
 
                                     </Col>
                                 </FormGroup>
                             </Form>
-                        </Card>
-                    </Col>
-            }
+                    }
+                </Card>
+            </Col>
+
 
         </>
     );
