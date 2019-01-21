@@ -9,7 +9,7 @@ import DeviceInformations from './DeviceInformations'
 import DeviceCommands from './DeviceCommands'
 import DeviceCommandsHistory from './DeviceCommandsHistory'
 
-const DeviceDetailsCard = ({ device, location, onDeviceFieldChange, editMode, onEditInfo, onSaveInfo, onCommandClick, commands }) => {
+const DeviceDetailsCard = ({ device, deviceLoading, location, onRefreshClick, onDeviceFieldChange, editMode, onEditInfo, onSaveInfo, onCommandClick, commandsData, commandsLoading }) => {
     return (
         <>
             <Row>
@@ -33,6 +33,8 @@ const DeviceDetailsCard = ({ device, location, onDeviceFieldChange, editMode, on
                                             md="6"
                                             sm="12"
                                             device={device}
+                                            deviceLoading={deviceLoading}
+                                            onRefreshClick={onRefreshClick}
                                             editMode={editMode}
                                             onEditInfo={onEditInfo}
                                             onDeviceFieldChange={onDeviceFieldChange}
@@ -50,7 +52,9 @@ const DeviceDetailsCard = ({ device, location, onDeviceFieldChange, editMode, on
                                             lg="4"
                                             md="6"
                                             sm="12"
-                                            commands={commands}
+                                            commandsData={commandsData}
+                                            onRefreshClick={onRefreshClick}
+                                            commandsLoading={commandsLoading}
                                         />
 
                                     </Row>

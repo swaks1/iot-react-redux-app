@@ -1,5 +1,4 @@
 import React from "react";
-import Loader from 'react-loader-spinner'
 
 // reactstrap components
 import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";

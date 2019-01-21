@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Card, Row, Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Card, Row, Col, Button, Input } from 'reactstrap';
 
 const DeviceCommands = ({ lg, md, sm, device, onDeviceFieldChange, onCommandClick }) => {
     return (

@@ -2,6 +2,8 @@ import axios from 'axios'
 
 class IotApi {
 
+    // ======= DEVICE ==========
+
     static getDevices() {
         return new Promise((resolve, reject) => {
             axios.get('http://localhost:8000/api/devices')
@@ -43,6 +45,23 @@ class IotApi {
         });
     }
 
+    // ======= COMMANDS ==========
+
+    static loadCommands(deviceId) {
+        return new Promise((resolve, reject) => {
+            axios.get(`http://localhost:8000/api/command?deviceId=${deviceId}`)
+                .then(response => {
+                    setTimeout(() => {
+                        resolve(response);
+                    }, 500);
+
+                })
+                .catch(error => {
+                    reject(error);
+                })
+        });
+    }
+
     static activateDeviceCommand(id) {
         return new Promise((resolve, reject) => {
             axios.post(`http://localhost:8000/api/command`, {
@@ -53,7 +72,9 @@ class IotApi {
                 }
             })
                 .then(response => {
-                    resolve(response);
+                    setTimeout(() => {
+                        resolve(response);
+                    }, 500);
                 })
                 .catch(error => {
                     reject(error);
@@ -61,20 +82,72 @@ class IotApi {
         });
     }
 
-    static loadCommands(deviceId) {
+    static deactivateDeviceCommand(id) {
         return new Promise((resolve, reject) => {
-            axios.get(`http://localhost:8000/api/command?deviceId=${deviceId}`)
+            axios.post(`http://localhost:8000/api/command`, {
+                device: id,
+                commandItem: {
+                    commandValue: false,
+                    commandType: "IS_ACTIVE"
+                }
+            })
                 .then(response => {
                     setTimeout(() => {
                         resolve(response);
-                    }, 1000);
-
+                    }, 500);
                 })
                 .catch(error => {
                     reject(error);
                 })
         });
     }
+
+
+    static updateLocationCommand(id) {
+        return new Promise((resolve, reject) => {
+            axios.post(`http://localhost:8000/api/command`, {
+                device: id,
+                commandItem: {
+                    commandValue: "Location",
+                    commandType: "DEVICE_INFO"
+                }
+            })
+                .then(response => {
+                    setTimeout(() => {
+                        resolve(response);
+                    }, 500);
+                })
+                .catch(error => {
+                    reject(error);
+                })
+        });
+    }
+
+    static changeIntervalCommand(id, interval) {
+        return new Promise((resolve, reject) => {
+            axios.post(`http://localhost:8000/api/command`, {
+                device: id,
+                commandItem: {
+                    commandValue: interval,
+                    commandType: "SEND_DATA_DELAY"
+                }
+            })
+                .then(response => {
+                    setTimeout(() => {
+                        resolve(response);
+                    }, 500);
+                })
+                .catch(error => {
+                    reject(error);
+                })
+        });
+    }
+
+
+
+
+
+
 
 }
 

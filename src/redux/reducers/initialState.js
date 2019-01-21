@@ -4,5 +4,8 @@ export default {
         data : [],
         loading : false
     },
-    commands : []
+    commands : {
+        data : [],
+        loading : false
+    }
 }
