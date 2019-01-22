@@ -12,7 +12,10 @@ import DeviceLocationMap from './DeviceLocationMap'
 import DeviceDataLineChart from './DeviceDataLineChart'
 import DeviceDataTable from './DeviceDataTable'
 
-const DeviceDetailsCard = ({ device, deviceLoading, location, onRefreshClick, onDeviceFieldChange, editMode, onEditInfo, onSaveInfo, onCommandClick, commandsData, commandsLoading }) => {
+const DeviceDetailsCard = ({
+    device, deviceLoading, location, onRefreshClick, onDeviceFieldChange, editMode, onEditInfo, onSaveInfo,
+    onCommandClick, commandsData, commandsLoading,
+    deviceData, deviceDataLoading, getDataForLineChart }) => {
     return (
         <>
             <Row>
@@ -63,27 +66,43 @@ const DeviceDetailsCard = ({ device, deviceLoading, location, onRefreshClick, on
                                         </Row>
                                         <Row>
                                             <DeviceDataTable
-                                                lg="4"
-                                                md="4"
-                                                sm="4"
-                                                deviceData={[]}
-                                                deviceDataLoading={() => { }}
+                                                lg="6"
+                                                md="6"
+                                                sm="6"
+                                                deviceData={deviceData}
+                                                deviceDataLoading={deviceDataLoading}
                                                 onRefreshClick={() => { }}
                                             />
-                                            <DeviceDataLineChart
-                                                lg="4"
-                                                md="4"
-                                                sm="4"
-                                                data={{}}
-                                                onButtonClick={() => { }}
-                                            />
-                                            <DeviceDataLineChart
-                                                lg="4"
-                                                md="4"
-                                                sm="4"
-                                                data={{}}
-                                                onButtonClick={() => { }}
-                                            />
+
+                                            <Col
+                                                lg="6"
+                                                md="6"
+                                                sm="6">
+                                                <Row>
+                                                    <DeviceDataLineChart
+                                                        lg="12"
+                                                        md="12"
+                                                        sm="12"
+                                                        data={deviceData}
+                                                        onButtonClick={() => { }}
+                                                        getDataForLineChart = {getDataForLineChart}
+                                                    />
+                                                </Row>
+                                                <Row>
+
+                                                    {/* <DeviceDataLineChart
+                                                        lg="12"
+                                                        md="12"
+                                                        sm="12"
+                                                        data={deviceData}
+                                                        onButtonClick={() => { }}
+                                                        getDataForLineChart = {getDataForLineChart}
+                                                    /> */}
+                                                </Row>
+                                            </Col>
+
+
+
                                         </Row>
 
                                         <Row>

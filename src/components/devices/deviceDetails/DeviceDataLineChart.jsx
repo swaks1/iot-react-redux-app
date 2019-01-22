@@ -9,28 +9,24 @@ import {
     CardHeader,
     CardBody,
     CardTitle,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem,
-    UncontrolledDropdown,
-    Label,
-    FormGroup,
-    Input,
-    Table,
     Row,
-    Col,
-    UncontrolledTooltip
+    Col
 } from "reactstrap";
 
 import {
-    chartExample1,
-    chartExample2,
-    chartExample3,
-    chartExample4
-} from "../../../assets/variables";
+    LineChartHelper
+} from "../../../charts/chartHelper";
 
 
-const DeviceCommands = ({ lg, md, sm, data, onButtonClick }) => {
+const DeviceDataLineChart = ({ lg, md, sm, data, onButtonClick, getDataForLineChart }) => {
+    let response = getDataForLineChart();
+    let lineChart = new LineChartHelper(response.data, response.labels, response.name);
+
+    let dataType = "";
+    if (data != null && data.length > 0) {
+        dataType = data[0].dataItem.dataType;
+    }
+
     return (
         <>
             <Col lg={lg} md={md} sm={sm}>
@@ -40,7 +36,7 @@ const DeviceCommands = ({ lg, md, sm, data, onButtonClick }) => {
                         <Row>
                             <Col className="text-left" sm="6">
                                 <h5 className="card-category">Data Line Chart</h5>
-                                <CardTitle tag="h2">TYPE HERE</CardTitle>
+                                <CardTitle tag="h2">{dataType}</CardTitle>
                             </Col>
                             <Col sm="6">
                                 <ButtonGroup
@@ -121,8 +117,8 @@ const DeviceCommands = ({ lg, md, sm, data, onButtonClick }) => {
                     <CardBody>
                         <div className="chart-area">
                             <Line
-                                data={chartExample1["data1"]}
-                                options={chartExample1.options}
+                                data={lineChart.getData} //pointer to function
+                                options={lineChart.getOptions()} //actual result of function
                             />
                         </div>
                     </CardBody>
@@ -134,4 +130,4 @@ const DeviceCommands = ({ lg, md, sm, data, onButtonClick }) => {
 };
 
 
-export default DeviceCommands;
+export default DeviceDataLineChart;

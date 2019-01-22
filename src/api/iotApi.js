@@ -143,7 +143,22 @@ class IotApi {
         });
     }
 
+    // ======= DEVICE DATA ==========
 
+    static loadDeviceData(deviceId) {
+        return new Promise((resolve, reject) => {
+            axios.get(`http://localhost:8000/api/data?deviceId=${deviceId}`)
+                .then(response => {
+                    setTimeout(() => {
+                        resolve(response);
+                    }, 500);
+
+                })
+                .catch(error => {
+                    reject(error);
+                })
+        });
+    }
 
 
 

@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as importedDeviceActions from '../../../redux/actions/deviceActions';
 import * as importedCommandActions from '../../../redux/actions/commandActions';
+import * as importedDeviceDataActions from '../../../redux/actions/deviceDataActions';
 
 import toastr from 'toastr';
 
@@ -15,7 +16,8 @@ class DeviceDetails extends React.Component {
         super(props);
         this.state = {
             device: props.device ? this.deepCopyDevice(props.device) : null, //keep in local state because this will be changed in children components,
-            editMode: false
+            editMode: false,
+            lineChartFilter: "day"
         }
     }
 
@@ -26,10 +28,13 @@ class DeviceDetails extends React.Component {
     }
 
     componentDidMount() {
-        const { commandActions } = this.props;
         const deviceId = this.props.match.params.id; // from the path '/devices/:id'
 
+        const { commandActions } = this.props;
         commandActions.loadDeviceCommands(deviceId);
+
+        const { deviceDataActions } = this.props;
+        deviceDataActions.loadDeviceData(deviceId);
 
         // set Interval for refrshing the views every 10 sec
         this.interval = setInterval(this.reloadDeviceDetails, 30000);
@@ -189,7 +194,6 @@ class DeviceDetails extends React.Component {
 
             Promise.all([deviceInfoPromise, commandsHisotryPromise])
                 .then((values) => {
-                    //console.log(values);
                     toastr.success("Reloaded full UI!");
                 })
                 .catch((error) => {
@@ -200,9 +204,56 @@ class DeviceDetails extends React.Component {
             console.log("Wont update Device Details view because it EditMode is TRUE");
         }
     }
+
+    getDataForLineChart = () => {
+        let response = {
+            data: [],
+            labels: [],
+            name: ""
+        }
+        let { deviceData } = this.props;
+
+        try {
+            if (deviceData instanceof Array && deviceData.length > 0) {
+
+                const groupedArray = deviceData.reduce((acc, curr) => {//Group By found on net
+                    let day = curr.created.slice(0, 10);
+                    //let minute = curr.created.slice(14, 16)
+                    let groupBy = day;
+                    if (!acc[groupBy]) {
+                        acc[groupBy] = []; //If this type wasn't previously stored
+                    }
+                    acc[groupBy].push(curr);
+                    return acc;
+                }, {});
+    
+                let data = [];
+                let labels = Object.keys(groupedArray);
+                labels.forEach(key => {
+                    let array = groupedArray[key];
+                    let sumOfValues = array.reduce((acc, curr) => {
+                        let floatValue = parseFloat(curr.dataItem.dataValue);
+                        acc += floatValue;
+                        return acc;
+                    }, 0)
+                    let average = sumOfValues / array.length;
+                    data.push(average);
+                });
+                
+                response.data = data;
+                response.labels = labels;
+                response.name = deviceData[0].dataItem.dataType;
+            }
+        } catch (error) {
+            console.log("Getting Data for Line chart ...." + error);
+        }
+
+        return response;
+    }
+
     render() {
         const { device, editMode } = this.state;
-        const { deviceLoading, commandsData, commandsLoading } = this.props;
+        const { deviceLoading, commandsData, commandsLoading, deviceData, deviceDataLoading } = this.props;
 
         return (
             <DeviceDetailsCard
@@ -217,6 +268,9 @@ class DeviceDetails extends React.Component {
                 onCommandClick={this.handleCommandClick}
                 commandsData={commandsData}
                 commandsLoading={commandsLoading}
+                deviceData={deviceData}
+                deviceDataLoading={deviceDataLoading}
+                getDataForLineChart={this.getDataForLineChart}
             />
         );
     }
@@ -232,6 +286,7 @@ const getDeviceById = (devices, id) => {
 //can be called many times by the framework
 const mapStateToProps = (state, ownProps) => {
     const deviceId = ownProps.match.params.id; // from the path '/devices/:id'
+
     let device = getDeviceById(state.devices.data, deviceId);
     let deviceLoading = state.devices.loading;
 
@@ -239,24 +294,39 @@ const mapStateToProps = (state, ownProps) => {
     let commandsLoading = state.commands.loading;
 
     if (state.commands != null
-        && state.commands.length > 0
-        && state.commands[0]._id !== deviceId) {
-        commandsData = null;
+        && state.commands.data != null
+        && state.commands.data.length > 0
+        && state.commands.data[0].device !== deviceId) {
+        commandsData = [];
         commandsLoading = true;
+    }
+
+    let deviceData = state.deviceData.data;
+    let deviceDataLoading = state.deviceData.loading;
+
+    if (state.deviceData != null
+        && state.deviceData.data != null
+        && state.deviceData.data.length > 0
+        && state.deviceData.data[0].device !== deviceId) {
+        deviceData = [];
+        deviceDataLoading = true;
     }
 
     return {
         device,
         deviceLoading,
         commandsData,
-        commandsLoading
+        commandsLoading,
+        deviceData,
+        deviceDataLoading
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         deviceActions: bindActionCreators(importedDeviceActions, dispatch),
-        commandActions: bindActionCreators(importedCommandActions, dispatch)
+        commandActions: bindActionCreators(importedCommandActions, dispatch),
+        deviceDataActions: bindActionCreators(importedDeviceDataActions, dispatch)
     };
 };
 

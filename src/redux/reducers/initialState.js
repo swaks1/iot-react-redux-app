@@ -7,5 +7,9 @@ export default {
     commands : {
         data : [],
         loading : false
+    },
+    deviceData : {
+        data : [],
+        loading : false
     }
 }

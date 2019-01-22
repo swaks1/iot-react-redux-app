@@ -6,6 +6,9 @@ import Loader from 'react-loader-spinner';
 import Table from '../../_common/Table'
 
 const DeviceDataTable = ({ lg, md, sm, deviceData, deviceDataLoading, onRefreshClick }) => {
+    
+    let deviceDataTop10 = deviceData.slice(0,10);
+
     return (
         <>
             <Col lg={lg} md={md} sm={sm}>
@@ -41,7 +44,7 @@ const DeviceDataTable = ({ lg, md, sm, deviceData, deviceDataLoading, onRefreshC
                                 </thead>
                                 <tbody>
                                     {
-                                        deviceData.map((item, index) => {
+                                        deviceDataTop10.map((item, index) => {
                                             let [date, time] = item.created.split("T");
                                             time = time.substring(0, time.length - 5);
 
@@ -49,7 +52,7 @@ const DeviceDataTable = ({ lg, md, sm, deviceData, deviceDataLoading, onRefreshC
                                                 <tr key={item._id}>
                                                     <td className="text-center">{date} <br /> {time}</td>
                                                     <td className="text-center">{item.dataItem.dataType}</td>
-                                                    <td className="text-center">{item.dataItem.dataValue}</td>
+                                                    <td className="text-center font-weight-bold">{item.dataItem.dataValue}</td>
                                                 </tr>
                                             );
                                         })
