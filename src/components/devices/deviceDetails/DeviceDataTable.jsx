@@ -5,9 +5,10 @@ import Loader from 'react-loader-spinner';
 
 import Table from '../../_common/Table'
 
-const DeviceDataTable = ({ lg, md, sm, deviceData, deviceDataLoading, onRefreshClick }) => {
-    
-    let deviceDataTop10 = deviceData.slice(0,10);
+const DeviceDataTable = ({ lg, md, sm, deviceData, deviceDataLoading, getDataForLineChart }) => {
+
+    //let deviceDataTop10 = deviceData.slice(0, 10);
+    let response = getDataForLineChart();
 
     return (
         <>
@@ -37,22 +38,23 @@ const DeviceDataTable = ({ lg, md, sm, deviceData, deviceDataLoading, onRefreshC
                             <Table>
                                 <thead className="text-primary">
                                     <tr>
-                                        <th className="text-center">Date</th>
+                                        <th className="text-center">Date/Time</th>
                                         <th className="text-center">Type</th>
-                                        <th className="text-center">Value</th>
+                                        <th className="text-center">Value/Average</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {
-                                        deviceDataTop10.map((item, index) => {
-                                            let [date, time] = item.created.split("T");
-                                            time = time.substring(0, time.length - 5);
+                                        response.data.map((item, index) => {
+                                            let dateOrTime = response.labels[index];
+                                            let type = response.name;
+                                            let value = response.data[index];
 
                                             return (
-                                                <tr key={item._id}>
-                                                    <td className="text-center">{date} <br /> {time}</td>
-                                                    <td className="text-center">{item.dataItem.dataType}</td>
-                                                    <td className="text-center font-weight-bold">{item.dataItem.dataValue}</td>
+                                                <tr key={index}>
+                                                    <td className="text-center">{dateOrTime}</td>
+                                                    <td className="text-center">{type}</td>
+                                                    <td className="text-center font-weight-bold">{value}</td>
                                                 </tr>
                                             );
                                         })

@@ -53,7 +53,7 @@ class IotApi {
                 .then(response => {
                     setTimeout(() => {
                         resolve(response);
-                    }, 500);
+                    }, 1000);
 
                 })
                 .catch(error => {
@@ -74,7 +74,7 @@ class IotApi {
                 .then(response => {
                     setTimeout(() => {
                         resolve(response);
-                    }, 500);
+                    }, 1000);
                 })
                 .catch(error => {
                     reject(error);
@@ -94,7 +94,7 @@ class IotApi {
                 .then(response => {
                     setTimeout(() => {
                         resolve(response);
-                    }, 500);
+                    }, 1000);
                 })
                 .catch(error => {
                     reject(error);
@@ -115,7 +115,7 @@ class IotApi {
                 .then(response => {
                     setTimeout(() => {
                         resolve(response);
-                    }, 500);
+                    }, 1000);
                 })
                 .catch(error => {
                     reject(error);
@@ -135,7 +135,7 @@ class IotApi {
                 .then(response => {
                     setTimeout(() => {
                         resolve(response);
-                    }, 500);
+                    }, 1000);
                 })
                 .catch(error => {
                     reject(error);
@@ -151,7 +151,7 @@ class IotApi {
                 .then(response => {
                     setTimeout(() => {
                         resolve(response);
-                    }, 500);
+                    }, 1000);
 
                 })
                 .catch(error => {

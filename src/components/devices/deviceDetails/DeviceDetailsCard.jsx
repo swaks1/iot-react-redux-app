@@ -8,14 +8,15 @@ import LoaderRow from '../../_common/LoaderRow';
 import DeviceInformations from './DeviceInformations'
 import DeviceCommands from './DeviceCommands'
 import DeviceCommandsHistory from './DeviceCommandsHistory'
-import DeviceLocationMap from './DeviceLocationMap'
-import DeviceDataLineChart from './DeviceDataLineChart'
 import DeviceDataTable from './DeviceDataTable'
+import DeviceDataLineChart from './DeviceDataLineChart'
+import DeviceDataBarChart from './DeviceDataBarChart'
+import DeviceLocationMap from './DeviceLocationMap'
 
 const DeviceDetailsCard = ({
     device, deviceLoading, location, onRefreshClick, onDeviceFieldChange, editMode, onEditInfo, onSaveInfo,
     onCommandClick, commandsData, commandsLoading,
-    deviceData, deviceDataLoading, getDataForLineChart }) => {
+    deviceData, deviceDataLoading, getDataForLineChart, onDataLineChartButtonClick, lineChartFilter, getDataForBarChart }) => {
     return (
         <>
             <Row>
@@ -66,46 +67,37 @@ const DeviceDetailsCard = ({
                                         </Row>
                                         <Row>
                                             <DeviceDataTable
-                                                lg="6"
-                                                md="6"
-                                                sm="6"
+                                                lg="4"
+                                                md="4"
+                                                sm="4"
                                                 deviceData={deviceData}
                                                 deviceDataLoading={deviceDataLoading}
-                                                onRefreshClick={() => { }}
+                                                getDataForLineChart={getDataForLineChart}
                                             />
 
-                                            <Col
-                                                lg="6"
-                                                md="6"
-                                                sm="6">
-                                                <Row>
-                                                    <DeviceDataLineChart
-                                                        lg="12"
-                                                        md="12"
-                                                        sm="12"
-                                                        data={deviceData}
-                                                        onButtonClick={() => { }}
-                                                        getDataForLineChart = {getDataForLineChart}
-                                                    />
-                                                </Row>
-                                                <Row>
-
-                                                    {/* <DeviceDataLineChart
-                                                        lg="12"
-                                                        md="12"
-                                                        sm="12"
-                                                        data={deviceData}
-                                                        onButtonClick={() => { }}
-                                                        getDataForLineChart = {getDataForLineChart}
-                                                    /> */}
-                                                </Row>
-                                            </Col>
-
-
-
+                                            <DeviceDataLineChart
+                                                lg="8"
+                                                md="8"
+                                                sm="8"
+                                                deviceData={deviceData}
+                                                deviceDataLoading={deviceDataLoading}
+                                                lineChartFilter={lineChartFilter}
+                                                onDataLineChartButtonClick={onDataLineChartButtonClick}
+                                                getDataForLineChart={getDataForLineChart}
+                                            />
+                                        </Row>
+                                        <Row>
+                                            <DeviceDataBarChart
+                                                lg="12"
+                                                md="12"
+                                                sm="12"                                                
+                                                deviceData={deviceData}
+                                                deviceDataLoading={deviceDataLoading}
+                                                getDataForBarChart={getDataForBarChart}
+                                            />
                                         </Row>
 
-                                        <Row>
+                                        <Row className="mt-5">
                                             <DeviceLocationMap
                                                 lg="12"
                                                 md="12"

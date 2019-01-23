@@ -5,7 +5,7 @@ import { SimpleMarkerStyle } from '../../assets/js-css/SimpleMarkerStyle';
  const SimpleMarker = ({ text }) => {
     return (
         <div style={SimpleMarkerStyle}>
-            {text}
+            {"X"}
         </div>
     );
 }
