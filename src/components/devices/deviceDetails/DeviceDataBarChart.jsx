@@ -40,7 +40,7 @@ const DeviceDataBarChart = ({ lg, md, sm, deviceData, deviceDataLoading, getData
                     </CardHeader>
                     <CardBody>
                         {
-                            deviceDataLoading === true
+                            deviceDataLoading === "r"//true
                                 ?
                                 <div className="text-center" >
                                     <Loader

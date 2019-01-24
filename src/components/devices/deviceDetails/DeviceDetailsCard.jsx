@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
 
 import LoaderRow from '../../_common/LoaderRow';
+import Switch from "react-switch";
 import DeviceInformations from './DeviceInformations'
 import DeviceCommands from './DeviceCommands'
 import DeviceCommandsHistory from './DeviceCommandsHistory'
@@ -14,6 +15,7 @@ import DeviceDataBarChart from './DeviceDataBarChart'
 import DeviceLocationMap from './DeviceLocationMap'
 
 const DeviceDetailsCard = ({
+    toggleAutoRefresh, autoRefreshOn,
     device, deviceLoading, location, onRefreshClick, onDeviceFieldChange, editMode, onEditInfo, onSaveInfo,
     onCommandClick, commandsData, commandsLoading,
     deviceData, deviceDataLoading, getDataForLineChart, onDataLineChartButtonClick, lineChartFilter, getDataForBarChart }) => {
@@ -27,6 +29,19 @@ const DeviceDetailsCard = ({
                             <p className="category">
                                 <Link to={`/app/devices`}> Back to Devices</Link>
                             </p>
+                            <div>
+                                <label htmlFor="normal-switch">
+                                    <span>Auto Refresh &nbsp;</span>
+                                    <Switch
+                                        height={20}
+                                        width ={40}
+                                        onChange={toggleAutoRefresh}
+                                        checked={autoRefreshOn}
+                                        className="react-switch"
+                                        id="normal-switch"
+                                    />
+                                </label>
+                            </div>
                         </CardHeader>
                         <CardBody>
                             {
@@ -73,6 +88,7 @@ const DeviceDetailsCard = ({
                                                 deviceData={deviceData}
                                                 deviceDataLoading={deviceDataLoading}
                                                 getDataForLineChart={getDataForLineChart}
+                                                onRefreshClick={onRefreshClick}
                                             />
 
                                             <DeviceDataLineChart
@@ -90,7 +106,7 @@ const DeviceDetailsCard = ({
                                             <DeviceDataBarChart
                                                 lg="12"
                                                 md="12"
-                                                sm="12"                                                
+                                                sm="12"
                                                 deviceData={deviceData}
                                                 deviceDataLoading={deviceDataLoading}
                                                 getDataForBarChart={getDataForBarChart}

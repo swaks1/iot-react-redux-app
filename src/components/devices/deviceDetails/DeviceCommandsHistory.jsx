@@ -20,7 +20,7 @@ const DeviceCommandsHistory = ({ lg, md, sm, commandsData, commandsLoading, onRe
                         ></i>
                     </h4>
                     {
-                        commandsLoading === true
+                        commandsLoading === "r"//true
                             ?
                             <div className="text-center" >
                                 <Loader

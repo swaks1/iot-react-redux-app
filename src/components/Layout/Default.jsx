@@ -126,10 +126,10 @@ class DefaultLayout extends React.Component {
           </div>
         </div>
 
-        <FixedPlugin
+        {/* <FixedPlugin
           bgColor={this.state.backgroundColor}
           handleBgClick={this.handleBgClick}
-        />
+        /> */}
       </>
     );
   }

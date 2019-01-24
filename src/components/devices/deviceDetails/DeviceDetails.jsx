@@ -17,7 +17,8 @@ class DeviceDetails extends React.Component {
         this.state = {
             device: props.device ? this.deepCopyDevice(props.device) : null, //keep in local state because this will be changed in children components,
             editMode: false,
-            lineChartFilter: "daily"
+            lineChartFilter: "daily",
+            autoRefreshOn: false
         }
     }
 
@@ -36,8 +37,8 @@ class DeviceDetails extends React.Component {
         const { deviceDataActions } = this.props;
         deviceDataActions.loadDeviceData(deviceId);
 
-        // set Interval for refrshing the views every 10 sec
-        this.interval = setInterval(this.reloadDeviceDetails, 20000);
+        // set Interval for refrshing the views every 30 sec
+        this.interval = setInterval(this.autoRefresh, 30000);
 
     }
 
@@ -52,6 +53,44 @@ class DeviceDetails extends React.Component {
     componentWillUnmount() {
         // Clear the interval right before component unmount
         clearInterval(this.interval);
+    }
+
+    toggleAutoRefresh = () => {
+        this.setState((prevState) => ({
+            autoRefreshOn: !prevState.autoRefreshOn
+        }), () => {
+            if (this.state.autoRefreshOn === true)
+                toastr.warning("Auto Refresh  turned ON, interval is 30 sec");
+            else
+                toastr.warning("Auto Refresh turned OFF");
+        });
+    }
+
+    autoRefresh = () => {
+        if (this.state.device == null) {
+            console.log("No Device Loaded yet..");
+            return;
+        }
+
+        let deviceId = this.state.device._id;
+        let { deviceActions, commandActions, deviceDataActions } = this.props;
+
+        if (this.state.autoRefreshOn === true && this.state.editMode === false) {
+            let deviceInfoPromise = deviceActions.loadDevices();
+            let commandsHisotryPromise = commandActions.loadDeviceCommands(deviceId);
+            let deviceDataPromise = deviceDataActions.loadDeviceData(deviceId);
+
+            Promise.all([deviceInfoPromise, commandsHisotryPromise, deviceDataPromise])
+                .then((values) => {
+                    toastr.success("Reloaded full UI!");
+                })
+                .catch((error) => {
+                    toastr.error("Reload UI: " + error);
+                })
+        }
+        else {
+            console.log("Auto Refresh wont happen because EditMode is on or autoRefresh is false");
+        }
     }
 
     updateDeviceFields = (event) => {
@@ -150,7 +189,7 @@ class DeviceDetails extends React.Component {
         let btnId = event.target.id;
         let deviceId = this.state.device._id;
 
-        let { deviceActions, commandActions } = this.props;
+        let { deviceActions, commandActions, deviceDataActions } = this.props;
 
         switch (btnId) {
             case "DeviceInformations":
@@ -172,37 +211,19 @@ class DeviceDetails extends React.Component {
                         toastr.error(error);
                     })
                 break;
+            case "DeviceData":
+                deviceDataActions.loadDeviceData(deviceId)
+                    .then(() => {
+                        toastr.success("Reloaded Device Data!");
+                    })
+                    .catch((error) => {
+                        toastr.error(error);
+                    })
+                break;
+
             default:
                 console.log("unknown btn refresh");
                 break;
-        }
-    }
-
-    reloadDeviceDetails = () => {
-        if (this.state.device == null) {
-            console.log("No Device Loaded yet..");
-            return;
-        }
-
-
-        let deviceId = this.state.device._id;
-        let { deviceActions, commandActions, deviceDataActions } = this.props;
-
-        if (this.state.editMode === false) {
-            let deviceInfoPromise = deviceActions.loadDevices();
-            let commandsHisotryPromise = commandActions.loadDeviceCommands(deviceId);
-            let deviceDataPromise = deviceDataActions.loadDeviceData(deviceId);
-
-            Promise.all([deviceInfoPromise, commandsHisotryPromise, deviceDataPromise])
-                .then((values) => {
-                    toastr.success("Reloaded full UI!");
-                })
-                .catch((error) => {
-                    toastr.error("Reload UI: " + error);
-                })
-        }
-        else {
-            console.log("Wont update Device Details view because it EditMode is TRUE");
         }
     }
 
@@ -210,7 +231,8 @@ class DeviceDetails extends React.Component {
         let response = {
             data: [],
             labels: [],
-            name: ""
+            name: "",
+            datesCreated: []
         }
         let { deviceData } = this.props;
         let { lineChartFilter } = this.state;
@@ -251,21 +273,24 @@ class DeviceDetails extends React.Component {
 
                 if (lineChartFilter === "mostRecent") {
                     //first slice the deviceData since we dont need all just last ones
-                    groupedArray = deviceData.slice(sliceNumber).reduce((acc, curr) => {
-                        let time = curr.created.slice(11, 19) //"17:44:54"
+                    groupedArray = deviceData.reduce((acc, curr) => {
+                        let dateTime = curr.created;
 
-                        if (!acc[time]) {
-                            acc[time] = [];
+                        if (!acc[dateTime]) {
+                            acc[dateTime] = [];
                         }
-                        acc[time].push(curr);
+                        acc[dateTime].push(curr);
                         return acc;
                     }, {});
                 }
 
+                let datesCreated = [];
                 let data = [];
                 let labels = Object.keys(groupedArray);
                 labels.forEach(key => {
                     let array = groupedArray[key];
+                    if (array.length > 0) datesCreated.push(array[0].created); //real date of the first item of the group
+                    //calculate average of the group
                     let sumOfValues = array.reduce((acc, curr) => {
                         let floatValue = parseFloat(curr.dataItem.dataValue);
                         acc += floatValue;
@@ -279,10 +304,25 @@ class DeviceDetails extends React.Component {
                 if (lineChartFilter === "daily") {
                     data = data.slice(sliceNumber);
                     labels = labels.slice(sliceNumber);
+                    datesCreated = datesCreated.slice(sliceNumber).map((label) => label.slice(0, 10));//2019-01-12
+                }
+
+                //for lastHour we take all
+                if (lineChartFilter === "lastHour") {
+                    datesCreated = datesCreated.map((label) => label.slice(0, 16));//2019-01-12T21:15
+                }
+
+
+                //for mostRecent also take last sliceNumber items
+                if (lineChartFilter === "mostRecent") {
+                    data = data.slice(sliceNumber);
+                    labels = labels.slice(sliceNumber).map((label) => label.slice(11, 19));   //"17:44:54"
+                    datesCreated = datesCreated.slice(sliceNumber);
                 }
 
                 response.data = data;
                 response.labels = labels;
+                response.datesCreated = datesCreated;
                 response.name = deviceData[0].dataItem.dataType;
             }
         } catch (error) {
@@ -348,11 +388,13 @@ class DeviceDetails extends React.Component {
     }
 
     render() {
-        const { device, editMode, lineChartFilter } = this.state;
+        const { device, editMode, lineChartFilter, autoRefreshOn } = this.state;
         const { deviceLoading, commandsData, commandsLoading, deviceData, deviceDataLoading } = this.props;
 
         return (
             <DeviceDetailsCard
+                toggleAutoRefresh={this.toggleAutoRefresh}
+                autoRefreshOn={autoRefreshOn}
                 device={device}
                 deviceLoading={deviceLoading}
                 location={this.props.location}

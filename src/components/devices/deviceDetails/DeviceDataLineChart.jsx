@@ -116,7 +116,7 @@ const DeviceDataLineChart = ({ lg, md, sm, deviceData, deviceDataLoading, onData
                     </CardHeader>
                     <CardBody>
                         {
-                            deviceDataLoading === true
+                            deviceDataLoading === "r"//true
                                 ?
                                 <div className="text-center" >
                                     <Loader
