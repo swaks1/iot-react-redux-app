@@ -17,15 +17,24 @@ export function loadDeviceDataSuccess(data) {
 
 
 //THUNKS thunk async functions that return action
-export function loadDeviceData(id) {
+export function loadDeviceData(id, dataPeriod = "") {
     return function (dispatch) {
 
         dispatch(beginAjaxCall());
         dispatch(beginLoadDeviceData());
 
-        return iotApi.loadDeviceData(id)
+        return iotApi.loadDeviceData(id, dataPeriod)
             .then(response => {
-                dispatch(loadDeviceDataSuccess(response.data));
+                iotApi.loadDeviceDataMonthly(id)
+                    .then(response2 => {
+                        let merged = {
+                            data: {
+                                data: response.data,
+                                dataMonthly: response2.data
+                            }
+                        }
+                        dispatch(loadDeviceDataSuccess(merged.data));
+                    })
             })
             .catch((error) => {
                 dispatch(ajaxCallError());

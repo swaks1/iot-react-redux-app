@@ -10,7 +10,7 @@ class IotApi {
                 .then(response => {
                     setTimeout(() => {
                         resolve(response);
-                    }, 700);
+                    }, 100);
 
                 })
                 .catch(error => {
@@ -53,7 +53,7 @@ class IotApi {
                 .then(response => {
                     setTimeout(() => {
                         resolve(response);
-                    }, 700);
+                    }, 100);
 
                 })
                 .catch(error => {
@@ -74,7 +74,7 @@ class IotApi {
                 .then(response => {
                     setTimeout(() => {
                         resolve(response);
-                    }, 700);
+                    }, 100);
                 })
                 .catch(error => {
                     reject(error);
@@ -94,7 +94,7 @@ class IotApi {
                 .then(response => {
                     setTimeout(() => {
                         resolve(response);
-                    }, 700);
+                    }, 100);
                 })
                 .catch(error => {
                     reject(error);
@@ -115,7 +115,7 @@ class IotApi {
                 .then(response => {
                     setTimeout(() => {
                         resolve(response);
-                    }, 700);
+                    }, 100);
                 })
                 .catch(error => {
                     reject(error);
@@ -135,7 +135,7 @@ class IotApi {
                 .then(response => {
                     setTimeout(() => {
                         resolve(response);
-                    }, 700);
+                    }, 100);
                 })
                 .catch(error => {
                     reject(error);
@@ -145,14 +145,23 @@ class IotApi {
 
     // ======= DEVICE DATA ==========
 
-    static loadDeviceData(deviceId) {
+    static loadDeviceData(deviceId, dataPeriod) {
         return new Promise((resolve, reject) => {
-            axios.get(`http://localhost:8000/api/data?deviceId=${deviceId}`)
+            axios.get(`http://localhost:8000/api/data?deviceId=${deviceId}&period=${dataPeriod}&pageSize=10`)
                 .then(response => {
-                    setTimeout(() => {
-                        resolve(response);
-                    }, 700);
+                    resolve(response);
+                })
+                .catch(error => {
+                    reject(error);
+                })
+        });
+    }
 
+    static loadDeviceDataMonthly(deviceId) {
+        return new Promise((resolve, reject) => {
+            axios.get(`http://localhost:8000/api/data?deviceId=${deviceId}&period=monthly&pageSize=10`)
+                .then(response => {
+                    resolve(response);
                 })
                 .catch(error => {
                     reject(error);

@@ -16,7 +16,7 @@ import {
 import { LineChartHelper } from "../../../charts/chartHelper";
 import Loader from 'react-loader-spinner';
 
-const DeviceDataLineChart = ({ lg, md, sm, deviceData, deviceDataLoading, onDataLineChartButtonClick, getDataForLineChart, lineChartFilter }) => {
+const DeviceDataLineChart = ({ lg, md, sm, deviceData, deviceDataLoading, onDataLineChartButtonClick, getDataForLineChart, dataPeriod }) => {
     let response = getDataForLineChart();
     let lineChart = new LineChartHelper(response.data, response.labels, response.name);
 
@@ -44,14 +44,14 @@ const DeviceDataLineChart = ({ lg, md, sm, deviceData, deviceDataLoading, onData
                                     data-toggle="buttons"
                                 >
                                     <Button
+                                        color="info"
+                                        id="2"
+                                        size="sm"
                                         tag="label"
                                         className={classNames("btn-simple", {
-                                            active: lineChartFilter === "daily"
+                                            active: dataPeriod === "mostRecent"
                                         })}
-                                        color="info"
-                                        id="0"
-                                        size="sm"
-                                        onClick={() => onDataLineChartButtonClick("daily")}
+                                        onClick={(e) => { e.preventDefault(); onDataLineChartButtonClick("mostRecent"); }} //was firing twice for some reason ???
                                     >
                                         <input
                                             defaultChecked
@@ -60,21 +60,22 @@ const DeviceDataLineChart = ({ lg, md, sm, deviceData, deviceDataLoading, onData
                                             type="radio"
                                         />
                                         <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
-                                            Daily
+                                            Most Recent
                                         </span>
                                         <span className="d-block d-sm-none">
-                                            <i className="tim-icons icon-single-02" />
+                                            <i className="tim-icons icon-tap-02" />
                                         </span>
                                     </Button>
+
                                     <Button
                                         color="info"
                                         id="1"
                                         size="sm"
                                         tag="label"
                                         className={classNames("btn-simple", {
-                                            active: lineChartFilter === "lastHour"
+                                            active: dataPeriod === "lastHour"
                                         })}
-                                        onClick={() => onDataLineChartButtonClick("lastHour")}
+                                        onClick={(e) => { e.preventDefault(); onDataLineChartButtonClick("lastHour") }} //was firing twice for some reason ???
                                     >
                                         <input
                                             className="d-none"
@@ -88,26 +89,27 @@ const DeviceDataLineChart = ({ lg, md, sm, deviceData, deviceDataLoading, onData
                                             <i className="tim-icons icon-gift-2" />
                                         </span>
                                     </Button>
+
                                     <Button
-                                        color="info"
-                                        id="2"
-                                        size="sm"
                                         tag="label"
                                         className={classNames("btn-simple", {
-                                            active: lineChartFilter === "mostRecent"
+                                            active: dataPeriod === "daily"
                                         })}
-                                        onClick={() => onDataLineChartButtonClick("mostRecent")}
+                                        color="info"
+                                        id="0"
+                                        size="sm"
+                                        onClick={(e) => { e.preventDefault(); onDataLineChartButtonClick("daily") }} //was firing twice for some reason ???
                                     >
-                                        <input
+                                        <input                                            
                                             className="d-none"
                                             name="options"
                                             type="radio"
                                         />
                                         <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
-                                            Most Recent
+                                            Daily
                                         </span>
                                         <span className="d-block d-sm-none">
-                                            <i className="tim-icons icon-tap-02" />
+                                            <i className="tim-icons icon-single-02" />
                                         </span>
                                     </Button>
                                 </ButtonGroup>
@@ -116,7 +118,7 @@ const DeviceDataLineChart = ({ lg, md, sm, deviceData, deviceDataLoading, onData
                     </CardHeader>
                     <CardBody>
                         {
-                            deviceDataLoading === "r"//true
+                            deviceDataLoading === true
                                 ?
                                 <div className="text-center" >
                                     <Loader

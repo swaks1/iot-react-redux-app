@@ -17,7 +17,7 @@ class DeviceDetails extends React.Component {
         this.state = {
             device: props.device ? this.deepCopyDevice(props.device) : null, //keep in local state because this will be changed in children components,
             editMode: false,
-            lineChartFilter: "daily",
+            dataPeriod: "mostRecent",
             autoRefreshOn: false
         }
     }
@@ -35,11 +35,11 @@ class DeviceDetails extends React.Component {
         commandActions.loadDeviceCommands(deviceId);
 
         const { deviceDataActions } = this.props;
-        deviceDataActions.loadDeviceData(deviceId);
+        const { dataPeriod } = this.state;
+        deviceDataActions.loadDeviceData(deviceId, dataPeriod);
 
         // set Interval for refrshing the views every 30 sec
         this.interval = setInterval(this.autoRefresh, 30000);
-
     }
 
 
@@ -74,11 +74,12 @@ class DeviceDetails extends React.Component {
 
         let deviceId = this.state.device._id;
         let { deviceActions, commandActions, deviceDataActions } = this.props;
+        const { dataPeriod } = this.state;
 
         if (this.state.autoRefreshOn === true && this.state.editMode === false) {
             let deviceInfoPromise = deviceActions.loadDevices();
             let commandsHisotryPromise = commandActions.loadDeviceCommands(deviceId);
-            let deviceDataPromise = deviceDataActions.loadDeviceData(deviceId);
+            let deviceDataPromise = deviceDataActions.loadDeviceData(deviceId, dataPeriod);
 
             Promise.all([deviceInfoPromise, commandsHisotryPromise, deviceDataPromise])
                 .then((values) => {
@@ -190,6 +191,7 @@ class DeviceDetails extends React.Component {
         let deviceId = this.state.device._id;
 
         let { deviceActions, commandActions, deviceDataActions } = this.props;
+        const { dataPeriod } = this.state;
 
         switch (btnId) {
             case "DeviceInformations":
@@ -212,7 +214,7 @@ class DeviceDetails extends React.Component {
                     })
                 break;
             case "DeviceData":
-                deviceDataActions.loadDeviceData(deviceId)
+                deviceDataActions.loadDeviceData(deviceId, dataPeriod)
                     .then(() => {
                         toastr.success("Reloaded Device Data!");
                     })
@@ -234,98 +236,45 @@ class DeviceDetails extends React.Component {
             name: "",
             datesCreated: []
         }
+
         let { deviceData } = this.props;
-        let { lineChartFilter } = this.state;
+        let { dataPeriod } = this.state;
 
         try {
             if (deviceData instanceof Array && deviceData.length > 0) {
-                let sliceNumber = -10; //get last items
-                let groupedArray = [];
-                let currentDate = new Date().toISOString();//"2019-01-22T23:43:08.438Z"
-                let currentDateAndHour = currentDate.slice(0, 13); //"2019-01-22T23"
-
-                if (lineChartFilter === "daily") {
-                    groupedArray = deviceData.reduce((acc, curr) => {//Group By found on net
-                        let day = curr.created.slice(0, 10); //group by day
-                        if (!acc[day]) {
-                            acc[day] = []; //If this type wasn't previously stored
-                        }
-                        acc[day].push(curr);
-                        return acc;
-                    }, {});
-                }
-
-                if (lineChartFilter === "lastHour") {
-                    groupedArray = deviceData.reduce((acc, curr) => {
-                        let dateAndHour = curr.created.slice(0, 13) //"2019-01-22T23"
-                        let hourAndMinute = curr.created.slice(11, 16);//23:43
-                        if (dateAndHour != currentDateAndHour) {
-                            return acc;
-                        }
-
-                        if (!acc[hourAndMinute]) {
-                            acc[hourAndMinute] = [];
-                        }
-                        acc[hourAndMinute].push(curr);
-                        return acc;
-                    }, {});
-                }
-
-                if (lineChartFilter === "mostRecent") {
-                    //first slice the deviceData since we dont need all just last ones
-                    groupedArray = deviceData.reduce((acc, curr) => {
-                        let dateTime = curr.created;
-
-                        if (!acc[dateTime]) {
-                            acc[dateTime] = [];
-                        }
-                        acc[dateTime].push(curr);
-                        return acc;
-                    }, {});
-                }
-
                 let datesCreated = [];
                 let data = [];
-                let labels = Object.keys(groupedArray);
-                labels.forEach(key => {
-                    let array = groupedArray[key];
-                    if (array.length > 0) datesCreated.push(array[0].created); //real date of the first item of the group
-                    //calculate average of the group
-                    let sumOfValues = array.reduce((acc, curr) => {
-                        let floatValue = parseFloat(curr.dataItem.dataValue);
-                        acc += floatValue;
-                        return acc;
-                    }, 0)
-                    let average = sumOfValues / array.length;
-                    data.push(average);
+                let labels = [];
+                let name = deviceData[0].dataItem.dataType;
+
+                data = deviceData.map((item, index) => {
+                    return parseFloat(item.dataItem.dataValue);
+                });
+                datesCreated = deviceData.map((item, index) => {
+                    return item.created;
+                });
+                labels = deviceData.map((item, index) => {
+                    return item.created;
                 });
 
-                //for daily also take last sliceNumber items
-                if (lineChartFilter === "daily") {
-                    data = data.slice(sliceNumber);
-                    labels = labels.slice(sliceNumber);
-                    datesCreated = datesCreated.slice(sliceNumber).map((label) => label.slice(0, 10));//2019-01-12
+                if (dataPeriod === "mostRecent") {
+                    labels = deviceData.map((item, index) => {
+                        return item.created.slice(11, 19);//"17:44:54" only hour
+                    });
+                }
+                if (dataPeriod === "lastHour") {
+                    labels = deviceData.map((item, index) => {
+                        return item.created.slice(11, 17);//"17:44:54" only hour
+                    });
                 }
 
-                //for lastHour we take all
-                if (lineChartFilter === "lastHour") {
-                    datesCreated = datesCreated.map((label) => label.slice(0, 16));//2019-01-12T21:15
-                }
-
-
-                //for mostRecent also take last sliceNumber items
-                if (lineChartFilter === "mostRecent") {
-                    data = data.slice(sliceNumber);
-                    labels = labels.slice(sliceNumber).map((label) => label.slice(11, 19));   //"17:44:54"
-                    datesCreated = datesCreated.slice(sliceNumber);
-                }
-
-                response.data = data;
-                response.labels = labels;
-                response.datesCreated = datesCreated;
-                response.name = deviceData[0].dataItem.dataType;
+                response.data = data.reverse();
+                response.labels = labels.reverse();
+                response.datesCreated = datesCreated.reverse();
+                response.name = name;
             }
-        } catch (error) {
+        }
+        catch (error) {
             console.log("Getting Data for Line chart ...." + error);
         }
 
@@ -338,41 +287,16 @@ class DeviceDetails extends React.Component {
             labels: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"],
             name: ""
         }
-        let { deviceData } = this.props;
+        let { deviceDataMonthly } = this.props;
 
         try {
-            if (deviceData instanceof Array && deviceData.length > 0) {
+            if (deviceDataMonthly instanceof Array && deviceDataMonthly.length > 0) {
 
-                let currentYear = new Date().getFullYear();
-                const groupedArray = deviceData.reduce((acc, curr) => {
-                    let year = parseInt(curr.created.slice(0, 4));
-                    let month = parseInt(curr.created.slice(5, 7));
-                    let monthName = response.labels[month - 1];
+                response.name = deviceDataMonthly[0].dataItem.dataType;
 
-                    if (year !== currentYear) {
-                        return acc;
-                    }
-                    if (!acc[monthName]) {
-                        acc[monthName] = [];
-                    }
-                    acc[monthName].push(curr);
-                    return acc;
-                }, {});
-
-                let labels = Object.keys(groupedArray);
-                labels.forEach(key => {
-                    let array = groupedArray[key];
-                    let sumOfValues = array.reduce((acc, curr) => {
-                        let floatValue = parseFloat(curr.dataItem.dataValue);
-                        acc += floatValue;
-                        return acc;
-                    }, 0)
-                    let average = sumOfValues / array.length;
-                    var monthIndex = response.labels.indexOf(key);
-                    response.data[monthIndex] = average;
+                deviceDataMonthly.forEach((item, index) => {
+                    response.data[index] = parseFloat(item.dataItem.dataValue);
                 });
-
-                response.name = deviceData[0].dataItem.dataType;
             }
         } catch (error) {
             console.log("Getting Data for BAR chart ...." + error);
@@ -383,12 +307,17 @@ class DeviceDetails extends React.Component {
 
     handleLineChartButtonClick = (buttonText) => {
         this.setState({
-            lineChartFilter: buttonText
-        })
+            dataPeriod: buttonText
+        }, () => {
+            const deviceId = this.props.match.params.id
+            const { deviceDataActions } = this.props;
+            const { dataPeriod } = this.state;
+            deviceDataActions.loadDeviceData(deviceId, dataPeriod);
+        });
     }
 
     render() {
-        const { device, editMode, lineChartFilter, autoRefreshOn } = this.state;
+        const { device, editMode, dataPeriod, autoRefreshOn } = this.state;
         const { deviceLoading, commandsData, commandsLoading, deviceData, deviceDataLoading } = this.props;
 
         return (
@@ -410,7 +339,7 @@ class DeviceDetails extends React.Component {
                 deviceDataLoading={deviceDataLoading}
                 getDataForLineChart={this.getDataForLineChart}
                 onDataLineChartButtonClick={this.handleLineChartButtonClick}
-                lineChartFilter={lineChartFilter}
+                dataPeriod={dataPeriod}
                 getDataForBarChart={this.getDataForBarChart}
             />
         );
@@ -443,6 +372,7 @@ const mapStateToProps = (state, ownProps) => {
     }
 
     let deviceData = state.deviceData.data;
+    let deviceDataMonthly = state.deviceData.dataMonthly;
     let deviceDataLoading = state.deviceData.loading;
 
     if (state.deviceData != null
@@ -450,6 +380,7 @@ const mapStateToProps = (state, ownProps) => {
         && state.deviceData.data.length > 0
         && state.deviceData.data[0].device !== deviceId) {
         deviceData = [];
+        deviceDataMonthly = [];
         deviceDataLoading = true;
     }
 
@@ -459,6 +390,7 @@ const mapStateToProps = (state, ownProps) => {
         commandsData,
         commandsLoading,
         deviceData,
+        deviceDataMonthly,
         deviceDataLoading
     };
 };

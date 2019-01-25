@@ -18,7 +18,7 @@ const DeviceDetailsCard = ({
     toggleAutoRefresh, autoRefreshOn,
     device, deviceLoading, location, onRefreshClick, onDeviceFieldChange, editMode, onEditInfo, onSaveInfo,
     onCommandClick, commandsData, commandsLoading,
-    deviceData, deviceDataLoading, getDataForLineChart, onDataLineChartButtonClick, lineChartFilter, getDataForBarChart }) => {
+    deviceData, deviceDataLoading, getDataForLineChart, onDataLineChartButtonClick, dataPeriod, getDataForBarChart }) => {
     return (
         <>
             <Row>
@@ -97,7 +97,7 @@ const DeviceDetailsCard = ({
                                                 sm="8"
                                                 deviceData={deviceData}
                                                 deviceDataLoading={deviceDataLoading}
-                                                lineChartFilter={lineChartFilter}
+                                                dataPeriod={dataPeriod}
                                                 onDataLineChartButtonClick={onDataLineChartButtonClick}
                                                 getDataForLineChart={getDataForLineChart}
                                             />

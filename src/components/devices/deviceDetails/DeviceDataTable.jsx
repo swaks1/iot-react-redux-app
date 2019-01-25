@@ -24,7 +24,7 @@ const DeviceDataTable = ({ lg, md, sm, deviceData, deviceDataLoading, getDataFor
                         ></i>
                     </h4>
                     {
-                        deviceDataLoading === "R"//true
+                        deviceDataLoading === true
                             ?
                             <div className="text-center" >
                                 <Loader
