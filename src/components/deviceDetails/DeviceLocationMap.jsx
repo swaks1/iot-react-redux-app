@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, Row, Col } from 'reactstrap';
 import GoogleMapReact from 'google-map-react';
 import Loader from 'react-loader-spinner';
-import SimpleMarker from '../../_common/SimpleMarker'
+import SimpleMarker from '../_common/SimpleMarker'
 
 const DeviceLocationMap = ({ lg, md, sm, device, deviceLoading }) => {
 
@@ -28,6 +28,7 @@ const DeviceLocationMap = ({ lg, md, sm, device, deviceLoading }) => {
         zoom: 11
     };
 
+
     return (
         <>
             <Col lg={lg} md={md} sm={sm}>
@@ -50,6 +51,12 @@ const DeviceLocationMap = ({ lg, md, sm, device, deviceLoading }) => {
                                     bootstrapURLKeys={{ key: '' }}
                                     defaultCenter={locationCenter.center}
                                     defaultZoom={locationCenter.zoom}
+                                    options={() => ({
+                                        panControl: false,
+                                        mapTypeControl: false,
+                                        scrollwheel: false,
+                                        styles: [{ stylers: [{ 'saturation': -100 }, { 'gamma': 0.8 }, { 'lightness': 4 }, { 'visibility': 'on' }] }]
+                                    })}
                                 >
                                     <SimpleMarker
                                         lat={device.location.lat}

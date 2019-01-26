@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
 
-import LoaderRow from '../../_common/LoaderRow';
+import LoaderRow from '../_common/LoaderRow';
 import Switch from "react-switch";
 import DeviceInformations from './DeviceInformations'
 import DeviceCommands from './DeviceCommands'

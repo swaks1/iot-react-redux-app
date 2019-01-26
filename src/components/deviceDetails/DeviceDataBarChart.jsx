@@ -13,7 +13,7 @@ import {
     Col
 } from "reactstrap";
 
-import { BarChartHelper } from "../../../charts/chartHelper";
+import { BarChartHelper } from "../../charts/chartHelper";
 
 import Loader from 'react-loader-spinner';
 

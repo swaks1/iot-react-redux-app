@@ -13,7 +13,7 @@ import {
     Col
 } from "reactstrap";
 
-import { LineChartHelper } from "../../../charts/chartHelper";
+import { LineChartHelper } from "../../charts/chartHelper";
 import Loader from 'react-loader-spinner';
 
 const DeviceDataLineChart = ({ lg, md, sm, deviceData, deviceDataLoading, onDataLineChartButtonClick, getDataForLineChart, dataPeriod }) => {

@@ -1,6 +1,6 @@
 import Dashboard from "./components/dashboard/Dashboard";
 import Devices from "./components/devices/Devices";
-import DevicesDetails from "./components/devices/deviceDetails/DeviceDetails";
+import DevicesDetails from "./components/deviceDetails/DeviceDetails";
 
 var prefix = "app";
 

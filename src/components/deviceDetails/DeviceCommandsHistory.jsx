@@ -3,7 +3,7 @@ import React from 'react';
 import { Card, Row, Col } from 'reactstrap';
 import Loader from 'react-loader-spinner';
 
-import Table from '../../_common/Table'
+import Table from '../_common/Table'
 
 const DeviceCommandsHistory = ({ lg, md, sm, commandsData, commandsLoading, onRefreshClick }) => {
     return (

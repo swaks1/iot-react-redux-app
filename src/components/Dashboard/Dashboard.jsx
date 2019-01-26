@@ -1,56 +1,50 @@
 import React from "react";
+import { withRouter } from 'react-router-dom'
 
-// reactstrap components
-import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as importedDeviceActions from '../../redux/actions/deviceActions';
+
+import toastr from 'toastr'
+
+import DashboardCard from './DashboardCard'
+
 
 class Dashboard extends React.Component {
-  render() {
-    return (
-      <>
 
-        <Row>
-          <Col md="12">
-            <Card>
-              <CardHeader>
-                <h5 className="title">100 Awesome Nucleo Icons</h5>
-                <p className="category">
-                  Handcrafted by our friends from{" "}
-                  <a href="https://nucleoapp.com/?ref=1712">NucleoApp</a>
-                </p>
-              </CardHeader>
-              <CardBody className="all-icons">
-                <Row>
-                  <Col
-                    className="font-icon-list col-xs-6 col-xs-6"
-                    lg="2"
-                    md="3"
-                    sm="4"
-                  >
-                    <div className="font-icon-detail">
-                      <i className="tim-icons icon-alert-circle-exc" />
-                      <p>icon-alert-circle-exc</p>
-                    </div>
-                  </Col>
-                  <Col
-                    className="font-icon-list col-xs-6 col-xs-6"
-                    lg="2"
-                    md="3"
-                    sm="4"
-                  >
-                    <div className="font-icon-detail">
-                      <i className="tim-icons icon-align-center" />
-                      <p>icon-align-center</p>
-                    </div>
-                  </Col>
-                </Row>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
+    constructor(props) {
+        super(props);
 
-      </>
-    );
-  }
+        this.state = {
+
+        }
+    }
+
+    render() {
+        const { devices, devicesLoading } = this.props;
+        let devicesOnDashboard = devices.filter(item => item.isAddedToDashboard === true)
+        return (
+            <DashboardCard
+                devices={devicesOnDashboard}
+                loading={devicesLoading}
+            />
+        );
+    }
 }
 
-export default Dashboard;
+//can be called many times by the framework
+const mapStateToProps = (state, ownProps) => {
+    return {
+        devices: state.devices.data,
+        devicesLoading: state.devices.loading
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        deviceActions: bindActionCreators(importedDeviceActions, dispatch)
+    };
+};
+
+var DashboardContainer = connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default withRouter(DashboardContainer);
