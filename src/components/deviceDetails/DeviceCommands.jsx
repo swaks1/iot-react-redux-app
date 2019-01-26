@@ -6,7 +6,7 @@ const DeviceCommands = ({ lg, md, sm, device, onDeviceFieldChange, onCommandClic
     return (
         <>
             <Col lg={lg} md={md} sm={sm}>
-                <Card style={{ backgroundColor: "#f7f6f6", padding: "20px 20px" , minHeight:"30vh"}}>
+                <Card style={{ backgroundColor: "#f7f6f6", padding: "20px 20px" }}>
                     <h4>Device Available Commands</h4>
 
                     <Row className="mt-2">

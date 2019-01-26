@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import React from 'react';
 import { withRouter } from 'react-router-dom'
 
@@ -353,6 +354,13 @@ const getDeviceById = (devices, id) => {
     return null;
 };
 
+const getCommandObj = (commands, deviceId) => {
+    const filtered = commands.filter(c => c.deviceId == deviceId);
+    if (filtered.length > 0)
+        return filtered[0];
+    return null;
+};
+
 //can be called many times by the framework
 const mapStateToProps = (state, ownProps) => {
     const deviceId = ownProps.match.params.id; // from the path '/devices/:id'
@@ -360,15 +368,13 @@ const mapStateToProps = (state, ownProps) => {
     let device = getDeviceById(state.devices.data, deviceId);
     let deviceLoading = state.devices.loading;
 
-    let commandsData = state.commands.data;
-    let commandsLoading = state.commands.loading;
+    let commandsData = [];
+    let commandsLoading = true;
+    let commandsObj = getCommandObj(state.commands, deviceId);
 
-    if (state.commands != null
-        && state.commands.data != null
-        && state.commands.data.length > 0
-        && state.commands.data[0].device !== deviceId) {
-        commandsData = [];
-        commandsLoading = true;
+    if (commandsObj != null) {
+        commandsLoading = commandsObj.loading;
+        commandsData = commandsObj.data;
     }
 
     let deviceData = state.deviceData.data;

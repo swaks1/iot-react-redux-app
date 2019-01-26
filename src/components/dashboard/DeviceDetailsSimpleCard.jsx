@@ -10,6 +10,7 @@ import DeviceInformations from '../deviceDetails/DeviceInformations'
 import DeviceDataTable from '../deviceDetails/DeviceDataTable'
 import DeviceDataLineChart from '../deviceDetails/DeviceDataLineChart'
 import DeviceCommands from '../deviceDetails/DeviceCommands'
+import DeviceCommandsHistory from '../deviceDetails/DeviceCommandsHistory'
 
 const DeviceDetailsSimpleCard = ({
     toggleAutoRefresh, autoRefreshOn, onRefreshClick,
@@ -69,6 +70,15 @@ const DeviceDetailsSimpleCard = ({
                                                 device={device}
                                                 onCommandClick={onCommandClick}
                                                 onDeviceFieldChange={() => { }}
+                                            />
+
+                                            <DeviceCommandsHistory
+                                                lg="3"
+                                                md="6"
+                                                sm="12"
+                                                commandsData={commandsData}
+                                                onRefreshClick={onRefreshClick}
+                                                commandsLoading={commandsLoading}
                                             />
                                         </Row>
                                     </>

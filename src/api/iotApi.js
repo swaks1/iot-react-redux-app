@@ -145,9 +145,9 @@ class IotApi {
 
     // ======= DEVICE DATA ==========
 
-    static loadDeviceData(deviceId, dataPeriod) {
+    static loadDeviceData(deviceId, dataPeriod, pageSize) {
         return new Promise((resolve, reject) => {
-            axios.get(`http://localhost:8000/api/data?deviceId=${deviceId}&period=${dataPeriod}&pageSize=10`)
+            axios.get(`http://localhost:8000/api/data?deviceId=${deviceId}&period=${dataPeriod}&pageSize=${pageSize}`)
                 .then(response => {
                     resolve(response);
                 })

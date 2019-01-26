@@ -17,13 +17,13 @@ export function loadDeviceDataSuccess(data) {
 
 
 //THUNKS thunk async functions that return action
-export function loadDeviceData(id, dataPeriod = "") {
+export function loadDeviceData(id, dataPeriod = "", pageSize = 10) {
     return function (dispatch) {
 
         dispatch(beginAjaxCall());
         dispatch(beginLoadDeviceData());
 
-        return iotApi.loadDeviceData(id, dataPeriod)
+        return iotApi.loadDeviceData(id, dataPeriod, pageSize)
             .then(response => {
                 iotApi.loadDeviceDataMonthly(id)
                     .then(response2 => {

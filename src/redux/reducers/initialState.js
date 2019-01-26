@@ -4,10 +4,13 @@ export default {
         data: [],
         loading: false
     },
-    commands: {
-        data: [],
-        loading: false
-    },
+    commands: [
+        {
+            deviceId: null,
+            data: [],
+            loading: false
+        }
+    ],
     deviceData: {
         data: [],
         dataMonthly: [],
