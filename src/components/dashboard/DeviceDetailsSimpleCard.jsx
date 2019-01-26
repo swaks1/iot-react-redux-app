@@ -2,7 +2,7 @@ import React from 'react';
 //import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
+import { Card, CardHeader, CardBody, Row, Col, Collapse } from "reactstrap";
 
 import LoaderRow from '../_common/LoaderRow';
 import Switch from "react-switch";
@@ -21,8 +21,8 @@ const DeviceDetailsSimpleCard = ({
         <>
             <Row>
                 <Col md="12">
-                    <Card>
-                        <CardBody>
+                    <Card style={{ backgroundColor: "#f7f6f6", padding: "0px 0px" }}>
+                        <CardBody style={{padding: "0px 0px" }}>
                             {
                                 device == null
                                     ?
@@ -31,7 +31,7 @@ const DeviceDetailsSimpleCard = ({
                                     <>
                                         <Row>
                                             <DeviceInformations
-                                                lg="3"
+                                                lg="2"
                                                 md="12"
                                                 sm="12"
                                                 device={device}
@@ -53,7 +53,7 @@ const DeviceDetailsSimpleCard = ({
                                             />
 
                                             <DeviceDataLineChart
-                                                lg="3"
+                                                lg="4"
                                                 md="12"
                                                 sm="12"
                                                 deviceData={deviceData}
@@ -61,6 +61,7 @@ const DeviceDetailsSimpleCard = ({
                                                 dataPeriod={dataPeriod}
                                                 onDataLineChartButtonClick={onDataLineChartButtonClick}
                                                 getDataForLineChart={getDataForLineChart}
+                                                hideInfoHeader={true}
                                             />
 
                                             <DeviceCommands

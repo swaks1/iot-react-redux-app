@@ -297,6 +297,13 @@ const getCommandObj = (commands, deviceId) => {
     return null;
 };
 
+const getDeviceDataObj = (deviceData, deviceId) => {
+    const filtered = deviceData.filter(d => d.deviceId == deviceId);
+    if (filtered.length > 0)
+        return filtered[0];
+    return null;
+};
+
 //can be called many times by the framework
 const mapStateToProps = (state, ownProps) => {
     const { deviceId } = ownProps;
@@ -309,22 +316,20 @@ const mapStateToProps = (state, ownProps) => {
     let commandsObj = getCommandObj(state.commands, deviceId);
 
     if (commandsObj != null) {
-        commandsLoading = commandsObj.loading;
         commandsData = commandsObj.data;
+        commandsLoading = commandsObj.loading;
     }
 
 
-    let deviceData = state.deviceData.data;
-    let deviceDataMonthly = state.deviceData.dataMonthly;
-    let deviceDataLoading = state.deviceData.loading;
+    let deviceData = [];
+    let deviceDataMonthly = [];
+    let deviceDataLoading = true;
+    let deviceDataObj = getDeviceDataObj(state.deviceData, deviceId);
 
-    if (state.deviceData != null
-        && state.deviceData.data != null
-        && state.deviceData.data.length > 0
-        && state.deviceData.data[0].device !== deviceId) {
-        deviceData = [];
-        deviceDataMonthly = [];
-        deviceDataLoading = true;
+    if (deviceDataObj != null) {
+        deviceData = deviceDataObj.data;
+        deviceDataMonthly = deviceDataObj.dataMonthly;
+        deviceDataLoading = deviceDataObj.loading;
     }
 
     return {

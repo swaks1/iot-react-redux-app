@@ -3,16 +3,33 @@ import iotApi from '../../api/iotApi';
 import { beginAjaxCall, ajaxCallError, endAjaxCall } from './ajaxStatusActions'
 
 
-export function beginLoadDeviceData() {
-    return { type: types.BEGIN_LOAD_DEVICE_DATA }
+export function beginLoadDeviceData(deviceId) {
+    return {
+        type: types.BEGIN_LOAD_DEVICE_DATA,
+        data: {
+            deviceId: deviceId
+        }
+    }
 }
 
-export function endLoadDeviceData() {
-    return { type: types.END_LOAD_DEVICE_DATA }
+export function endLoadDeviceData(deviceId) {
+    return {
+        type: types.END_LOAD_DEVICE_DATA,
+        data: {
+            deviceId: deviceId
+        }
+    }
 }
 
-export function loadDeviceDataSuccess(data) {
-    return { type: types.LOAD_DEVICE_DATA_SUCCESS, data };
+export function loadDeviceDataSuccess(deviceId, data, dataMonthly) {
+    return {
+        type: types.LOAD_DEVICE_DATA_SUCCESS,
+        data: {
+            deviceId: deviceId,
+            data: data,
+            dataMonthly: dataMonthly
+        }
+    };
 }
 
 
@@ -21,19 +38,16 @@ export function loadDeviceData(id, dataPeriod = "", pageSize = 10) {
     return function (dispatch) {
 
         dispatch(beginAjaxCall());
-        dispatch(beginLoadDeviceData());
+        dispatch(beginLoadDeviceData(id));
 
         return iotApi.loadDeviceData(id, dataPeriod, pageSize)
             .then(response => {
                 iotApi.loadDeviceDataMonthly(id)
                     .then(response2 => {
-                        let merged = {
-                            data: {
-                                data: response.data,
-                                dataMonthly: response2.data
-                            }
-                        }
-                        dispatch(loadDeviceDataSuccess(merged.data));
+                        let data = response.data;
+                        let dataMonthly = response2.data;
+
+                        dispatch(loadDeviceDataSuccess(id, data, dataMonthly));
                     })
             })
             .catch((error) => {
@@ -41,7 +55,7 @@ export function loadDeviceData(id, dataPeriod = "", pageSize = 10) {
                 throw (error);
             })
             .finally(() => {
-                dispatch(endLoadDeviceData());
+                dispatch(endLoadDeviceData(id));
             })
     };
 }

@@ -16,7 +16,7 @@ import {
 import { LineChartHelper } from "../../charts/chartHelper";
 import Loader from 'react-loader-spinner';
 
-const DeviceDataLineChart = ({ lg, md, sm, deviceData, deviceDataLoading, onDataLineChartButtonClick, getDataForLineChart, dataPeriod }) => {
+const DeviceDataLineChart = ({ lg, md, sm, deviceData, deviceDataLoading, onDataLineChartButtonClick, getDataForLineChart, dataPeriod, hideInfoHeader }) => {
     let response = getDataForLineChart();
     let lineChart = new LineChartHelper(response.data, response.labels, response.name);
 
@@ -32,12 +32,21 @@ const DeviceDataLineChart = ({ lg, md, sm, deviceData, deviceDataLoading, onData
                     <CardHeader>
                         <Row>
                             <Col className="text-left" sm="6">
-                                <h5 className="card-category">Data Line Chart</h5>
-                                <CardTitle tag="h2">
-                                    <i className="tim-icons icon-bell-55 text-info" />{" "}
-                                    {dataType}
-                                </CardTitle>
+                                {
+                                    hideInfoHeader == null || hideInfoHeader == false
+                                        ?
+                                        <div>
+                                            <h5 className="card-category">Data Line Chart</h5>
+                                            <CardTitle tag="h2">
+                                                <i className="tim-icons icon-bell-55 text-info" />{" "}
+                                                {dataType}
+                                            </CardTitle>
+                                        </div>
+                                        :
+                                        null
+                                }
                             </Col>
+
                             <Col sm="6">
                                 <ButtonGroup
                                     className="btn-group-toggle float-right"
@@ -100,7 +109,7 @@ const DeviceDataLineChart = ({ lg, md, sm, deviceData, deviceDataLoading, onData
                                         size="sm"
                                         onClick={(e) => { e.preventDefault(); onDataLineChartButtonClick("daily") }} //was firing twice for some reason ???
                                     >
-                                        <input                                            
+                                        <input
                                             className="d-none"
                                             name="options"
                                             type="radio"

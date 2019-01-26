@@ -22,7 +22,7 @@ class Devices extends React.Component {
 
     componentDidMount() {
         //const { actions } = this.props;
-        //actions.loadDevices();
+        //actions.loadDevices();     
     }
 
     componentWillReceiveProps(nextProps) {
@@ -35,13 +35,13 @@ class Devices extends React.Component {
     handleSwitch = (checked, id) => {
         const { actions, data } = this.props;
         actions.toggleDeviceToDashboard(checked, id, data)
-        .then(() =>{
-            let text = checked ? "Added to dashboard" : "Removed from dashboard";
-            toastr.success(text);
-        })
-        .catch(error => {
-            toastr.error(error);
-        });
+            .then(() => {
+                let text = checked ? "Added to dashboard" : "Removed from dashboard";
+                toastr.success(text);
+            })
+            .catch(error => {
+                toastr.error(error);
+            });
     }
 
     render() {

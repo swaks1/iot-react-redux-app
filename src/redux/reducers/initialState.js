@@ -11,9 +11,12 @@ export default {
             loading: false
         }
     ],
-    deviceData: {
-        data: [],
-        dataMonthly: [],
-        loading: false
-    }
+    deviceData: [
+        {
+            deviceId: null,
+            data: [],
+            dataMonthly: [],
+            loading: false
+        }
+    ]
 }
