@@ -47,7 +47,7 @@ class DefaultLayout extends React.Component {
   }
 
   componentDidUpdate(e) {
-    if (e.history.action === "PUSH") {
+    if (e.history.action == "PUSH") {
       document.documentElement.scrollTop = 0;
       document.scrollingElement.scrollTop = 0;
       this.mainPanel.current.scrollTop = 0;
