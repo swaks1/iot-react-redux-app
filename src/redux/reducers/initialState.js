@@ -1,9 +1,12 @@
 export default {
     ajaxCallsInProgress: 0,
-    devices: {
-        data: [],
-        loading: false
-    },
+    devices: [
+        {
+            deviceId: null,
+            data: {},
+            loading: false
+        }
+    ],
     commands: [
         {
             deviceId: null,

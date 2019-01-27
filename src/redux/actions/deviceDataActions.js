@@ -48,14 +48,13 @@ export function loadDeviceData(id, dataPeriod = "", pageSize = 10) {
                         let dataMonthly = response2.data;
 
                         dispatch(loadDeviceDataSuccess(id, data, dataMonthly));
+                        dispatch(endLoadDeviceData(id));
                     })
             })
             .catch((error) => {
                 dispatch(ajaxCallError());
-                throw (error);
-            })
-            .finally(() => {
                 dispatch(endLoadDeviceData(id));
+                throw (error);
             })
     };
 }

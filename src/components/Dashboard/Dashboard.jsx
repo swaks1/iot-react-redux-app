@@ -22,10 +22,9 @@ class Dashboard extends React.Component {
 
     render() {
         const { devices, devicesLoading } = this.props;
-        let devicesOnDashboard = devices.filter(item => item.isAddedToDashboard === true)
         return (
             <DashboardCard
-                devices={devicesOnDashboard}
+                devices={devices}
                 loading={devicesLoading}
             />
         );
@@ -34,9 +33,15 @@ class Dashboard extends React.Component {
 
 //can be called many times by the framework
 const mapStateToProps = (state, ownProps) => {
+    let allDevices = state.devices.map((item, index) => {
+        return item.data;
+    })
+
+    let devicesOnDashboard = allDevices.filter(item => item.isAddedToDashboard == true);
+
     return {
-        devices: state.devices.data,
-        devicesLoading: state.devices.loading
+        devices: devicesOnDashboard,
+        devicesLoading: allDevices.length == 0
     };
 };
 

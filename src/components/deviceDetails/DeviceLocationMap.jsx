@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Card, Row, Col } from 'reactstrap';
+import { Card, Col } from 'reactstrap';
 import GoogleMapReact from 'google-map-react';
 import Loader from 'react-loader-spinner';
 import SimpleMarker from '../_common/SimpleMarker'
@@ -32,8 +32,8 @@ const DeviceLocationMap = ({ lg, md, sm, device, deviceLoading }) => {
     return (
         <>
             <Col lg={lg} md={md} sm={sm}>
-                <Card style={{ backgroundColor: "#f7f6f6", padding: "20px 20px" }}>
-                    <h4>Device Location</h4>
+                <Card style={{ backgroundColor: "#f7f6f6", padding: "10px 15px" }}>
+                <h4 className="text-center font-italic font-weight-light">Device Location</h4>
                     {
                         deviceLoading === true
                             ?
@@ -55,7 +55,6 @@ const DeviceLocationMap = ({ lg, md, sm, device, deviceLoading }) => {
                                         panControl: false,
                                         mapTypeControl: false,
                                         scrollwheel: false,
-                                        styles: [{ stylers: [{ 'saturation': -100 }, { 'gamma': 0.8 }, { 'lightness': 4 }, { 'visibility': 'on' }] }]
                                     })}
                                 >
                                     <SimpleMarker

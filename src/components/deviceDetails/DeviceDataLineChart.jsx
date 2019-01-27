@@ -28,7 +28,7 @@ const DeviceDataLineChart = ({ lg, md, sm, deviceData, deviceDataLoading, onData
     return (
         <>
             <Col lg={lg} md={md} sm={sm} >
-                <Card className="card-chart" style={{ backgroundColor: "#f7f6f6", padding: "20px 20px" }}>
+                <Card className="card-chart" style={{ backgroundColor: "#f7f6f6", padding: "10px 15px", marginBottom:"10px" }}>
                     <CardHeader>
                         <Row>
                             <Col className="text-left" sm="6">

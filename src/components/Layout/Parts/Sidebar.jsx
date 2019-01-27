@@ -32,7 +32,7 @@ class Sidebar extends React.Component {
     }
   }
 
-  componentWillUnmount() {    
+  componentWillUnmount() {
     if (navigator.platform.indexOf("Win") > -1) {
       ps.destroy();
     }
@@ -77,6 +77,7 @@ class Sidebar extends React.Component {
           <Link
             to={logo.innerLink}
             className="simple-text logo-mini"
+            style={{ textTransform: "initial" }}
             onClick={this.props.toggleSidebar}
           >
             <div className="logo-img">
@@ -88,6 +89,7 @@ class Sidebar extends React.Component {
           <Link
             to={logo.innerLink}
             className="simple-text logo-normal"
+            style={{ textTransform: "initial" }}
             onClick={this.props.toggleSidebar}
           >
             {logo.text}

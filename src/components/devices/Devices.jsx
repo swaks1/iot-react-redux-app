@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from 'react-dom';
 import { withRouter } from 'react-router-dom'
 
 import { connect } from 'react-redux';
@@ -22,7 +23,7 @@ class Devices extends React.Component {
 
     componentDidMount() {
         //const { actions } = this.props;
-        //actions.loadDevices();     
+        //actions.loadDevices();    
     }
 
     componentWillReceiveProps(nextProps) {
@@ -30,6 +31,10 @@ class Devices extends React.Component {
         // if (this.props.course.id != nextProps.course.id) {
         //   this.setState({ course: Object.assign({}, nextProps.course) });
         // }
+    }
+
+    componentDidUpdate = () => {
+        //ReactDOM.findDOMNode(this).scrollIntoView();
     }
 
     handleSwitch = (checked, id) => {
@@ -63,9 +68,12 @@ class Devices extends React.Component {
 
 //can be called many times by the framework
 const mapStateToProps = (state, ownProps) => {
+    let allDevices = state.devices.map((item, index) => {
+        return item.data;
+    })
     return {
-        data: state.devices.data,
-        loading: state.devices.loading
+        data: allDevices,
+        loading: allDevices.length == 0
     };
 };
 

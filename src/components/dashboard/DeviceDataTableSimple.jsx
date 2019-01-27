@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { Card, Row, Col } from 'reactstrap';
+import { Card, Col } from 'reactstrap';
 import Loader from 'react-loader-spinner';
 
 import Table from '../_common/Table'
 
-const DeviceDataTable = ({ lg, md, sm, deviceData, deviceDataLoading, getDataForLineChart, onRefreshClick }) => {
+const DeviceDataTableSimple = ({ lg, md, sm, deviceData, deviceDataLoading, getDataForLineChart, onRefreshClick }) => {
 
     //let deviceDataTop10 = deviceData.slice(0, 10);
     let response = getDataForLineChart();
@@ -13,15 +13,9 @@ const DeviceDataTable = ({ lg, md, sm, deviceData, deviceDataLoading, getDataFor
     return (
         <>
             <Col lg={lg} md={md} sm={sm}>
-                <Card style={{ backgroundColor: "#f7f6f6", padding: "20px 20px" }}>
-                <h4 className="text-center font-italic font-weight-light">
+                <Card style={{ background: "transparent", padding: "10px 15px" }}>
+                    <h4 className="text-center font-italic font-weight-light">
                         Device Data &nbsp;
-                        <i
-                            className="fa fa-sync"
-                            style={{ color: "green", cursor: "pointer" }}
-                            id="DeviceData"
-                            onClick={onRefreshClick}
-                        ></i>
                     </h4>
                     {
                         deviceDataLoading === true
@@ -35,7 +29,7 @@ const DeviceDataTable = ({ lg, md, sm, deviceData, deviceDataLoading, getDataFor
                                 />
                             </div>
                             :
-                            <Table>
+                            <Table className="simpleTable">
                                 <thead className="text-primary">
                                     <tr>
                                         <th className="text-center">DateTime</th>
@@ -72,4 +66,4 @@ const DeviceDataTable = ({ lg, md, sm, deviceData, deviceDataLoading, getDataFor
 };
 
 
-export default DeviceDataTable;
+export default DeviceDataTableSimple;

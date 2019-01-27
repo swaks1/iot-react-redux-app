@@ -16,7 +16,8 @@ class DeviceDetailsSimple extends React.Component {
         super(props);
         this.state = {
             dataPeriod: "mostRecent",
-            autoRefreshOn: false
+            autoRefreshOn: false,
+            collapseElementOpened: false
         }
     }
 
@@ -30,13 +31,13 @@ class DeviceDetailsSimple extends React.Component {
         const { dataPeriod } = this.state;
         deviceDataActions.loadDeviceData(deviceId, dataPeriod, 5);
 
-        // set Interval for refrshing the views every 30 sec
-        //this.interval = setInterval(this.autoRefresh, 30000);
+        // set Interval for refrshing the views every 10 sec
+        this.interval = setInterval(this.autoRefresh, 10000);
     }
 
     componentWillUnmount() {
         // Clear the interval right before component unmount
-        //clearInterval(this.interval);
+        clearInterval(this.interval);
     }
 
     toggleAutoRefresh = () => {
@@ -44,30 +45,31 @@ class DeviceDetailsSimple extends React.Component {
             autoRefreshOn: !prevState.autoRefreshOn
         }), () => {
             if (this.state.autoRefreshOn === true)
-                toastr.warning("Auto Refresh  turned ON, interval is 30 sec");
+                toastr.warning("Auto Refresh  turned ON, interval is 10 sec");
             else
                 toastr.warning("Auto Refresh turned OFF");
         });
     }
 
     autoRefresh = () => {
-        if (this.state.device == null) {
+        let { device } = this.props;
+        if (device == null) {
             console.log("No Device Loaded yet..");
             return;
         }
 
-        let deviceId = this.state.device._id;
+        let deviceId = device._id;
         let { deviceActions, commandActions, deviceDataActions } = this.props;
         const { dataPeriod } = this.state;
 
-        if (this.state.autoRefreshOn === true && this.state.editMode === false) {
-            let deviceInfoPromise = deviceActions.loadDevices();
+        if (this.state.autoRefreshOn === true) {
+            let deviceInfoPromise = deviceActions.loadDevice(deviceId);
             let commandsHisotryPromise = commandActions.loadDeviceCommands(deviceId);
             let deviceDataPromise = deviceDataActions.loadDeviceData(deviceId, dataPeriod, 5);
 
             Promise.all([deviceInfoPromise, commandsHisotryPromise, deviceDataPromise])
                 .then((values) => {
-                    toastr.success("Reloaded full UI!");
+                    //toastr.success("Reloaded full UI!");
                 })
                 .catch((error) => {
                     toastr.error("Reload UI: " + error);
@@ -75,50 +77,6 @@ class DeviceDetailsSimple extends React.Component {
         }
         else {
             console.log("Auto Refresh wont happen because EditMode is on or autoRefresh is false");
-        }
-    }
-
-
-    handleRefreshClick = (event) => {
-        let btnId = event.target.id;
-        let deviceId = this.state.device._id;
-
-        let { deviceActions, commandActions, deviceDataActions } = this.props;
-        const { dataPeriod } = this.state;
-
-        switch (btnId) {
-            case "DeviceInformations":
-                deviceActions.loadDevices()
-                    .then(() => {
-                        toastr.success("Reloaded Device Info!");
-                    })
-                    .catch((error) => {
-                        toastr.error(error);
-                    })
-                break;
-
-            case "DeviceCommandsHistory":
-                commandActions.loadDeviceCommands(deviceId)
-                    .then(() => {
-                        toastr.success("Reloaded Commands!");
-                    })
-                    .catch((error) => {
-                        toastr.error(error);
-                    })
-                break;
-            case "DeviceData":
-                deviceDataActions.loadDeviceData(deviceId, dataPeriod, 5)
-                    .then(() => {
-                        toastr.success("Reloaded Device Data!");
-                    })
-                    .catch((error) => {
-                        toastr.error(error);
-                    })
-                break;
-
-            default:
-                console.log("unknown btn refresh");
-                break;
         }
     }
 
@@ -258,15 +216,22 @@ class DeviceDetailsSimple extends React.Component {
         });
     }
 
+    handleCollapseClick = () => {
+        this.setState((prevState) => ({
+            collapseElementOpened: !prevState.collapseElementOpened
+        }))
+    }
+
     render() {
-        const { dataPeriod, autoRefreshOn } = this.state;
+        const { dataPeriod, autoRefreshOn, collapseElementOpened } = this.state;
         const { device, deviceLoading, commandsData, commandsLoading, deviceData, deviceDataLoading } = this.props;
 
         return (
             <DeviceDetailsSimpleCard
+                onCollapseClick={this.handleCollapseClick}
+                collapseElementOpened={collapseElementOpened}
                 toggleAutoRefresh={this.toggleAutoRefresh}
                 autoRefreshOn={autoRefreshOn}
-                onRefreshClick={this.handleRefreshClick}
                 device={device}
                 deviceLoading={deviceLoading}
                 commandsData={commandsData}
@@ -284,7 +249,7 @@ class DeviceDetailsSimple extends React.Component {
 }
 
 const getDeviceById = (devices, id) => {
-    const filtered = devices.filter(d => d._id === id);
+    const filtered = devices.filter(d => d.deviceId === id);
     if (filtered.length > 0)
         return filtered[0];
     return null;
@@ -308,8 +273,13 @@ const getDeviceDataObj = (deviceData, deviceId) => {
 const mapStateToProps = (state, ownProps) => {
     const { deviceId } = ownProps;
 
-    let device = getDeviceById(state.devices.data, deviceId);
-    let deviceLoading = state.devices.loading;
+    let device = null;
+    let deviceLoading = true;
+    let deviceObj = getDeviceById(state.devices, deviceId);
+    if (deviceObj != null) {
+        device = deviceObj.data;
+        deviceLoading = deviceObj.loading;
+    }
 
     let commandsData = [];
     let commandsLoading = true;

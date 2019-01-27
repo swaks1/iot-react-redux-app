@@ -78,7 +78,7 @@ class DeviceDetails extends React.Component {
         const { dataPeriod } = this.state;
 
         if (this.state.autoRefreshOn === true && this.state.editMode === false) {
-            let deviceInfoPromise = deviceActions.loadDevices();
+            let deviceInfoPromise = deviceActions.loadDevice(deviceId);
             let commandsHisotryPromise = commandActions.loadDeviceCommands(deviceId);
             let deviceDataPromise = deviceDataActions.loadDeviceData(deviceId, dataPeriod);
 
@@ -196,7 +196,7 @@ class DeviceDetails extends React.Component {
 
         switch (btnId) {
             case "DeviceInformations":
-                deviceActions.loadDevices()
+                deviceActions.loadDevice(deviceId)
                     .then(() => {
                         toastr.success("Reloaded Device Info!");
                     })
@@ -348,7 +348,7 @@ class DeviceDetails extends React.Component {
 }
 
 const getDeviceById = (devices, id) => {
-    const filtered = devices.filter(d => d._id === id);
+    const filtered = devices.filter(d => d.deviceId === id);
     if (filtered.length > 0)
         return filtered[0];
     return null;
@@ -372,8 +372,13 @@ const getDeviceDataObj = (deviceData, deviceId) => {
 const mapStateToProps = (state, ownProps) => {
     const deviceId = ownProps.match.params.id; // from the path '/devices/:id'
 
-    let device = getDeviceById(state.devices.data, deviceId);
-    let deviceLoading = state.devices.loading;
+    let device = null;
+    let deviceLoading = true;
+    let deviceObj = getDeviceById(state.devices, deviceId);
+    if (deviceObj != null) {
+        device = deviceObj.data;
+        deviceLoading = deviceObj.loading;
+    }
 
     let commandsData = [];
     let commandsLoading = true;

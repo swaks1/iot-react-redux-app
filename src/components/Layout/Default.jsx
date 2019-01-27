@@ -48,9 +48,9 @@ class DefaultLayout extends React.Component {
 
   componentDidUpdate(e) {
     if (e.history.action == "PUSH") {
-      document.documentElement.scrollTop = 0;
-      document.scrollingElement.scrollTop = 0;
-      this.mainPanel.current.scrollTop = 0;
+      // document.documentElement.scrollTop = 0;
+      // document.scrollingElement.scrollTop = 0;
+      // this.mainPanel.current.scrollTop = 0;
     }
   }
 
@@ -98,8 +98,8 @@ class DefaultLayout extends React.Component {
             routes={routes}
             bgColor={this.state.backgroundColor}
             logo={{
-              outterLink: "https://www.creative-tim.com/",
-              text: "Creative Tim",
+              innerLink: "/app/dashboard",
+              text: "IoT App",
               imgSrc: logo
             }}
             toggleSidebar={this.toggleSidebar}

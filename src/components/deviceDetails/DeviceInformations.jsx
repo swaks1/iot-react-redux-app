@@ -8,7 +8,7 @@ const DeviceInformations = ({ lg, md, sm, device, deviceLoading, onRefreshClick,
         <>
             <Col lg={lg} md={md} sm={sm}>
                 <Card style={{ backgroundColor: "#f7f6f6", padding: "20px 20px" }}>
-                    <h4>
+                <h4 className="text-center font-italic font-weight-light">
                         Device Information &nbsp;
                                 <i
                             className="fa fa-sync"
