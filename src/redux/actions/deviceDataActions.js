@@ -34,15 +34,15 @@ export function loadDeviceDataSuccess(deviceId, data, dataMonthly) {
 
 
 //THUNKS thunk async functions that return action
-export function loadDeviceData(id, dataPeriod = "", pageSize = 10) {
+export function loadDeviceData(id, dataPeriod = "", pageSize = 10, deviceType = "") {
     return function (dispatch) {
 
         dispatch(beginAjaxCall());
         dispatch(beginLoadDeviceData(id));
 
-        return iotApi.loadDeviceData(id, dataPeriod, pageSize)
+        return iotApi.loadDeviceData(id, dataPeriod, pageSize, deviceType)
             .then(response => {
-                iotApi.loadDeviceDataMonthly(id)
+                iotApi.loadDeviceDataMonthly(id, deviceType)
                     .then(response2 => {
                         let data = response.data;
                         let dataMonthly = response2.data;

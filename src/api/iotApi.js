@@ -160,9 +160,9 @@ class IotApi {
 
     // ======= DEVICE DATA ==========
 
-    static loadDeviceData(deviceId, dataPeriod, pageSize) {
+    static loadDeviceData(deviceId, dataPeriod, pageSize, deviceType) {
         return new Promise((resolve, reject) => {
-            axios.get(`http://localhost:8000/api/data?deviceId=${deviceId}&period=${dataPeriod}&pageSize=${pageSize}`)
+            axios.get(`http://localhost:8000/api/data?deviceId=${deviceId}&period=${dataPeriod}&pageSize=${pageSize}&dataType=${deviceType}`)
                 .then(response => {
                     setTimeout(() => {
                         resolve(response);
@@ -174,9 +174,9 @@ class IotApi {
         });
     }
 
-    static loadDeviceDataMonthly(deviceId) {
+    static loadDeviceDataMonthly(deviceId, deviceType) {
         return new Promise((resolve, reject) => {
-            axios.get(`http://localhost:8000/api/data?deviceId=${deviceId}&period=monthly&pageSize=10`)
+            axios.get(`http://localhost:8000/api/data?deviceId=${deviceId}&period=monthly&pageSize=12&dataType=${deviceType}`)
                 .then(response => {
                     setTimeout(() => {
                         resolve(response);

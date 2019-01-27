@@ -16,7 +16,7 @@ import DeviceCommandsHistorySimple from './DeviceCommandsHistorySimple'
 const DeviceDetailsSimpleCard = ({
     collapseElementOpened, onCollapseClick,
     autoRefreshOn, toggleAutoRefresh,
-    device, deviceLoading,
+    device, deviceLoading, dataType, onDataTypeChange,
     commandsData, commandsLoading, onCommandClick,
     deviceData, deviceDataLoading, getDataForLineChart, onDataLineChartButtonClick, getDataForBarChart, dataPeriod }) => {
     return (
@@ -35,7 +35,7 @@ const DeviceDetailsSimpleCard = ({
                                             <Col>
                                                 <div>
                                                     <label htmlFor="normal-switch">
-                                                        <span style={{fontSize:"0.8em"}}>Auto Refresh &nbsp;</span>
+                                                        <span style={{ fontSize: "0.8em" }}>Auto Refresh &nbsp;</span>
                                                         <Switch
                                                             height={10}
                                                             width={20}
@@ -54,7 +54,9 @@ const DeviceDetailsSimpleCard = ({
                                                 md="12"
                                                 sm="12"
                                                 device={device}
-                                                deviceLoading={deviceLoading} />
+                                                deviceLoading={deviceLoading}
+                                                dataType={dataType}
+                                                onDataTypeChange={onDataTypeChange} />
 
                                             <DeviceDataTableSimple
                                                 lg="3"

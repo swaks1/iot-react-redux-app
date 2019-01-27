@@ -30,20 +30,20 @@ class DefaultLayout extends React.Component {
   }
 
   componentDidMount() {
-    if (navigator.platform.indexOf("Win") > -1) {
-      document.documentElement.className += " perfect-scrollbar-on";
-      document.documentElement.classList.remove("perfect-scrollbar-off");
-      let mainPanelNode = this.mainPanel.current;
-      this.ps = new PerfectScrollbar(mainPanelNode, { suppressScrollX: true });
-    }
+    // if (navigator.platform.indexOf("Win") > -1) {
+    //   document.documentElement.className += " perfect-scrollbar-on";
+    //   document.documentElement.classList.remove("perfect-scrollbar-off");
+    //   let mainPanelNode = this.mainPanel.current;
+    //   this.ps = new PerfectScrollbar(mainPanelNode, { suppressScrollX: true });
+    // }
   }
 
   componentWillUnmount() {
-    if (navigator.platform.indexOf("Win") > -1) {
-      this.ps.destroy();
-      document.documentElement.className += " perfect-scrollbar-off";
-      document.documentElement.classList.remove("perfect-scrollbar-on");
-    }
+    // if (navigator.platform.indexOf("Win") > -1) {
+    //   this.ps.destroy();
+    //   document.documentElement.className += " perfect-scrollbar-off";
+    //   document.documentElement.classList.remove("perfect-scrollbar-on");
+    // }
   }
 
   componentDidUpdate(e) {

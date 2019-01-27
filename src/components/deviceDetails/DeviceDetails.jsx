@@ -15,10 +15,19 @@ import DeviceDetailsCard from './DeviceDetailsCard'
 class DeviceDetails extends React.Component {
     constructor(props) {
         super(props);
+
+        let dataType = "";
+        if (props.device
+            && props.device.dataTypes != null
+            && props.device.dataTypes.length > 0) {
+            dataType = props.device.dataTypes[0];
+        }
+
         this.state = {
             device: props.device ? this.deepCopyDevice(props.device) : null, //keep in local state because this will be changed in children components,
             editMode: false,
             dataPeriod: "mostRecent",
+            dataType: dataType,
             autoRefreshOn: false
         }
     }
@@ -32,12 +41,12 @@ class DeviceDetails extends React.Component {
     componentDidMount() {
         const deviceId = this.props.match.params.id; // from the path '/devices/:id'
 
-        const { commandActions } = this.props;
-        commandActions.loadDeviceCommands(deviceId);
+        let { deviceActions, commandActions, deviceDataActions } = this.props;
+        const { dataPeriod, dataType } = this.state;
 
-        const { deviceDataActions } = this.props;
-        const { dataPeriod } = this.state;
-        deviceDataActions.loadDeviceData(deviceId, dataPeriod);
+        deviceActions.loadDevice(deviceId);
+        commandActions.loadDeviceCommands(deviceId);
+        deviceDataActions.loadDeviceData(deviceId, dataPeriod, 10, dataType);
 
         // set Interval for refrshing the views every 30 sec
         this.interval = setInterval(this.autoRefresh, 30000);
@@ -47,7 +56,11 @@ class DeviceDetails extends React.Component {
     componentWillReceiveProps(nextProps) {
         //when the device recieves state from redux update its local state
         if (nextProps.device) {
-            this.setState({ device: this.deepCopyDevice(nextProps.device) });
+            this.setState({ device: this.deepCopyDevice(nextProps.device) },
+                () => {//if this.state.dataType is empty set it to firstone of the nextProps.device
+                    if (nextProps.device.dataTypes != null && nextProps.device.dataTypes.length > 0 && this.state.dataType == "")
+                        this.handleDataTypeChange(nextProps.device.dataTypes[0]);
+                });
         }
     }
 
@@ -75,12 +88,12 @@ class DeviceDetails extends React.Component {
 
         let deviceId = this.state.device._id;
         let { deviceActions, commandActions, deviceDataActions } = this.props;
-        const { dataPeriod } = this.state;
+        const { dataPeriod, dataType } = this.state;
 
         if (this.state.autoRefreshOn === true && this.state.editMode === false) {
             let deviceInfoPromise = deviceActions.loadDevice(deviceId);
             let commandsHisotryPromise = commandActions.loadDeviceCommands(deviceId);
-            let deviceDataPromise = deviceDataActions.loadDeviceData(deviceId, dataPeriod);
+            let deviceDataPromise = deviceDataActions.loadDeviceData(deviceId, dataPeriod, 10, dataType);
 
             Promise.all([deviceInfoPromise, commandsHisotryPromise, deviceDataPromise])
                 .then((values) => {
@@ -192,7 +205,7 @@ class DeviceDetails extends React.Component {
         let deviceId = this.state.device._id;
 
         let { deviceActions, commandActions, deviceDataActions } = this.props;
-        const { dataPeriod } = this.state;
+        const { dataPeriod, dataType } = this.state;
 
         switch (btnId) {
             case "DeviceInformations":
@@ -215,7 +228,7 @@ class DeviceDetails extends React.Component {
                     })
                 break;
             case "DeviceData":
-                deviceDataActions.loadDeviceData(deviceId, dataPeriod)
+                deviceDataActions.loadDeviceData(deviceId, dataPeriod, 10, dataType)
                     .then(() => {
                         toastr.success("Reloaded Device Data!");
                     })
@@ -306,19 +319,31 @@ class DeviceDetails extends React.Component {
         return response;
     }
 
+    handleDataTypeChange = (buttonText) => {
+        this.setState({
+            dataType: buttonText
+        }, () => {
+            let deviceId = this.state.device._id;
+            const { deviceDataActions } = this.props;
+            const { dataPeriod, dataType } = this.state;
+            deviceDataActions.loadDeviceData(deviceId, dataPeriod, 10, dataType);
+        });
+    }
+
+
     handleLineChartButtonClick = (buttonText) => {
         this.setState({
             dataPeriod: buttonText
         }, () => {
             const deviceId = this.props.match.params.id
             const { deviceDataActions } = this.props;
-            const { dataPeriod } = this.state;
-            deviceDataActions.loadDeviceData(deviceId, dataPeriod);
+            const { dataPeriod, dataType } = this.state;
+            deviceDataActions.loadDeviceData(deviceId, dataPeriod, 10, dataType);
         });
     }
 
     render() {
-        const { device, editMode, dataPeriod, autoRefreshOn } = this.state;
+        const { device, editMode, dataPeriod, dataType, autoRefreshOn } = this.state;
         const { deviceLoading, commandsData, commandsLoading, deviceData, deviceDataLoading } = this.props;
 
         return (
@@ -327,6 +352,8 @@ class DeviceDetails extends React.Component {
                 autoRefreshOn={autoRefreshOn}
                 device={device}
                 deviceLoading={deviceLoading}
+                dataType={dataType}
+                onDataTypeChange={this.handleDataTypeChange}
                 location={this.props.location}
                 onRefreshClick={this.handleRefreshClick}
                 onDeviceFieldChange={this.updateDeviceFields}

@@ -3,12 +3,12 @@ import React from 'react';
 import { Card, Row, Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import Loader from 'react-loader-spinner';
 
-const DeviceInformations = ({ lg, md, sm, device, deviceLoading, onRefreshClick, editMode, onDeviceFieldChange, onEditInfo, onSaveInfo }) => {
+const DeviceInformations = ({ lg, md, sm, device, deviceLoading, dataType, onDataTypeChange, onRefreshClick, editMode, onDeviceFieldChange, onEditInfo, onSaveInfo }) => {
     return (
         <>
             <Col lg={lg} md={md} sm={sm}>
                 <Card style={{ backgroundColor: "#f7f6f6", padding: "20px 20px" }}>
-                <h4 className="text-center font-italic font-weight-light">
+                    <h4 className="text-center font-italic font-weight-light">
                         Device Information &nbsp;
                                 <i
                             className="fa fa-sync"
@@ -69,6 +69,41 @@ const DeviceInformations = ({ lg, md, sm, device, deviceLoading, onRefreshClick,
                                         }
                                     </Col>
                                 </FormGroup>
+                                {
+                                    editMode === false
+                                        ?
+                                        <FormGroup row>
+                                            <Label for="dataTypes" sm={5}> Data Types </Label>
+                                            <Col sm={7} style={{ paddingLeft: "0px", fontSize: "0.8em" }}>
+                                                {
+                                                    device.dataTypes != null
+                                                        ?
+                                                        <>
+                                                            {
+                                                                device.dataTypes.map((item, index) => {
+                                                                    return (
+                                                                        <div key={index}>
+                                                                            <Button
+                                                                                color="btn btn-link"
+                                                                                onClick={() => onDataTypeChange(item)}
+                                                                                style={{ padding: "0px 0px" }}
+                                                                            >
+                                                                                {item}
+                                                                            </Button>
+                                                                        </div>
+                                                                    );
+                                                                })
+                                                            }
+                                                        </>
+                                                        :
+                                                        null
+                                                }
+                                            </Col>
+                                        </FormGroup>
+                                        :
+                                        null
+                                }
+
                                 {
                                     editMode === false
                                         ?

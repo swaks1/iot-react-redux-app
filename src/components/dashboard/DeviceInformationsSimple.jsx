@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { Card, Row, Col } from 'reactstrap';
+import { Card, Row, Col, Button } from 'reactstrap';
 import Loader from 'react-loader-spinner';
 
-const DeviceInformationsSimple = ({ lg, md, sm, device, deviceLoading }) => {
+const DeviceInformationsSimple = ({ lg, md, sm, device, deviceLoading, dataType, onDataTypeChange }) => {
     return (
         <>
             <Col lg={lg} md={md} sm={sm}>
@@ -55,6 +55,37 @@ const DeviceInformationsSimple = ({ lg, md, sm, device, deviceLoading }) => {
                                             device.isActive
                                                 ? <i className="fa fa-check fa" style={{ color: "green" }}></i>
                                                 : <i className="fa fa-times fa" style={{ color: "red" }} />
+                                        }
+                                    </Col>
+                                </Row>
+
+                                <Row style={{ marginTop: "10px" }}>
+                                    <Col className="text-left" md={5} style={{ fontSize: "0.8em" }}>
+                                        <span>DataTypes:</span>
+                                    </Col>
+                                    <Col className="text-left" md={7} style={{ paddingLeft: "0px", fontSize: "0.8em" }}>
+                                        {
+                                            device.dataTypes != null
+                                                ?
+                                                <>
+                                                    {
+                                                        device.dataTypes.map((item, index) => {
+                                                            return (
+                                                                <div key={index}>
+                                                                    <Button
+                                                                        color="btn btn-link"
+                                                                        onClick={() => onDataTypeChange(item)}
+                                                                        style={{ padding: "0px 0px" }}
+                                                                    >
+                                                                        {item}
+                                                                    </Button>
+                                                                </div>
+                                                            );
+                                                        })
+                                                    }
+                                                </>
+                                                :
+                                                null
                                         }
                                     </Col>
                                 </Row>

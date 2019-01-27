@@ -14,25 +14,43 @@ import DeviceDetailsSimpleCard from './DeviceDetailsSimpleCard'
 class DeviceDetailsSimple extends React.Component {
     constructor(props) {
         super(props);
+
+        let dataType = "";
+        if (props.device
+            && props.device.dataTypes != null
+            && props.device.dataTypes.length > 0) {
+            dataType = props.device.dataTypes[0];
+        }
+        
         this.state = {
             dataPeriod: "mostRecent",
+            dataType: dataType,
             autoRefreshOn: false,
             collapseElementOpened: false
         }
     }
 
     componentDidMount() {
-        const { deviceId } = this.props;
 
-        const { commandActions } = this.props;
+        let { deviceId, deviceActions, commandActions, deviceDataActions } = this.props;
+        const { dataPeriod, dataType } = this.state;
+
+        deviceActions.loadDevice(deviceId);
         commandActions.loadDeviceCommands(deviceId);
-
-        const { deviceDataActions } = this.props;
-        const { dataPeriod } = this.state;
-        deviceDataActions.loadDeviceData(deviceId, dataPeriod, 5);
+        deviceDataActions.loadDeviceData(deviceId, dataPeriod, 5, dataType);
 
         // set Interval for refrshing the views every 10 sec
         this.interval = setInterval(this.autoRefresh, 10000);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        //if this.state.dataType is empty set it to firstOne of the nextProps.device
+        if (nextProps.device
+            && nextProps.device.dataTypes != null
+            && nextProps.device.dataTypes.length > 0
+            && this.state.dataType == "") {
+            this.handleDataTypeChange(nextProps.device.dataTypes[0]);
+        }
     }
 
     componentWillUnmount() {
@@ -60,12 +78,12 @@ class DeviceDetailsSimple extends React.Component {
 
         let deviceId = device._id;
         let { deviceActions, commandActions, deviceDataActions } = this.props;
-        const { dataPeriod } = this.state;
+        const { dataPeriod, dataType } = this.state;
 
         if (this.state.autoRefreshOn === true) {
             let deviceInfoPromise = deviceActions.loadDevice(deviceId);
             let commandsHisotryPromise = commandActions.loadDeviceCommands(deviceId);
-            let deviceDataPromise = deviceDataActions.loadDeviceData(deviceId, dataPeriod, 5);
+            let deviceDataPromise = deviceDataActions.loadDeviceData(deviceId, dataPeriod, 5, dataType);
 
             Promise.all([deviceInfoPromise, commandsHisotryPromise, deviceDataPromise])
                 .then((values) => {
@@ -205,14 +223,25 @@ class DeviceDetailsSimple extends React.Component {
         return response;
     }
 
+    handleDataTypeChange = (buttonText) => {
+        this.setState({
+            dataType: buttonText
+        }, () => {
+            const { deviceId } = this.props;
+            const { deviceDataActions } = this.props;
+            const { dataPeriod, dataType } = this.state;
+            deviceDataActions.loadDeviceData(deviceId, dataPeriod, 5, dataType);
+        });
+    }
+
     handleLineChartButtonClick = (buttonText) => {
         this.setState({
             dataPeriod: buttonText
         }, () => {
             const { deviceId } = this.props;
             const { deviceDataActions } = this.props;
-            const { dataPeriod } = this.state;
-            deviceDataActions.loadDeviceData(deviceId, dataPeriod, 5);
+            const { dataPeriod, dataType } = this.state;
+            deviceDataActions.loadDeviceData(deviceId, dataPeriod, 5, dataType);
         });
     }
 
@@ -223,7 +252,7 @@ class DeviceDetailsSimple extends React.Component {
     }
 
     render() {
-        const { dataPeriod, autoRefreshOn, collapseElementOpened } = this.state;
+        const { dataPeriod, dataType, autoRefreshOn, collapseElementOpened } = this.state;
         const { device, deviceLoading, commandsData, commandsLoading, deviceData, deviceDataLoading } = this.props;
 
         return (
@@ -234,6 +263,8 @@ class DeviceDetailsSimple extends React.Component {
                 autoRefreshOn={autoRefreshOn}
                 device={device}
                 deviceLoading={deviceLoading}
+                dataType={dataType}
+                onDataTypeChange={this.handleDataTypeChange}
                 commandsData={commandsData}
                 commandsLoading={commandsLoading}
                 onCommandClick={this.handleCommandClick}

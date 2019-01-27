@@ -16,7 +16,7 @@ import DeviceLocationMap from './DeviceLocationMap'
 
 const DeviceDetailsCard = ({
     toggleAutoRefresh, autoRefreshOn,
-    device, deviceLoading, location, onRefreshClick, onDeviceFieldChange, editMode, onEditInfo, onSaveInfo,
+    device, deviceLoading, dataType, onDataTypeChange, location, onRefreshClick, onDeviceFieldChange, editMode, onEditInfo, onSaveInfo,
     onCommandClick, commandsData, commandsLoading,
     deviceData, deviceDataLoading, getDataForLineChart, onDataLineChartButtonClick, dataPeriod, getDataForBarChart }) => {
     return (
@@ -34,7 +34,7 @@ const DeviceDetailsCard = ({
                                     <span>Auto Refresh &nbsp;</span>
                                     <Switch
                                         height={20}
-                                        width ={40}
+                                        width={40}
                                         onChange={toggleAutoRefresh}
                                         checked={autoRefreshOn}
                                         className="react-switch"
@@ -57,6 +57,8 @@ const DeviceDetailsCard = ({
                                                 sm="12"
                                                 device={device}
                                                 deviceLoading={deviceLoading}
+                                                dataType={dataType}
+                                                onDataTypeChange={onDataTypeChange}
                                                 onRefreshClick={onRefreshClick}
                                                 editMode={editMode}
                                                 onEditInfo={onEditInfo}
