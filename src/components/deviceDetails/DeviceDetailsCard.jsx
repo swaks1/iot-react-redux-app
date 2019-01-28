@@ -2,7 +2,7 @@ import React from 'react';
 //import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
+import { Card, CardHeader, CardBody, Row, Col, Input } from "reactstrap";
 
 import LoaderRow from '../_common/LoaderRow';
 import Switch from "react-switch";
@@ -15,9 +15,9 @@ import DeviceDataBarChart from './DeviceDataBarChart'
 import DeviceLocationMap from './DeviceLocationMap'
 
 const DeviceDetailsCard = ({
-    toggleAutoRefresh, autoRefreshOn,
+    toggleAutoRefresh, autoRefreshOn, autoRefreshInterval, onAutoRefreshIntervalChange,
     device, deviceLoading, dataType, onDataTypeChange, location, onRefreshClick, onDeviceFieldChange, editMode, onEditInfo, onSaveInfo,
-    onCommandClick, commandsData, commandsLoading,
+    onCommandClick, commandsData, commandsLoading, onDeviceIntervalBlur,
     deviceData, deviceDataLoading, getDataForLineChart, onDataLineChartButtonClick, dataPeriod, getDataForBarChart }) => {
     return (
         <>
@@ -29,19 +29,44 @@ const DeviceDetailsCard = ({
                             <p className="category">
                                 <Link to={`/app/devices`}> Back to Devices</Link>
                             </p>
-                            <div>
-                                <label htmlFor="normal-switch">
-                                    <span>Auto Refresh &nbsp;</span>
-                                    <Switch
-                                        height={20}
-                                        width={40}
-                                        onChange={toggleAutoRefresh}
-                                        checked={autoRefreshOn}
-                                        className="react-switch"
-                                        id="normal-switch"
-                                    />
-                                </label>
-                            </div>
+                            <Row style={{ paddingTop: "5px" }}>
+                                <Col md={2} className="text-right">
+                                    <div>
+                                        <label htmlFor="normal-switch">
+                                            <span>Auto Refresh &nbsp;</span>
+                                            <Switch
+                                                height={20}
+                                                width={40}
+                                                onChange={toggleAutoRefresh}
+                                                checked={autoRefreshOn}
+                                                className="react-switch"
+                                                id="normal-switch"
+                                            />
+                                        </label>
+                                    </div>
+                                </Col>
+                                <Col md={1} className="text-left">
+                                    {
+                                        autoRefreshOn
+                                            ?
+                                            <>
+                                                <span style={{ fontSize: "0.8em" }}>Sec: &nbsp;</span>
+                                                <Input
+                                                    type="number"
+                                                    name="autoRefreshInterval"
+                                                    id="autoRefreshInterval"
+                                                    className="sm"
+                                                    placeholder="Auto Refresh Interval"
+                                                    style={{ padding: "3px 3px", height: "20px", width: "50px", display: "inline" }}
+                                                    onChange={onAutoRefreshIntervalChange}
+                                                    value={autoRefreshInterval} />
+                                            </>
+                                            :
+                                            null
+                                    }
+                                </Col>
+                            </Row>
+
                         </CardHeader>
                         <CardBody>
                             {
@@ -72,6 +97,7 @@ const DeviceDetailsCard = ({
                                                 device={device}
                                                 onCommandClick={onCommandClick}
                                                 onDeviceFieldChange={onDeviceFieldChange}
+                                                onDeviceIntervalBlur={onDeviceIntervalBlur}
                                             />
                                             <DeviceCommandsHistory
                                                 lg="4"

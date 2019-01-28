@@ -2,22 +2,22 @@ import React from 'react';
 //import PropTypes from 'prop-types';
 import Switch from "react-switch";
 
-import { Button, Card, CardBody, Row, Col, Collapse } from "reactstrap";
+import { Button, Card, CardBody, Row, Col, Collapse, Input } from "reactstrap";
 
 import LoaderRow from '../_common/LoaderRow';
 import DeviceInformationsSimple from './DeviceInformationsSimple'
 import DeviceDataTableSimple from './/DeviceDataTableSimple'
 import DeviceDataLineChart from '../deviceDetails/DeviceDataLineChart'
 import DeviceDataBarChart from '../deviceDetails/DeviceDataBarChart'
-import DeviceCommands from '../deviceDetails/DeviceCommands'
+import DeviceCommandsSimple from './DeviceCommandsSimple'
 import DeviceLocationMap from '../deviceDetails/DeviceLocationMap'
 import DeviceCommandsHistorySimple from './DeviceCommandsHistorySimple'
 
 const DeviceDetailsSimpleCard = ({
     collapseElementOpened, onCollapseClick,
-    autoRefreshOn, toggleAutoRefresh,
+    autoRefreshOn, toggleAutoRefresh, autoRefreshInterval, onAutoRefreshIntervalChange,
     device, deviceLoading, dataType, onDataTypeChange,
-    commandsData, commandsLoading, onCommandClick,
+    commandsData, commandsLoading, onCommandClick, deviceWrapper, onDeviceIntervalChange, onDeviceIntervalBlur,
     deviceData, deviceDataLoading, getDataForLineChart, onDataLineChartButtonClick, getDataForBarChart, dataPeriod }) => {
     return (
         <>
@@ -31,8 +31,8 @@ const DeviceDetailsSimpleCard = ({
                                     <LoaderRow />
                                     :
                                     <>
-                                        <Row>
-                                            <Col>
+                                        <Row style={{ paddingTop: "5px" }}>
+                                            <Col md={1} className="text-right">
                                                 <div>
                                                     <label htmlFor="normal-switch">
                                                         <span style={{ fontSize: "0.8em" }}>Auto Refresh &nbsp;</span>
@@ -46,6 +46,26 @@ const DeviceDetailsSimpleCard = ({
                                                         />
                                                     </label>
                                                 </div>
+                                            </Col>
+                                            <Col md={1} className="text-left">
+                                                {
+                                                    autoRefreshOn
+                                                        ?
+                                                        <>
+                                                            <span style={{ fontSize: "0.8em" }}>Sec: &nbsp;</span>
+                                                            <Input
+                                                                type="number"
+                                                                name="autoRefreshInterval"
+                                                                id="autoRefreshInterval"
+                                                                className="sm"
+                                                                placeholder="Auto Refresh Interval"
+                                                                style={{ padding: "3px 3px", height: "20px", width: "50px", display: "inline" }}
+                                                                onChange={onAutoRefreshIntervalChange}
+                                                                value={autoRefreshInterval} />
+                                                        </>
+                                                        :
+                                                        null
+                                                }
                                             </Col>
                                         </Row>
                                         <Row>
@@ -79,13 +99,14 @@ const DeviceDetailsSimpleCard = ({
                                                 hideInfoHeader={true}
                                             />
 
-                                            <DeviceCommands
+                                            <DeviceCommandsSimple
                                                 lg="3"
                                                 md="12"
                                                 sm="12"
-                                                device={device}
+                                                deviceWrapper={deviceWrapper}
                                                 onCommandClick={onCommandClick}
-                                                onDeviceFieldChange={() => { }}
+                                                onDeviceIntervalChange={onDeviceIntervalChange}
+                                                onDeviceIntervalBlur={onDeviceIntervalBlur}
                                             />
                                         </Row>
                                         <Row>

@@ -8,9 +8,7 @@ class IotApi {
         return new Promise((resolve, reject) => {
             axios.get('http://localhost:8000/api/devices')
                 .then(response => {
-                    setTimeout(() => {
-                        resolve(response);
-                    }, 130);
+                    resolve(response);
 
                 })
                 .catch(error => {
@@ -25,9 +23,7 @@ class IotApi {
         return new Promise((resolve, reject) => {
             axios.get(`http://localhost:8000/api/devices/${deviceId}`)
                 .then(response => {
-                    setTimeout(() => {
-                        resolve(response);
-                    }, 130);
+                    resolve(response);
 
                 })
                 .catch(error => {
@@ -66,9 +62,7 @@ class IotApi {
         return new Promise((resolve, reject) => {
             axios.get(`http://localhost:8000/api/command?deviceId=${deviceId}`)
                 .then(response => {
-                    setTimeout(() => {
-                        resolve(response);
-                    }, 130);
+                    resolve(response);
 
                 })
                 .catch(error => {
@@ -87,9 +81,7 @@ class IotApi {
                 }
             })
                 .then(response => {
-                    setTimeout(() => {
-                        resolve(response);
-                    }, 130);
+                    resolve(response);
                 })
                 .catch(error => {
                     reject(error);
@@ -107,9 +99,7 @@ class IotApi {
                 }
             })
                 .then(response => {
-                    setTimeout(() => {
-                        resolve(response);
-                    }, 130);
+                    resolve(response);
                 })
                 .catch(error => {
                     reject(error);
@@ -128,9 +118,7 @@ class IotApi {
                 }
             })
                 .then(response => {
-                    setTimeout(() => {
-                        resolve(response);
-                    }, 130);
+                    resolve(response);
                 })
                 .catch(error => {
                     reject(error);
@@ -148,9 +136,7 @@ class IotApi {
                 }
             })
                 .then(response => {
-                    setTimeout(() => {
-                        resolve(response);
-                    }, 130);
+                    resolve(response);
                 })
                 .catch(error => {
                     reject(error);
@@ -164,9 +150,7 @@ class IotApi {
         return new Promise((resolve, reject) => {
             axios.get(`http://localhost:8000/api/data?deviceId=${deviceId}&period=${dataPeriod}&pageSize=${pageSize}&dataType=${deviceType}`)
                 .then(response => {
-                    setTimeout(() => {
-                        resolve(response);
-                    }, 130);
+                    resolve(response);
                 })
                 .catch(error => {
                     reject(error);
@@ -178,9 +162,7 @@ class IotApi {
         return new Promise((resolve, reject) => {
             axios.get(`http://localhost:8000/api/data?deviceId=${deviceId}&period=monthly&pageSize=12&dataType=${deviceType}`)
                 .then(response => {
-                    setTimeout(() => {
-                        resolve(response);
-                    }, 130);
+                    resolve(response);
                 })
                 .catch(error => {
                     reject(error);

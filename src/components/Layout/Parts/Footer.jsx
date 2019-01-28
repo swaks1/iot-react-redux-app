@@ -9,7 +9,7 @@ class Footer extends React.Component {
     return (
       <footer className="footer">
         <Container fluid>
-          <Nav>
+          {/* <Nav>
             <NavItem>
               <NavLink href="javascript:void(0)">Creative Tim</NavLink>
             </NavItem>
@@ -19,18 +19,9 @@ class Footer extends React.Component {
             <NavItem>
               <NavLink href="javascript:void(0)">Blog</NavLink>
             </NavItem>
-          </Nav>
+          </Nav> */}
           <div className="copyright">
-            © {new Date().getFullYear()} made with{" "}
-            <i className="tim-icons icon-heart-2" /> by{" "}
-            <a
-              href="javascript:void(0)"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              Creative Tim
-            </a>{" "}
-            for a better web.
+            © {new Date().getFullYear()} Application for managing IoT Devices <i className="fa fa-tachometer-alt"></i>
           </div>
         </Container>
       </footer>

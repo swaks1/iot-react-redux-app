@@ -28,7 +28,8 @@ class DeviceDetails extends React.Component {
             editMode: false,
             dataPeriod: "mostRecent",
             dataType: dataType,
-            autoRefreshOn: false
+            autoRefreshOn: false,
+            autoRefreshInterval: 10, //seconds
         }
     }
 
@@ -42,14 +43,16 @@ class DeviceDetails extends React.Component {
         const deviceId = this.props.match.params.id; // from the path '/devices/:id'
 
         let { deviceActions, commandActions, deviceDataActions } = this.props;
-        const { dataPeriod, dataType } = this.state;
+        const { dataPeriod, dataType, autoRefreshInterval } = this.state;
 
         deviceActions.loadDevice(deviceId);
         commandActions.loadDeviceCommands(deviceId);
-        deviceDataActions.loadDeviceData(deviceId, dataPeriod, 10, dataType);
+        if (dataType != "") {
+            deviceDataActions.loadDeviceData(deviceId, dataPeriod, 10, dataType);
+        }
 
-        // set Interval for refrshing the views every 30 sec
-        this.interval = setInterval(this.autoRefresh, 30000);
+        // set Interval for refrshing the views every autoRefreshInterval sec
+        this.interval = setInterval(this.autoRefresh, autoRefreshInterval * 1000);
     }
 
 
@@ -74,10 +77,26 @@ class DeviceDetails extends React.Component {
             autoRefreshOn: !prevState.autoRefreshOn
         }), () => {
             if (this.state.autoRefreshOn === true)
-                toastr.warning("Auto Refresh  turned ON, interval is 30 sec");
+                toastr.warning(`Auto Refresh  turned ON, interval is ${this.state.autoRefreshInterval} sec`);
             else
                 toastr.warning("Auto Refresh turned OFF");
         });
+    }
+
+    handleRefreshIntervalChange = (event) => {
+        let value = event.target.value; //seconds
+        if (value < 1) {
+            value = 1;
+            toastr.warning("Device interval must be greater than 1 sec... Taken default 1 sec");
+        }
+
+        this.setState({
+            autoRefreshInterval: value
+        },
+            () => {
+                clearInterval(this.interval);
+                this.interval = setInterval(this.autoRefresh, value * 1000);
+            })
     }
 
     autoRefresh = () => {
@@ -91,11 +110,20 @@ class DeviceDetails extends React.Component {
         const { dataPeriod, dataType } = this.state;
 
         if (this.state.autoRefreshOn === true && this.state.editMode === false) {
-            let deviceInfoPromise = deviceActions.loadDevice(deviceId);
-            let commandsHisotryPromise = commandActions.loadDeviceCommands(deviceId);
-            let deviceDataPromise = deviceDataActions.loadDeviceData(deviceId, dataPeriod, 10, dataType);
+            let promises = [];
 
-            Promise.all([deviceInfoPromise, commandsHisotryPromise, deviceDataPromise])
+            let deviceInfoPromise = deviceActions.loadDevice(deviceId);
+            promises.push(deviceInfoPromise);
+
+            let commandsHisotryPromise = commandActions.loadDeviceCommands(deviceId);
+            promises.push(commandsHisotryPromise);
+
+            if (dataType != "") {
+                let deviceDataPromise = deviceDataActions.loadDeviceData(deviceId, dataPeriod, 10, dataType);
+                promises.push(deviceDataPromise);
+            }
+
+            Promise.all(promises)
                 .then((values) => {
                     toastr.success("Reloaded full UI!");
                 })
@@ -149,6 +177,18 @@ class DeviceDetails extends React.Component {
                     editMode: false
                 })
             })
+    }
+
+    handleDeviceIntervalBlur = (event) => {
+        let value = event.target.value;
+        let currentDevice = this.deepCopyDevice(this.state.device)
+        if (value < 1000) {
+            toastr.warning("Device Interval must be greater than 1000ms");
+            currentDevice.sendDataDelay = 1000;
+        }
+        this.setState({
+            device: currentDevice
+        })
     }
 
     handleCommandClick = (event) => {
@@ -228,13 +268,16 @@ class DeviceDetails extends React.Component {
                     })
                 break;
             case "DeviceData":
-                deviceDataActions.loadDeviceData(deviceId, dataPeriod, 10, dataType)
-                    .then(() => {
-                        toastr.success("Reloaded Device Data!");
-                    })
-                    .catch((error) => {
-                        toastr.error(error);
-                    })
+                if (dataType != "") {
+                    deviceDataActions.loadDeviceData(deviceId, dataPeriod, 10, dataType)
+                        .then(() => {
+                            toastr.success("Reloaded Device Data!");
+                        })
+                        .catch((error) => {
+                            toastr.error(error);
+                        })
+
+                }
                 break;
 
             default:
@@ -326,7 +369,9 @@ class DeviceDetails extends React.Component {
             let deviceId = this.state.device._id;
             const { deviceDataActions } = this.props;
             const { dataPeriod, dataType } = this.state;
-            deviceDataActions.loadDeviceData(deviceId, dataPeriod, 10, dataType);
+            if (dataType != "") {
+                deviceDataActions.loadDeviceData(deviceId, dataPeriod, 10, dataType);
+            }
         });
     }
 
@@ -338,12 +383,14 @@ class DeviceDetails extends React.Component {
             const deviceId = this.props.match.params.id
             const { deviceDataActions } = this.props;
             const { dataPeriod, dataType } = this.state;
-            deviceDataActions.loadDeviceData(deviceId, dataPeriod, 10, dataType);
+            if (dataType != "") {
+                deviceDataActions.loadDeviceData(deviceId, dataPeriod, 10, dataType);
+            }
         });
     }
 
     render() {
-        const { device, editMode, dataPeriod, dataType, autoRefreshOn } = this.state;
+        const { device, editMode, dataPeriod, dataType, autoRefreshOn, autoRefreshInterval } = this.state;
         const { deviceLoading, commandsData, commandsLoading, deviceData, deviceDataLoading } = this.props;
 
         return (
@@ -356,6 +403,8 @@ class DeviceDetails extends React.Component {
                 onDataTypeChange={this.handleDataTypeChange}
                 location={this.props.location}
                 onRefreshClick={this.handleRefreshClick}
+                autoRefreshInterval={autoRefreshInterval}
+                onAutoRefreshIntervalChange={this.handleRefreshIntervalChange}
                 onDeviceFieldChange={this.updateDeviceFields}
                 editMode={editMode}
                 onEditInfo={this.setEditMode}
@@ -363,6 +412,7 @@ class DeviceDetails extends React.Component {
                 onCommandClick={this.handleCommandClick}
                 commandsData={commandsData}
                 commandsLoading={commandsLoading}
+                onDeviceIntervalBlur={this.handleDeviceIntervalBlur}
                 deviceData={deviceData}
                 deviceDataLoading={deviceDataLoading}
                 getDataForLineChart={this.getDataForLineChart}

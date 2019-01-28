@@ -144,7 +144,7 @@ class NavbarWrapper extends React.Component {
                     <span className="d-lg-none d-md-block">Search</span>
                   </Button>
                 </InputGroup>
-                <UncontrolledDropdown nav>
+                {/* <UncontrolledDropdown nav>
                   <DropdownToggle
                     caret
                     color="default"
@@ -209,7 +209,7 @@ class NavbarWrapper extends React.Component {
                       <DropdownItem className="nav-item">Log out</DropdownItem>
                     </NavLink>
                   </DropdownMenu>
-                </UncontrolledDropdown>
+                </UncontrolledDropdown> */}
                 <li className="separator d-lg-none" />
               </Nav>
             </Collapse>

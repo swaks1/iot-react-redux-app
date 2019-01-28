@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Card, Row, Col, Button, Input } from 'reactstrap';
 
-const DeviceCommands = ({ lg, md, sm, device, onDeviceFieldChange, onCommandClick, onDeviceIntervalBlur }) => {
+const DeviceCommandsSimple = ({ lg, md, sm, deviceWrapper, onDeviceIntervalChange, onDeviceIntervalBlur, onCommandClick }) => {
     return (
         <>
             <Col lg={lg} md={md} sm={sm}>
@@ -11,7 +11,7 @@ const DeviceCommands = ({ lg, md, sm, device, onDeviceFieldChange, onCommandClic
 
                     <Row className="mt-2">
                         {
-                            device.isActive
+                            deviceWrapper.isActive
                                 ?
                                 <Col className="text-center" md={{ size: 6, offset: 3 }}>
                                     <Button
@@ -54,12 +54,12 @@ const DeviceCommands = ({ lg, md, sm, device, onDeviceFieldChange, onCommandClic
                                 <Col sm="6" className="text-left">
                                     <Input
                                         type="number"
-                                        name="sendDataDelay"
-                                        id="sendDataDelay"
+                                        name="interval"
+                                        id="interval"
                                         placeholder="Interval"
-                                        onChange={onDeviceFieldChange}
+                                        onChange={onDeviceIntervalChange}
                                         onBlur={onDeviceIntervalBlur}
-                                        value={device.sendDataDelay} />
+                                        value={deviceWrapper.interval} />
                                 </Col>
                             </Row>
 
@@ -81,4 +81,4 @@ const DeviceCommands = ({ lg, md, sm, device, onDeviceFieldChange, onCommandClic
 };
 
 
-export default DeviceCommands;
+export default DeviceCommandsSimple;
