@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Card, Col } from 'reactstrap';
 import GoogleMapReact from 'google-map-react';
-import Loader from 'react-loader-spinner';
 import SimpleMarker from '../_common/SimpleMarker'
+import LoaderOverlay from '../_common/LoaderOverlay';
 
 const DeviceLocationMap = ({ lg, md, sm, device, deviceLoading }) => {
 
@@ -33,42 +33,29 @@ const DeviceLocationMap = ({ lg, md, sm, device, deviceLoading }) => {
         <>
             <Col lg={lg} md={md} sm={sm}>
                 <Card style={{ backgroundColor: "#f7f6f6", padding: "10px 15px" }}>
-                <h4 className="text-center font-italic font-weight-light">Device Location</h4>
-                    {
-                        deviceLoading === true
-                            ?
-                            <div className="text-center">
-                                <Loader
-                                    type="Puff"
-                                    color="#00BFFF"
-                                    height="100"
-                                    width="100"
+                    <h4 className="text-center font-italic font-weight-light">Device Location</h4>
+                    <LoaderOverlay isLoading={deviceLoading}>
+                        <div style={{ height: '40vh', width: '100%' }}>
+                            <GoogleMapReact
+                                bootstrapURLKeys={{ key: '' }}
+                                defaultCenter={locationCenter.center}
+                                defaultZoom={locationCenter.zoom}
+                                options={() => ({
+                                    panControl: false,
+                                    mapTypeControl: false,
+                                    scrollwheel: false,
+                                })}
+                            >
+                                <SimpleMarker
+                                    lat={device.location.lat}
+                                    lng={device.location.lng}
+                                    text={device.name}
                                 />
-                            </div>
-                            :
-                            <div style={{ height: '40vh', width: '100%' }}>
-                                <GoogleMapReact
-                                    bootstrapURLKeys={{ key: '' }}
-                                    defaultCenter={locationCenter.center}
-                                    defaultZoom={locationCenter.zoom}
-                                    options={() => ({
-                                        panControl: false,
-                                        mapTypeControl: false,
-                                        scrollwheel: false,
-                                    })}
-                                >
-                                    <SimpleMarker
-                                        lat={device.location.lat}
-                                        lng={device.location.lng}
-                                        text={device.name}
-                                    />
-                                </GoogleMapReact>
-                            </div>
-                    }
+                            </GoogleMapReact>
+                        </div>
+                    </LoaderOverlay>
                 </Card>
             </Col>
-
-
         </>
     );
 };

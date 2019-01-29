@@ -14,7 +14,7 @@ import {
 } from "reactstrap";
 
 import { LineChartHelper } from "../../charts/chartHelper";
-import Loader from 'react-loader-spinner';
+import LoaderOverlay from '../_common/LoaderOverlay';
 
 const DeviceDataLineChart = ({ lg, md, sm, deviceData, deviceDataLoading, onDataLineChartButtonClick, getDataForLineChart, dataPeriod, hideInfoHeader }) => {
     let response = getDataForLineChart();
@@ -28,7 +28,7 @@ const DeviceDataLineChart = ({ lg, md, sm, deviceData, deviceDataLoading, onData
     return (
         <>
             <Col lg={lg} md={md} sm={sm} >
-                <Card className="card-chart" style={{ backgroundColor: "#f7f6f6", padding: "10px 15px", marginBottom:"10px" }}>
+                <Card className="card-chart" style={{ backgroundColor: "#f7f6f6", padding: "10px 15px", marginBottom: "10px" }}>
                     <CardHeader>
                         <Row>
                             <Col className="text-left" sm="6">
@@ -126,26 +126,14 @@ const DeviceDataLineChart = ({ lg, md, sm, deviceData, deviceDataLoading, onData
                         </Row>
                     </CardHeader>
                     <CardBody>
-                        {
-                            deviceDataLoading === true
-                                ?
-                                <div className="text-center" >
-                                    <Loader
-                                        type="Puff"
-                                        color="#00BFFF"
-                                        height="100"
-                                        width="100"
-                                    />
-                                </div>
-                                :
-                                <div className="chart-area">
-                                    <Line
-                                        data={lineChart.getData} //pointer to function
-                                        options={lineChart.getOptions()} //actual result of function
-                                    />
-                                </div>
-                        }
-
+                        <LoaderOverlay isLoading={deviceDataLoading}>
+                            <div className="chart-area">
+                                <Line
+                                    data={lineChart.getData} //pointer to function
+                                    options={lineChart.getOptions()} //actual result of function
+                                />
+                            </div>
+                        </LoaderOverlay>
                     </CardBody>
                 </Card>
             </Col>

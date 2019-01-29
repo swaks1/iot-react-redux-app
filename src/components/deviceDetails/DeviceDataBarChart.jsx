@@ -11,7 +11,7 @@ import {
 
 import { BarChartHelper } from "../../charts/chartHelper";
 
-import Loader from 'react-loader-spinner';
+import LoaderOverlay from '../_common/LoaderOverlay';
 
 const DeviceDataBarChart = ({ lg, md, sm, deviceData, deviceDataLoading, getDataForBarChart }) => {
     let response = getDataForBarChart();
@@ -35,25 +35,14 @@ const DeviceDataBarChart = ({ lg, md, sm, deviceData, deviceDataLoading, getData
                         </CardTitle>
                     </CardHeader>
                     <CardBody>
-                        {
-                            deviceDataLoading === "r"//true
-                                ?
-                                <div className="text-center" >
-                                    <Loader
-                                        type="Puff"
-                                        color="#00BFFF"
-                                        height="100"
-                                        width="100"
-                                    />
-                                </div>
-                                :
-                                <div className="chart-area">
-                                    <Bar
-                                        data={barChart.getData}
-                                        options={barChart.getOptions()}
-                                    />
-                                </div>
-                        }
+                        <LoaderOverlay isLoading={deviceDataLoading}>
+                            <div className="chart-area">
+                                <Bar
+                                    data={barChart.getData}
+                                    options={barChart.getOptions()}
+                                />
+                            </div>
+                        </LoaderOverlay>
                     </CardBody>
                 </Card>
             </Col>
