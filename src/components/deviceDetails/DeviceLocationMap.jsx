@@ -25,7 +25,7 @@ const DeviceLocationMap = ({ lg, md, sm, device, deviceLoading }) => {
             lat: lat,
             lng: lng
         },
-        zoom: 11
+        zoom: 12
     };
 
 
@@ -39,6 +39,7 @@ const DeviceLocationMap = ({ lg, md, sm, device, deviceLoading }) => {
                             <GoogleMapReact
                                 bootstrapURLKeys={{ key: '' }}
                                 defaultCenter={locationCenter.center}
+                                center={locationCenter.center}
                                 defaultZoom={locationCenter.zoom}
                                 options={() => ({
                                     panControl: false,
