@@ -72,7 +72,7 @@ class DeviceDetailsSimple extends React.Component {
             autoRefreshOn: !prevState.autoRefreshOn
         }), () => {
             if (this.state.autoRefreshOn === true)
-                toastr.warning("Auto Refresh  turned ON, interval is 10 sec");
+                toastr.warning(`Auto Refresh  turned ON, interval is ${this.state.autoRefreshInterval} sec`);
             else
                 toastr.warning("Auto Refresh turned OFF");
         });
@@ -140,7 +140,6 @@ class DeviceDetailsSimple extends React.Component {
     }
 
     handleDeviceIntervalBlur = (event) => {
-        debugger
         let value = event.target.value;
         if (value < 1000) {
             toastr.warning("Device Interval must be greater than 1000ms");
@@ -389,7 +388,7 @@ const mapStateToProps = (state, ownProps) => {
 
     let deviceData = [];
     let deviceDataMonthly = [];
-    let deviceDataLoading = true;
+    let deviceDataLoading = false;
     let deviceDataObj = getDeviceDataObj(state.deviceData, deviceId);
 
     if (deviceDataObj != null) {

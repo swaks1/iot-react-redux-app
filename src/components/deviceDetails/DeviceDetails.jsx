@@ -468,7 +468,7 @@ const mapStateToProps = (state, ownProps) => {
 
     let deviceData = [];
     let deviceDataMonthly = [];
-    let deviceDataLoading = true;
+    let deviceDataLoading = false;
     let deviceDataObj = getDeviceDataObj(state.deviceData, deviceId);
 
     if (deviceDataObj != null) {
