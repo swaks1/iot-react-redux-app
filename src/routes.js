@@ -16,14 +16,14 @@ var routes = [
     name: "Devices",
     icon: "tim-icons icon-mobile",
     component: Devices,
-    exact : true
+    exact: true
   },
   {
     path: `/${prefix}/devices/:id`,
     name: "DeviceDetails",
     icon: "tim-icons icon-mobile",
     component: DevicesDetails,
-    hidden : true
+    hidden: true
   }
 ];
 export default routes;

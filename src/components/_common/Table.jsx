@@ -2,29 +2,26 @@ import React from "react";
 import { Table } from "reactstrap";
 
 class TableWrapper extends React.Component {
+  constructor(props) {
+    super(props);
 
-    constructor(props) {
-        super(props);
+    this.state = {};
+  }
 
-        this.state = {};
-    }
+  componentDidMount() {}
 
-    componentDidMount() {
-    }
+  componentWillUnmount() {}
 
-    componentWillUnmount() {
-    }
-
-    render() {
-        return (
-            <>
-                <Table className="tablesorter" responsive {...this.props}>
-                    {this.props.children}
-                </Table>
-            </>
-        );
-    }
+  render() {
+    return (
+      <>
+        <Table className="tablesorter" responsive {...this.props}>
+          {" "}
+          {this.props.children}
+        </Table>
+      </>
+    );
+  }
 }
 
 export default TableWrapper;
-

@@ -204,7 +204,7 @@ class DeviceDetails extends React.Component {
   handleReloadDataTypeClick = event => {
     let deviceId = this.state.device._id;
 
-    let { deviceActions} = this.props;
+    let { deviceActions } = this.props;
 
     deviceActions
       .reloadDeviceDataType(deviceId)
@@ -547,7 +547,7 @@ const mapStateToProps = (state, ownProps) => {
     deviceDataMonthly = deviceDataObj.dataMonthly;
     deviceDataLoading = deviceDataObj.loading;
   }
-  
+
   return {
     device,
     deviceLoading,

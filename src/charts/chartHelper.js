@@ -1,6 +1,4 @@
-
 export class LineChartHelper {
-
   constructor(data, labels, name) {
     this.data = data;
     this.labels = labels;
@@ -10,21 +8,18 @@ export class LineChartHelper {
   getMaxValue = () => {
     if (this.data.length > 0) {
       return Math.max(...this.data) + 1;
-    }
-    else {
+    } else {
       return 10;
     }
-  }
+  };
 
   getMinValue = () => {
     if (this.data.length > 0) {
       return Math.min(...this.data) - 1;
-    }
-    else {
+    } else {
       return 0;
     }
-
-  }
+  };
 
   getOptions = () => {
     return {
@@ -76,9 +71,9 @@ export class LineChartHelper {
         ]
       }
     };
-  }
+  };
 
-  getData = (canvas) => {
+  getData = canvas => {
     let ctx = canvas.getContext("2d");
 
     let gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
@@ -109,12 +104,10 @@ export class LineChartHelper {
         }
       ]
     };
-  }
+  };
 }
 
-
 export class BarChartHelper {
-
   constructor(data, labels, name) {
     this.data = data;
     this.labels = labels;
@@ -124,21 +117,18 @@ export class BarChartHelper {
   getMaxValue = () => {
     if (this.data.length > 0) {
       return Math.max(...this.data) + 1;
-    }
-    else {
+    } else {
       return 10;
     }
-  }
+  };
 
   getMinValue = () => {
     if (this.data.length > 0) {
-      return Math.min(...this.data) ;
-    }
-    else {
+      return Math.min(...this.data);
+    } else {
       return 0;
     }
-
-  }
+  };
 
   getOptions = () => {
     return {
@@ -188,9 +178,9 @@ export class BarChartHelper {
         ]
       }
     };
-  }
+  };
 
-  getData = (canvas) =>  {
+  getData = canvas => {
     let ctx = canvas.getContext("2d");
 
     let gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
@@ -215,6 +205,5 @@ export class BarChartHelper {
         }
       ]
     };
-  }
+  };
 }
-

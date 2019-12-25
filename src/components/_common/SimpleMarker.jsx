@@ -1,13 +1,9 @@
-import React from 'react';
+import React from "react";
 
-import { SimpleMarkerStyle } from '../../assets/js-css/SimpleMarkerStyle';
+import { SimpleMarkerStyle } from "../../assets/js-css/SimpleMarkerStyle";
 
- const SimpleMarker = ({ text }) => {
-    return (
-        <div style={SimpleMarkerStyle}>
-            {"X"}
-        </div>
-    );
-}
+const SimpleMarker = ({ text }) => {
+  return <div style={SimpleMarkerStyle}>{"X"}</div>;
+};
 
-export default SimpleMarker
+export default SimpleMarker;

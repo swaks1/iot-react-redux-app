@@ -21,7 +21,8 @@ class Footer extends React.Component {
             </NavItem>
           </Nav> */}
           <div className="copyright">
-            © {new Date().getFullYear()} Application for managing IoT Devices <i className="fa fa-tachometer-alt"></i>
+            © {new Date().getFullYear()} Application for managing IoT Devices{" "}
+            <i className="fa fa-tachometer-alt"></i>
           </div>
         </Container>
       </footer>

@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classnames"; // nodejs library that concatenates classes
 
-import Loader from 'react-loader-spinner'
+import Loader from "react-loader-spinner";
 import profileImage from "../../../assets/img/anime3.png";
 // reactstrap components
 import {
@@ -22,7 +22,6 @@ import {
 } from "reactstrap";
 
 class NavbarWrapper extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -64,14 +63,14 @@ class NavbarWrapper extends React.Component {
         color: "bg-white"
       });
     }
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       collapseOpen: !prevState.collapseOpen
     }));
   };
 
   // this function is to open the Search modal
   toggleModalSearch = () => {
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       modalSearch: !prevState.modalSearch
     }));
   };
@@ -100,20 +99,18 @@ class NavbarWrapper extends React.Component {
                   <span className="navbar-toggler-bar bar3" />
                 </button>
               </div>
-              {
-                this.props.loading
-                  ?
-                  <Loader
-                    type="ThreeDots"
-                    color="#007bff"
-                    height="50"
-                    width="50"
-                  />
-                  :
-                  <NavbarBrand href="#pablo" onClick={e => e.preventDefault()}>
-                    {this.props.brandText}
-                  </NavbarBrand>
-              }
+              {this.props.loading ? (
+                <Loader
+                  type="ThreeDots"
+                  color="#007bff"
+                  height="50"
+                  width="50"
+                />
+              ) : (
+                <NavbarBrand href="#pablo" onClick={e => e.preventDefault()}>
+                  {this.props.brandText}
+                </NavbarBrand>
+              )}
             </div>
 
             <button

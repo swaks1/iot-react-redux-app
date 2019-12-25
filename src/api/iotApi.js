@@ -70,7 +70,7 @@ class IotApi {
   static reloadDeviceDataType(deviceId) {
     return new Promise((resolve, reject) => {
       axios
-        .post(`http://localhost:8000/api/devices/reloadDataTypes`, {deviceId})
+        .post(`http://localhost:8000/api/devices/reloadDataTypes`, { deviceId })
         .then(response => {
           setTimeout(() => {
             resolve(response);

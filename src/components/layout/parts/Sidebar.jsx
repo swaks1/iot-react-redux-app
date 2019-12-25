@@ -3,7 +3,7 @@ import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import { PropTypes } from "prop-types";
 
-import PerfectScrollbar from "perfect-scrollbar";// javascript plugin used to create scrollbars on windows
+import PerfectScrollbar from "perfect-scrollbar"; // javascript plugin used to create scrollbars on windows
 
 // reactstrap components
 import { Nav } from "reactstrap";
@@ -11,7 +11,6 @@ import { Nav } from "reactstrap";
 var ps;
 
 class Sidebar extends React.Component {
-
   constructor(props) {
     super(props);
     this.sideBar = React.createRef();
@@ -119,10 +118,7 @@ class Sidebar extends React.Component {
             {routes.map((prop, key) => {
               if (prop.hidden) return null;
               return (
-                <li
-                  className={this.activeRoute(prop.path)}
-                  key={key}
-                >
+                <li className={this.activeRoute(prop.path)} key={key}>
                   <NavLink
                     to={prop.path}
                     className="nav-link"

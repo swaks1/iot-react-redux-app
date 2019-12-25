@@ -1,6 +1,6 @@
 import React from "react";
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux';
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import PerfectScrollbar from "perfect-scrollbar"; //javascript plugin used to create scrollbars on windows
 
@@ -13,9 +13,7 @@ import FixedPlugin from "./parts/FixedPlugin.jsx";
 import routes from "../../routes.js";
 import logo from "../../assets/img/react-logo.png";
 
-
 class DefaultLayout extends React.Component {
-
   constructor(props) {
     super(props);
 
@@ -57,7 +55,7 @@ class DefaultLayout extends React.Component {
   // this function opens and closes the sidebar on small devices
   toggleSidebar = () => {
     document.documentElement.classList.toggle("nav-open");
-    this.setState((prevState) => ({ sidebarOpened: !prevState.sidebarOpened }));
+    this.setState(prevState => ({ sidebarOpened: !prevState.sidebarOpened }));
   };
 
   // return array of routes which are possible to render
@@ -68,7 +66,7 @@ class DefaultLayout extends React.Component {
           path={prop.path}
           component={prop.component}
           key={key}
-          exact = {prop.exact === true}
+          exact={prop.exact === true}
         />
       );
     });
@@ -92,7 +90,6 @@ class DefaultLayout extends React.Component {
     return (
       <>
         <div className="wrapper">
-
           <Sidebar
             {...this.props}
             routes={routes}
@@ -120,9 +117,8 @@ class DefaultLayout extends React.Component {
             <div className="content">
               <Switch>{this.getRoutes(routes)}</Switch>
             </div>
-            
-            <Footer fluid />
 
+            <Footer fluid />
           </div>
         </div>
 
@@ -135,18 +131,16 @@ class DefaultLayout extends React.Component {
   }
 }
 
-
 DefaultLayout.propTypes = {
   loading: PropTypes.bool.isRequired
 };
-
 
 //props passed to the component will be automatically attached to this.props... but ownProps can be used in the function inside
 let mapStateToProps = (state, ownProps) => {
   return {
     loading: state.ajaxCallsInProgress > 0 //gets redux state manipulated from ajaxStatusReducer
-  }
-}
+  };
+};
 let DefaultLayoutContainer = connect(mapStateToProps)(DefaultLayout); //App component is connected with redux
 
 export default DefaultLayoutContainer;
