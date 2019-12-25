@@ -57,7 +57,7 @@ class DeviceDetails extends React.Component {
     this.interval = setInterval(this.autoRefresh, autoRefreshInterval * 1000);
   }
 
-  // this has to be refactored... the device sholdn't be kept in state.. use it from props and maybe 
+  // this has to be refactored... the device sholdn't be kept in state.. use it from props and maybe
   // make new component that will use this device as state for update...
   UNSAFE_componentWillReceiveProps(nextProps) {
     //when the device recieves state from redux update its local state
@@ -198,6 +198,21 @@ class DeviceDetails extends React.Component {
         this.setState({
           editMode: false
         });
+      });
+  };
+
+  handleReloadDataTypeClick = event => {
+    let deviceId = this.state.device._id;
+
+    let { deviceActions} = this.props;
+
+    deviceActions
+      .reloadDeviceDataType(deviceId)
+      .then(() => {
+        toastr.success("Reloaded Device data types!");
+      })
+      .catch(error => {
+        toastr.error(error);
       });
   };
 
@@ -462,6 +477,7 @@ class DeviceDetails extends React.Component {
         onDataTypeChange={this.handleDataTypeChange}
         location={this.props.location}
         onRefreshClick={this.handleRefreshClick}
+        onReloadDataTypeClick={this.handleReloadDataTypeClick}
         autoRefreshInterval={autoRefreshInterval}
         onAutoRefreshIntervalChange={this.handleRefreshIntervalChange}
         onDeviceFieldChange={this.updateDeviceFields}
@@ -512,7 +528,6 @@ const mapStateToProps = (state, ownProps) => {
     device = deviceObj.data;
     deviceLoading = deviceObj.loading;
   }
-
   let commandsData = [];
   let commandsLoading = true;
   let commandsObj = getCommandObj(state.commands, deviceId);
@@ -532,7 +547,7 @@ const mapStateToProps = (state, ownProps) => {
     deviceDataMonthly = deviceDataObj.dataMonthly;
     deviceDataLoading = deviceDataObj.loading;
   }
-
+  
   return {
     device,
     deviceLoading,
