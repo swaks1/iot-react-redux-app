@@ -7,6 +7,7 @@ import { Card, CardHeader, CardBody, Row, Col, Input } from "reactstrap";
 import LoaderRow from "../_common/LoaderRow";
 import Switch from "react-switch";
 import DeviceInformations from "./DeviceInformations";
+import DeviceTTNInformation from "./DeviceTTNInformation";
 import DeviceCommands from "./DeviceCommands";
 import DeviceCommandsHistory from "./DeviceCommandsHistory";
 import DeviceDataTable from "./DeviceDataTable";
@@ -112,6 +113,9 @@ const DeviceDetailsCard = ({
                       onDeviceFieldChange={onDeviceFieldChange}
                       onSaveInfo={onSaveInfo}
                     />
+
+                    <DeviceTTNInformation lg="4" md="6" sm="12" />
+
                     <Col lg="4" md="6" sm="12">
                       <Row>
                         <DeviceCommands

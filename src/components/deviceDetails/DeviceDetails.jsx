@@ -531,7 +531,6 @@ const mapStateToProps = (state, ownProps) => {
   let commandsData = [];
   let commandsLoading = true;
   let commandsObj = getCommandObj(state.commands, deviceId);
-
   if (commandsObj != null) {
     commandsData = commandsObj.data;
     commandsLoading = commandsObj.loading;
@@ -541,7 +540,6 @@ const mapStateToProps = (state, ownProps) => {
   let deviceDataMonthly = [];
   let deviceDataLoading = false;
   let deviceDataObj = getDeviceDataObj(state.deviceData, deviceId);
-
   if (deviceDataObj != null) {
     deviceData = deviceDataObj.data;
     deviceDataMonthly = deviceDataObj.dataMonthly;

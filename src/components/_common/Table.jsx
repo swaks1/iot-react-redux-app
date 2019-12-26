@@ -16,7 +16,6 @@ class TableWrapper extends React.Component {
     return (
       <>
         <Table className="tablesorter" responsive {...this.props}>
-          {" "}
           {this.props.children}
         </Table>
       </>
