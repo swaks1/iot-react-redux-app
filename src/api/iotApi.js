@@ -82,6 +82,24 @@ class IotApi {
     });
   }
 
+  static saveExistingTTNDevice(deviceId, existingTTNDevice) {
+    return new Promise((resolve, reject) => {
+      axios
+        .post(`http://localhost:8000/api/devices/modifyTTNInfo`, {
+          _id: deviceId,
+          ttnInfo: existingTTNDevice
+        })
+        .then(response => {
+          setTimeout(() => {
+            resolve(response);
+          }, 400);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+
   // ======= COMMANDS ==========
 
   static loadCommands(deviceId) {

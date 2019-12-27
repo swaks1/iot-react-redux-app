@@ -66,6 +66,36 @@ export function reloadDeviceDataTypeSucess(device) {
   };
 }
 
+//TTN INFO
+export function beginSaveExistingTTNDevice(deviceId) {
+  return {
+    type: types.BEGIN_SAVE_EXISTING_TTN_DEVICE,
+    data: {
+      deviceId
+    }
+  };
+}
+
+export function endSaveExistingTTNDevice(deviceId) {
+  return {
+    type: types.END_SAVE_EXISTING_TTN_DEVICE,
+    data: {
+      deviceId: deviceId
+    }
+  };
+}
+
+export function saveExistingTTNDeviceSuccess(device) {
+  return {
+    type: types.SAVE_EXISTING_TTN_DEVICE_SUCCESS,
+    data: {
+      deviceId: device._id,
+      data: device
+    }
+  };
+}
+
+
 //THUNKS thunk async functions that return action
 export function loadDevices() {
   return function(dispatch) {
@@ -162,6 +192,26 @@ export function reloadDeviceDataType(deviceId) {
       .catch(error => {
         dispatch(ajaxCallError());
         throw error;
+      });
+  };
+}
+
+export function saveExistingTTNDevice(deviceId, existingTTNDevice) {
+  return function(dispatch) {
+    dispatch(beginAjaxCall());
+    dispatch(beginSaveExistingTTNDevice(deviceId));
+
+    return iotApi
+      .saveExistingTTNDevice(deviceId, existingTTNDevice)
+      .then(response => {
+        dispatch(saveExistingTTNDeviceSuccess(response.data));
+      })
+      .catch(error => {
+        dispatch(ajaxCallError());
+        throw error;
+      })
+      .finally(() => {
+        dispatch(endSaveExistingTTNDevice(deviceId));
       });
   };
 }

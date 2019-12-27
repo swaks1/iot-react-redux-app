@@ -108,5 +108,57 @@ export default function deviceReducer(state = initialState.devices, action) {
     return [...devices];
   }
 
+  if (action.type == types.BEGIN_SAVE_EXISTING_TTN_DEVICE) {
+    const thisDevice = state.filter(
+      item => item.deviceId == action.data.deviceId
+    )[0];
+
+    let device = { ...thisDevice, loading: true };
+
+    //preserves order in array
+    const devices = state.map(item => {
+      if (item.deviceId == action.data.deviceId) {
+        return device;
+      }
+      return item;
+    });
+
+    return [...devices];
+  }
+
+  if (action.type == types.END_SAVE_EXISTING_TTN_DEVICE) {
+    const thisDevice = state.filter(
+      item => item.deviceId == action.data.deviceId
+    )[0];
+
+    let device = { ...thisDevice, loading: false };
+
+    //preserves order in array
+    const devices = state.map(item => {
+      if (item.deviceId == action.data.deviceId) {
+        return device;
+      }
+      return item;
+    });
+
+    return [...devices];
+  }
+
+  if (action.type == types.SAVE_EXISTING_TTN_DEVICE_SUCCESS) {
+    const thisDevice = state.filter(
+      item => item.deviceId == action.data.deviceId
+    )[0];
+    let device = { ...thisDevice, loading: false, data: action.data.data };
+    //preserves order in array
+    const devices = state.map(item => {
+      if (item.deviceId == action.data.deviceId) {
+        return device;
+      }
+      return item;
+    });
+
+    return [...devices];
+  }
+
   return state;
 }
