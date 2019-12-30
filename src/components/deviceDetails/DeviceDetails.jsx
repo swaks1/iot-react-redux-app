@@ -177,10 +177,9 @@ class DeviceDetails extends React.Component {
     return this.setState({ device: currentDevice });
   };
 
-  setEditMode = event => {
-    event.preventDefault();
+  setEditMode = value => {    
     this.setState({
-      editMode: true
+      editMode: value
     });
   };
 
@@ -482,7 +481,8 @@ class DeviceDetails extends React.Component {
         onAutoRefreshIntervalChange={this.handleRefreshIntervalChange}
         onDeviceFieldChange={this.updateDeviceFields}
         editMode={editMode}
-        onEditInfo={this.setEditMode}
+        onEditInfo={() => this.setEditMode(true)}
+        onCancelEditInfo={() => this.setEditMode(false)}
         onSaveInfo={this.saveDeviceInfo}
         onCommandClick={this.handleCommandClick}
         commandsData={commandsData}

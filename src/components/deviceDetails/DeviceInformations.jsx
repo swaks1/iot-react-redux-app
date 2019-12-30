@@ -25,6 +25,7 @@ const DeviceInformations = ({
   editMode,
   onDeviceFieldChange,
   onEditInfo,
+  onCancelEditInfo,
   onSaveInfo
 }) => {
   return (
@@ -204,11 +205,26 @@ const DeviceInformations = ({
                 </>
               )}
 
-              <FormGroup row>
-                <Col sm={{ size: 4, offset: 0 }}>
-                  {editMode === true ? (
-                    <Button onClick={onSaveInfo}>Save</Button>
-                  ) : (
+              <FormGroup row className="mt-5">
+                {editMode === true ? (
+                  <>
+                    <Col sm={{ size: 3, offset: 1 }} className="text-left">
+                      <Button color="success" size="sm" onClick={onSaveInfo}>
+                        Save
+                      </Button>
+                    </Col>
+                    <Col sm={{ size: 3, offset: 3 }} className="text-right">
+                      <Button
+                        color="danger"
+                        size="sm"
+                        onClick={onCancelEditInfo}
+                      >
+                        Cancel
+                      </Button>
+                    </Col>
+                  </>
+                ) : (
+                  <Col sm={{ size: 4, offset: 0 }}>
                     <Button
                       color="link"
                       style={{ paddingLeft: "0px" }}
@@ -216,8 +232,8 @@ const DeviceInformations = ({
                     >
                       Edit Info
                     </Button>
-                  )}
-                </Col>
+                  </Col>
+                )}
               </FormGroup>
             </Form>
           </LoaderOverlay>

@@ -80,7 +80,7 @@ class TTNInfomationMissing extends React.Component {
         break;
 
       case "connectNew_Yes":
-        //this.setState({ connectNew: false });
+        console.log(event.data)
         break;
 
       case "connectNew_No":
@@ -139,8 +139,9 @@ class TTNInfomationMissing extends React.Component {
         ) : this.state.connectNew ? (
           <>
             <TTNInfomationMissingConnectNew
-              confirmAction={() => {
+              confirmAction={device => {
                 this.handleTTNButtonClick({
+                  data: device,
                   target: { id: "connectNew_Yes" }
                 });
               }}

@@ -19,9 +19,31 @@ class TTNInfomationMissingConnectNew extends React.Component {
     super(props);
     this.state = {
       isModalOpened: true,
-      saving: false
+      saving: false,
+      device: {
+        appId: "",
+        description: ""
+      }
     };
   }
+
+  handleInputChange = event => {
+    const field = event.target.name;
+    let device = this.state.device;
+
+    switch (field) {
+      case "device.appId":
+        device.appId = event.target.value;
+        break;
+      case "device.description":
+        device.description = event.target.value;
+        break;
+      default:
+        device[field] = event.target.value;
+    }
+
+    return this.setState({ device });
+  };
 
   localDenyAction = () => {
     this.setState({ isModalOpened: false });
@@ -30,7 +52,7 @@ class TTNInfomationMissingConnectNew extends React.Component {
 
   localConfirmAction = () => {
     this.setState({ isModalOpened: false, saving: true });
-    this.props.confirmAction();
+    this.props.confirmAction(this.state.device);
   };
 
   render() {
@@ -40,11 +62,51 @@ class TTNInfomationMissingConnectNew extends React.Component {
           isOpen={this.state.isModalOpened}
           modalTitle={"Create new ?"}
           modalBody={
-            "Do you want to create new TTN device, and connect it to this device ?"
+            <>
+              <Row>
+                <Col md={12}>
+                  <div>
+                    Enter the following information to create new TTN device:{" "}
+                  </div>
+                </Col>
+              </Row>
+              <FormGroup row className="mt-3">
+                <Label for="device.appId" sm={5}>
+                  {" "}
+                  App Id:
+                </Label>
+                <Col sm={7}>
+                  <Input
+                    type="text"
+                    name="device.appId"
+                    id="device.appId"
+                    placeholder="TTN App Id"
+                    onChange={this.handleInputChange}
+                    value={this.state.device.devId}
+                  />
+                </Col>
+              </FormGroup>
+              <FormGroup row>
+                <Label for="device.description" sm={5}>
+                  {" "}
+                  Description
+                </Label>
+                <Col sm={7}>
+                  <Input
+                    type="text"
+                    name="device.description"
+                    id="device.description"
+                    placeholder="Description"
+                    onChange={this.handleInputChange}
+                    value={this.state.device.description}
+                  />
+                </Col>
+              </FormGroup>
+            </>
           }
-          confirmText={"Yes"}
+          confirmText={"OK"}
           confirmAction={this.localConfirmAction}
-          denyText={"No"}
+          denyText={"Cancel"}
           denyAction={this.localDenyAction}
           toggle={this.localDenyAction}
         />

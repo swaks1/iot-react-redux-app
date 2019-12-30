@@ -30,6 +30,7 @@ const DeviceDetailsCard = ({
   onDeviceFieldChange,
   editMode,
   onEditInfo,
+  onCancelEditInfo,
   onSaveInfo,
   onCommandClick,
   commandsData,
@@ -110,6 +111,7 @@ const DeviceDetailsCard = ({
                       onReloadDataTypeClick={onReloadDataTypeClick}
                       editMode={editMode}
                       onEditInfo={onEditInfo}
+                      onCancelEditInfo={onCancelEditInfo}
                       onDeviceFieldChange={onDeviceFieldChange}
                       onSaveInfo={onSaveInfo}
                     />
