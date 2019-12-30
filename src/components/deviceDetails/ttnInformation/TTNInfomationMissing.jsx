@@ -79,6 +79,14 @@ class TTNInfomationMissing extends React.Component {
         this.setState({ connectNew: true });
         break;
 
+      case "connectNew_Yes":
+        //this.setState({ connectNew: false });
+        break;
+
+      case "connectNew_No":
+        this.setState({ connectNew: false });
+        break;
+
       default:
         console.log("unknown btn command");
     }
@@ -130,7 +138,18 @@ class TTNInfomationMissing extends React.Component {
           />
         ) : this.state.connectNew ? (
           <>
-            <TTNInfomationMissingConnectNew />
+            <TTNInfomationMissingConnectNew
+              confirmAction={() => {
+                this.handleTTNButtonClick({
+                  target: { id: "connectNew_Yes" }
+                });
+              }}
+              denyAction={() => {
+                this.handleTTNButtonClick({
+                  target: { id: "connectNew_No" }
+                });
+              }}
+            />
           </>
         ) : (
           <></>
