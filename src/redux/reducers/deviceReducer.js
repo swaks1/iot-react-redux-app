@@ -1,5 +1,6 @@
 import * as types from "../actions/actionTypes";
 import initialState from "./initialState";
+import * as stateHelper from "../utils/stateHelper";
 
 export default function deviceReducer(state = initialState.devices, action) {
   if (action.type == types.BEGIN_LOAD_DEVICES) {
@@ -9,6 +10,7 @@ export default function deviceReducer(state = initialState.devices, action) {
   if (action.type == types.LOAD_DEVICES_SUCCESS) {
     let devices = action.data.map((item, index) => {
       let device = {
+        ...stateHelper.getDevice(), //add also the initial properties from the initial state
         loading: false,
         deviceId: item._id,
         data: item
@@ -24,68 +26,37 @@ export default function deviceReducer(state = initialState.devices, action) {
   }
 
   if (action.type == types.BEGIN_LOAD_DEVICE) {
-    const thisDevice = state.filter(
-      item => item.deviceId == action.data.deviceId
-    )[0];
-
+    const thisDevice = getDeviceFromState(state, action.data.deviceId);
     let device = {};
     if (thisDevice != null) {
-      device = Object.assign({}, thisDevice);
-      device.loading = true;
+      device = { ...thisDevice, loading: true }; //thisDevice contains the initial properties from the initial state
     } else {
       device = {
+        ...stateHelper.getDevice(),
         loading: true,
         deviceId: action.data.deviceId,
         data: {}
       };
     }
-
-    //preserves order in array
-    const devices = state.map(item => {
-      if (item.deviceId == action.data.deviceId) {
-        return device;
-      }
-      return item;
-    });
-
+    const devices = addDeviceToState(state, device);
     return [...devices];
   }
 
   if (action.type == types.LOAD_DEVICE_SUCCESS) {
     let device = {
+      ...stateHelper.getDevice(),
       loading: false,
       deviceId: action.data.deviceId,
       data: action.data.data
     };
-
-    //preserves order in array
-    const devices = state.map(item => {
-      if (item.deviceId == action.data.deviceId) {
-        return device;
-      }
-      return item;
-    });
-
+    const devices = addDeviceToState(state, device);
     return [...devices];
   }
 
   if (action.type == types.END_LOAD_DEVICE) {
-    const thisDevice = state.filter(
-      item => item.deviceId == action.data.deviceId
-    )[0];
-
-    let device = {};
-    device = Object.assign({}, thisDevice);
-    device.loading = false;
-
-    //preserves order in array
-    const devices = state.map(item => {
-      if (item.deviceId == action.data.deviceId) {
-        return device;
-      }
-      return item;
-    });
-
+    const thisDevice = getDeviceFromState(state, action.data.deviceId);
+    let device = { ...thisDevice, loading: false };
+    const devices = addDeviceToState(state, device);
     return [...devices];
   }
 
@@ -94,71 +65,71 @@ export default function deviceReducer(state = initialState.devices, action) {
     action.type == types.RELOAD_DEVICE_DATATYPE_SUCCESS
   ) {
     let device = {
+      ...stateHelper.getDevice(),
       loading: false,
       deviceId: action.data.deviceId,
       data: action.data.data
     };
     //preserves order in array
-    const devices = state.map(item => {
-      if (item.deviceId == action.data.deviceId) {
-        return device;
-      }
-      return item;
-    });
+    const devices = addDeviceToState(state, device);
     return [...devices];
   }
 
-  if (action.type == types.BEGIN_SAVE_EXISTING_TTN_DEVICE) {
-    const thisDevice = state.filter(
-      item => item.deviceId == action.data.deviceId
-    )[0];
-
+  if (
+    action.type == types.BEGIN_SAVE_EXISTING_TTN_DEVICE ||
+    action.type == types.BEGIN_REGISTER_NEW_TTN_DEVICE
+  ) {
+    const thisDevice = getDeviceFromState(state, action.data.deviceId);
     let device = { ...thisDevice, loading: true };
-
-    //preserves order in array
-    const devices = state.map(item => {
-      if (item.deviceId == action.data.deviceId) {
-        return device;
-      }
-      return item;
-    });
-
+    const devices = addDeviceToState(state, device);
     return [...devices];
   }
 
-  if (action.type == types.END_SAVE_EXISTING_TTN_DEVICE) {
-    const thisDevice = state.filter(
-      item => item.deviceId == action.data.deviceId
-    )[0];
-
+  if (
+    action.type == types.END_SAVE_EXISTING_TTN_DEVICE ||
+    action.type == types.END_REGISTER_NEW_TTN_DEVICE
+  ) {
+    const thisDevice = getDeviceFromState(state, action.data.deviceId);
     let device = { ...thisDevice, loading: false };
-
-    //preserves order in array
-    const devices = state.map(item => {
-      if (item.deviceId == action.data.deviceId) {
-        return device;
-      }
-      return item;
-    });
-
+    const devices = addDeviceToState(state, device);
     return [...devices];
   }
 
   if (action.type == types.SAVE_EXISTING_TTN_DEVICE_SUCCESS) {
-    const thisDevice = state.filter(
-      item => item.deviceId == action.data.deviceId
-    )[0];
+    const thisDevice = getDeviceFromState(state, action.data.deviceId);
     let device = { ...thisDevice, loading: false, data: action.data.data };
-    //preserves order in array
-    const devices = state.map(item => {
-      if (item.deviceId == action.data.deviceId) {
-        return device;
-      }
-      return item;
-    });
+    const devices = addDeviceToState(state, device);
+    return [...devices];
+  }
 
+  if (action.type == types.REGISTER_NEW_TTN_DEVICE_SUCCESS) {
+    const thisDevice = getDeviceFromState(state, action.data.deviceId);
+    let device = {
+      ...thisDevice,
+      loading: false,
+      data: action.data.device,
+      extendedTTNInfo: { ...action.data.ttnDevice, loading: false }
+    };
+    const devices = addDeviceToState(state, device);
     return [...devices];
   }
 
   return state;
 }
+
+const getDeviceFromState = (state, deviceId) => {
+  let device = state.filter(item => item.deviceId == deviceId)[0];
+  return device;
+};
+
+//preserves order in array
+const addDeviceToState = (state, device) => {
+  let devices = state.map(item => {
+    if (item.deviceId == device.deviceId) {
+      return device;
+    }
+    return item;
+  });
+
+  return devices;
+};

@@ -7,7 +7,7 @@ import deviceData from "./deviceDataReducer";
 const rootReducer = combineReducers({
   devices: deviceReducer, //all the state that is returned from courseReducer will be available in react with state.devices
   commands,
-  deviceData,
+  deviceData,  
   ajaxCallsInProgress
 });
 

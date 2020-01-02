@@ -236,6 +236,25 @@ class IotApi {
         });
     });
   }
+
+  static registerNewTTNDevice(deviceId, ttnDeviceToRegister) {
+    return new Promise((resolve, reject) => {
+      axios
+        .post(`http://localhost:8000/api/ttnDevices`, {
+          devId: ttnDeviceToRegister.appId,
+          description: ttnDeviceToRegister.description,
+          activation: ttnDeviceToRegister.activation
+        })
+        .then(response => {
+          setTimeout(() => {
+            resolve(response);
+          }, 400);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
 }
 
 export default IotApi;

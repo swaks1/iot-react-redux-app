@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import * as importedDeviceActions from "../../../redux/actions/deviceActions";
+import * as importedTTNActions from "../../../redux/actions/ttnActions";
 
 import toastr from "toastr";
 
@@ -29,8 +29,8 @@ class TTNInformationContainer extends React.Component {
   }
 
   handleDeleteTTNInfo = event => {
-    let { deviceActions } = { ...this.props };
-    deviceActions
+    let { ttnActions } = { ...this.props };
+    ttnActions
       .saveExistingTTNDevice(this.props.device._id, null)
       .then(() => {
         toastr.success("Successfully deleted existing TTN Info !");
@@ -98,7 +98,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    deviceActions: bindActionCreators(importedDeviceActions, dispatch)
+    ttnActions: bindActionCreators(importedTTNActions, dispatch)
   };
 };
 

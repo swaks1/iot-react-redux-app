@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import * as importedDeviceActions from "../../../redux/actions/deviceActions";
+import * as importedTTNActions from "../../../redux/actions/ttnActions";
 
 import toastr from "toastr";
 
@@ -38,7 +38,7 @@ class TTNInfomationMissing extends React.Component {
   handleTTNButtonClick = event => {
     let btnId = event.target.id;
     let existingTTNDevice = this.state.existingTTNDevice;
-    let { deviceActions } = { ...this.props };
+    let { ttnActions } = { ...this.props };
 
     switch (btnId) {
       case "connectExisting":
@@ -52,7 +52,7 @@ class TTNInfomationMissing extends React.Component {
         )
           toastr.error("Enter values for Dev Id and App Id !");
         else {
-          deviceActions
+          ttnActions
             .saveExistingTTNDevice(
               this.props.device._id,
               this.state.existingTTNDevice
@@ -79,8 +79,19 @@ class TTNInfomationMissing extends React.Component {
         this.setState({ connectNew: true });
         break;
 
+        
       case "connectNew_Yes":
-        console.log(event.data)
+        ttnActions
+          .registerNewTTNDevice(this.props.device._id, event.data)
+          .then(() => {
+            toastr.success(
+              "Successfully registered and connected TTN device !"
+            );
+          })
+          .catch(() => {
+            this.setState({ connectNew: false });
+            toastr.error("Failed to register and conneect TTN device");
+          });
         break;
 
       case "connectNew_No":
@@ -139,9 +150,9 @@ class TTNInfomationMissing extends React.Component {
         ) : this.state.connectNew ? (
           <>
             <TTNInfomationMissingConnectNew
-              confirmAction={device => {
+              confirmAction={ttnDeviceToRegister => {
                 this.handleTTNButtonClick({
-                  data: device,
+                  data: ttnDeviceToRegister,
                   target: { id: "connectNew_Yes" }
                 });
               }}
@@ -185,7 +196,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    deviceActions: bindActionCreators(importedDeviceActions, dispatch)
+    ttnActions: bindActionCreators(importedTTNActions, dispatch)
   };
 };
 
