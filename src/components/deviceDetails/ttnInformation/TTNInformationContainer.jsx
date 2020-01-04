@@ -28,18 +28,6 @@ class TTNInformationContainer extends React.Component {
     this.state = {};
   }
 
-  handleDeleteTTNInfo = event => {
-    let { ttnActions } = { ...this.props };
-    ttnActions
-      .saveExistingTTNDevice(this.props.device._id, null)
-      .then(() => {
-        toastr.success("Successfully deleted existing TTN Info !");
-      })
-      .catch(() => {
-        toastr.error("Failed to deleted existing TTN Info");
-      });
-  };
-
   render() {
     const { lg, md, sm, device, deviceLoading } = this.props;
 

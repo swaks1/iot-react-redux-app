@@ -38,7 +38,7 @@ class TTNInfomationMissing extends React.Component {
   handleTTNButtonClick = event => {
     let btnId = event.target.id;
     let existingTTNDevice = this.state.existingTTNDevice;
-    let { ttnActions } = { ...this.props };
+    let { ttnActions } = this.props ;
 
     switch (btnId) {
       case "connectExisting":

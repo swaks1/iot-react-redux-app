@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
 import * as importedTTNActions from "../../../redux/actions/ttnActions";
+import TTNInfomationExistExtendedInformation from "./TTNInfomationExistExtendedInformation";
 
 import toastr from "toastr";
 
@@ -29,7 +30,7 @@ class TTNInfomationExist extends React.Component {
   }
 
   handleDeleteTTNInfo = event => {
-    let { ttnActions } = { ...this.props };
+    let { ttnActions } = this.props;
     ttnActions
       .saveExistingTTNDevice(this.props.device._id, null)
       .then(() => {
@@ -41,9 +42,25 @@ class TTNInfomationExist extends React.Component {
   };
 
   handleCollapseClick = () => {
-    this.setState(prevState => ({
-      collapseElementOpened: !prevState.collapseElementOpened
-    }));
+    let { collapseElementOpened } = this.state;
+    let { extendedTTNInfo, ttnActions } = this.props;
+
+    if (collapseElementOpened) {
+      this.setState({ collapseElementOpened: false });
+    } else if (extendedTTNInfo == null || extendedTTNInfo.data == null) {
+      // ttnActions
+      //   .saveExistingTTNDevice(this.props.device._id, null)
+      //   .then(() => {
+      //     toastr.success("Successfully deleted existing TTN Info !");
+      //   })
+      //   .catch(() => {
+      //     toastr.error("Failed to deleted existing TTN Info");
+      //   });
+      this.setState({ collapseElementOpened: true });
+
+    } else {
+      this.setState({ collapseElementOpened: true });
+    }
   };
 
   render() {
@@ -88,7 +105,9 @@ class TTNInfomationExist extends React.Component {
         </Row>
 
         <Collapse isOpen={collapseElementOpened}>
-          <Row></Row>
+          <TTNInfomationExistExtendedInformation
+            extendedTTNInfo={extendedTTNInfo}
+          />
           <Row className="mt-5">
             <Col sm={{ size: 4, offset: 6 }} className="text-center">
               <Button
@@ -101,7 +120,7 @@ class TTNInfomationExist extends React.Component {
               </Button>
             </Col>
           </Row>
-          <Row>
+          <Row className="mt-3">
             {collapseElementOpened == true ? (
               <Col md={12} className="text-center">
                 <Button
@@ -138,7 +157,7 @@ const mapStateToProps = (state, ownProps) => {
   let deviceObj = getDeviceById(state.devices, deviceId);
   if (deviceObj != null) {
     device = deviceObj.data;
-    extendedTTNInfo = deviceObj.externalTTNInfo;
+    extendedTTNInfo = deviceObj.extendedTTNInfo;
   }
   return {
     device,
