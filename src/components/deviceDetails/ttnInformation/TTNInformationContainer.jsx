@@ -41,7 +41,7 @@ class TTNInformationContainer extends React.Component {
   };
 
   render() {
-    const { lg, md, sm, device, deviceLoading, extendedTTNInfo } = this.props;
+    const { lg, md, sm, device, deviceLoading } = this.props;
 
     return (
       <>
@@ -53,10 +53,7 @@ class TTNInformationContainer extends React.Component {
             <LoaderOverlay isLoading={deviceLoading}>
               <Form>
                 {device.ttnInfo && device.ttnInfo.dev_id ? (
-                  <TTNInfomationExist
-                    ttnInfo={device.ttnInfo}
-                    onDeleteTTNInfoButtonClick={this.handleDeleteTTNInfo}
-                  />
+                  <TTNInfomationExist />
                 ) : (
                   <TTNInfomationMissing />
                 )}
@@ -80,19 +77,14 @@ const mapStateToProps = (state, ownProps) => {
 
   let device = null;
   let deviceLoading = true;
-  let extendedTTNInfo = {
-    loading: true
-  };
   let deviceObj = getDeviceById(state.devices, deviceId);
   if (deviceObj != null) {
     device = deviceObj.data;
     deviceLoading = deviceObj.loading;
-    extendedTTNInfo = deviceObj.externalTTNInfo;
   }
   return {
     device,
-    deviceLoading,
-    extendedTTNInfo
+    deviceLoading
   };
 };
 

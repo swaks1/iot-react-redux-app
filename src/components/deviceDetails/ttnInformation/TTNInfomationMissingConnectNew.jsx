@@ -73,7 +73,7 @@ class TTNInfomationMissingConnectNew extends React.Component {
               <FormGroup row className="mt-3">
                 <Label for="device.appId" sm={5}>
                   {" "}
-                  App Id:
+                  App Id <br/>(only lower case letters):
                 </Label>
                 <Col sm={7}>
                   <Input
