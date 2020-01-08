@@ -18,17 +18,17 @@ const TTNInfomationExistExtendedInformation = ({ extendedTTNInfo }) => {
       extendedTTNInfo.data != null &&
       extendedTTNInfo.loading == false ? (
         <Row>
-          <Label for="appKey" sm={5}>
+          <Label for="appEui" sm={5}>
             Applicaiton EUI
           </Label>
           <Col sm={7}>
             <Input
               type="text"
-              name="appKey"
-              id="appKey"
+              name="appEui"
+              id="appEui"
               readOnly
               onChange={() => {}}
-              value={extendedTTNInfo.appEui}
+              value={extendedTTNInfo.data.appEui}
             />
           </Col>
           <Label for="appKey" sm={5}>
@@ -41,46 +41,46 @@ const TTNInfomationExistExtendedInformation = ({ extendedTTNInfo }) => {
               id="appKey"
               readOnly
               onChange={() => {}}
-              value={extendedTTNInfo.appKey}
+              value={extendedTTNInfo.data.appKey}
             />
           </Col>
-          <Label for="appKey" sm={5}>
+          <Label for="appSKey" sm={5}>
             Applicaiton Session Key
           </Label>
           <Col sm={7}>
             <Input
               type="text"
-              name="appKey"
-              id="appKey"
+              name="appSKey"
+              id="appSKey"
               readOnly
               onChange={() => {}}
-              value={extendedTTNInfo.appSKey}
+              value={extendedTTNInfo.data.appSKey}
             />
           </Col>
-          <Label for="appKey" sm={5}>
+          <Label for="nwkSKey" sm={5}>
             Network Session Key
           </Label>
           <Col sm={7}>
             <Input
               type="text"
-              name="appKey"
-              id="appKey"
+              name="nwkSKey"
+              id="nwkSKey"
               readOnly
               onChange={() => {}}
-              value={extendedTTNInfo.nwkSKey}
+              value={extendedTTNInfo.data.nwkSKey}
             />
           </Col>
-          <Label for="appKey" sm={5}>
+          <Label for="devAddr" sm={5}>
             Dev Addr
           </Label>
           <Col sm={7}>
             <Input
               type="text"
-              name="appKey"
-              id="appKey"
+              name="devAddr"
+              id="devAddr"
               readOnly
               onChange={() => {}}
-              value={extendedTTNInfo.devAddr}
+              value={extendedTTNInfo.data.devAddr}
             />
           </Col>
         </Row>

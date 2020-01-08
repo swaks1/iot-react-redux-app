@@ -5,6 +5,7 @@ export default {
       deviceId: null,
       data: {},
       extendedTTNInfo: {
+        data: {},
         loading: false
       },
       loading: false

@@ -82,24 +82,6 @@ class IotApi {
     });
   }
 
-  static saveExistingTTNDevice(deviceId, existingTTNDevice) {
-    return new Promise((resolve, reject) => {
-      axios
-        .post(`http://localhost:8000/api/devices/modifyTTNInfo`, {
-          _id: deviceId,
-          ttnInfo: existingTTNDevice
-        })
-        .then(response => {
-          setTimeout(() => {
-            resolve(response);
-          }, 400);
-        })
-        .catch(error => {
-          reject(error);
-        });
-    });
-  }
-
   // ======= COMMANDS ==========
 
   static loadCommands(deviceId) {
@@ -237,6 +219,26 @@ class IotApi {
     });
   }
 
+  // ======= TTN INFO ==========
+
+  static saveExistingTTNDevice(deviceId, existingTTNDevice) {
+    return new Promise((resolve, reject) => {
+      axios
+        .post(`http://localhost:8000/api/devices/modifyTTNInfo`, {
+          _id: deviceId,
+          ttnInfo: existingTTNDevice
+        })
+        .then(response => {
+          setTimeout(() => {
+            resolve(response);
+          }, 400);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+
   static registerNewTTNDevice(deviceId, ttnDeviceToRegister) {
     return new Promise((resolve, reject) => {
       axios
@@ -245,6 +247,21 @@ class IotApi {
           description: ttnDeviceToRegister.description,
           activation: ttnDeviceToRegister.activation
         })
+        .then(response => {
+          setTimeout(() => {
+            resolve(response);
+          }, 400);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+
+  static loadExtendedTTNInfo(deviceId) {
+    return new Promise((resolve, reject) => {
+      axios
+        .get(`http://localhost:8000/api/ttnDevices/${deviceId}`)
         .then(response => {
           setTimeout(() => {
             resolve(response);

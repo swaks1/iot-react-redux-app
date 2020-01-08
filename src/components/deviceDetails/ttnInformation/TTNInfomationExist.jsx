@@ -45,21 +45,20 @@ class TTNInfomationExist extends React.Component {
     let { collapseElementOpened } = this.state;
     let { extendedTTNInfo, ttnActions } = this.props;
 
-    if (collapseElementOpened) {
-      this.setState({ collapseElementOpened: false });
-    } else if (extendedTTNInfo == null || extendedTTNInfo.data == null) {
-      // ttnActions
-      //   .saveExistingTTNDevice(this.props.device._id, null)
-      //   .then(() => {
-      //     toastr.success("Successfully deleted existing TTN Info !");
-      //   })
-      //   .catch(() => {
-      //     toastr.error("Failed to deleted existing TTN Info");
-      //   });
-      this.setState({ collapseElementOpened: true });
-
-    } else {
-      this.setState({ collapseElementOpened: true });
+    this.setState({ collapseElementOpened: !collapseElementOpened });
+    if (
+      extendedTTNInfo == null ||
+      extendedTTNInfo.data == null ||
+      extendedTTNInfo.data.appEui == null
+    ) {
+      ttnActions
+        .loadExtendedTTNInfo(this.props.device._id)
+        .then(() => {
+          toastr.success("Successfully loaded extended TTN Info !");
+        })
+        .catch(() => {
+          toastr.error("Failed to load extended TTN Info");
+        });
     }
   };
 

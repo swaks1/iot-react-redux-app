@@ -75,6 +75,9 @@ export default function deviceReducer(state = initialState.devices, action) {
     return [...devices];
   }
 
+  /////////////////////////////////////////////
+  //REGISTER NEW or EXISTING TTN INFO
+  ////////////////////////////////////////////
   if (
     action.type == types.BEGIN_SAVE_EXISTING_TTN_DEVICE ||
     action.type == types.BEGIN_REGISTER_NEW_TTN_DEVICE
@@ -108,7 +111,41 @@ export default function deviceReducer(state = initialState.devices, action) {
       ...thisDevice,
       loading: false,
       data: action.data.device,
-      extendedTTNInfo: { ...action.data.ttnDevice, loading: false }
+      extendedTTNInfo: { data: action.data.ttnDevice, loading: false }
+    };
+    const devices = addDeviceToState(state, device);
+    return [...devices];
+  }
+
+  //////////////////////////////
+  //EXTENDED TTN INFO
+  //////////////////////////////
+
+  if (action.type == types.BEGIN_LOAD_EXTENDED_TTN_INFO) {
+    const thisDevice = getDeviceFromState(state, action.data.deviceId);
+    let device = {
+      ...thisDevice,
+      extendedTTNInfo: { ...thisDevice.extendedTTNInfo, loading: true }
+    };
+    const devices = addDeviceToState(state, device);
+    return [...devices];
+  }
+
+  if (action.type == types.END_LOAD_EXTENDED_TTN_INFO) {
+    const thisDevice = getDeviceFromState(state, action.data.deviceId);
+    let device = {
+      ...thisDevice,
+      extendedTTNInfo: { ...thisDevice.extendedTTNInfo, loading: false }
+    };
+    const devices = addDeviceToState(state, device);
+    return [...devices];
+  }
+
+  if (action.type == types.LOAD_EXTENDED_TTN_INFO_SUCCESS) {
+    const thisDevice = getDeviceFromState(state, action.data.deviceId);
+    let device = {
+      ...thisDevice,
+      extendedTTNInfo: { data: action.data.extendedTTNInfo, loading: false }
     };
     const devices = addDeviceToState(state, device);
     return [...devices];
