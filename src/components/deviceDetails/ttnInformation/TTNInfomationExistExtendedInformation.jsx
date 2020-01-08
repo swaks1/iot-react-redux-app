@@ -16,6 +16,7 @@ const TTNInfomationExistExtendedInformation = ({ extendedTTNInfo }) => {
     <>
       {extendedTTNInfo != null &&
       extendedTTNInfo.data != null &&
+      extendedTTNInfo.data.appEui != null &&
       extendedTTNInfo.loading == false ? (
         <Row>
           <Label for="appEui" sm={5}>
@@ -27,8 +28,7 @@ const TTNInfomationExistExtendedInformation = ({ extendedTTNInfo }) => {
               name="appEui"
               id="appEui"
               readOnly
-              onChange={() => {}}
-              value={extendedTTNInfo.data.appEui}
+              defaultValue={extendedTTNInfo.data.appEui}
             />
           </Col>
           <Label for="appKey" sm={5}>
@@ -40,8 +40,7 @@ const TTNInfomationExistExtendedInformation = ({ extendedTTNInfo }) => {
               name="appKey"
               id="appKey"
               readOnly
-              onChange={() => {}}
-              value={extendedTTNInfo.data.appKey}
+              defaultValue={extendedTTNInfo.data.appKey}
             />
           </Col>
           <Label for="appSKey" sm={5}>
@@ -53,8 +52,7 @@ const TTNInfomationExistExtendedInformation = ({ extendedTTNInfo }) => {
               name="appSKey"
               id="appSKey"
               readOnly
-              onChange={() => {}}
-              value={extendedTTNInfo.data.appSKey}
+              defaultValue={extendedTTNInfo.data.appSKey}
             />
           </Col>
           <Label for="nwkSKey" sm={5}>
@@ -66,8 +64,7 @@ const TTNInfomationExistExtendedInformation = ({ extendedTTNInfo }) => {
               name="nwkSKey"
               id="nwkSKey"
               readOnly
-              onChange={() => {}}
-              value={extendedTTNInfo.data.nwkSKey}
+              defaultValue={extendedTTNInfo.data.nwkSKey}
             />
           </Col>
           <Label for="devAddr" sm={5}>
@@ -79,8 +76,7 @@ const TTNInfomationExistExtendedInformation = ({ extendedTTNInfo }) => {
               name="devAddr"
               id="devAddr"
               readOnly
-              onChange={() => {}}
-              value={extendedTTNInfo.data.devAddr}
+              defaultValue={extendedTTNInfo.data.devAddr}
             />
           </Col>
         </Row>

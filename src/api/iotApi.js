@@ -243,9 +243,27 @@ class IotApi {
     return new Promise((resolve, reject) => {
       axios
         .post(`http://localhost:8000/api/ttnDevices`, {
-          devId: ttnDeviceToRegister.appId,
+          devId: ttnDeviceToRegister.devId,
           description: ttnDeviceToRegister.description,
           activation: ttnDeviceToRegister.activation
+        })
+        .then(response => {
+          setTimeout(() => {
+            resolve(response);
+          }, 400);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+
+  static deleteTTNDeviceInfo(deviceId) {
+    return new Promise((resolve, reject) => {
+      axios
+        .post(`http://localhost:8000/api/devices/modifyTTNInfo`, {
+          _id: deviceId,
+          ttnInfo: null
         })
         .then(response => {
           setTimeout(() => {

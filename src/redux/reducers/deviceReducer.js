@@ -78,6 +78,7 @@ export default function deviceReducer(state = initialState.devices, action) {
   /////////////////////////////////////////////
   //REGISTER NEW or EXISTING TTN INFO
   ////////////////////////////////////////////
+
   if (
     action.type == types.BEGIN_SAVE_EXISTING_TTN_DEVICE ||
     action.type == types.BEGIN_REGISTER_NEW_TTN_DEVICE
@@ -100,7 +101,7 @@ export default function deviceReducer(state = initialState.devices, action) {
 
   if (action.type == types.SAVE_EXISTING_TTN_DEVICE_SUCCESS) {
     const thisDevice = getDeviceFromState(state, action.data.deviceId);
-    let device = { ...thisDevice, loading: false, data: action.data.data };
+    let device = { ...thisDevice, loading: false, data: action.data.device };
     const devices = addDeviceToState(state, device);
     return [...devices];
   }
@@ -112,6 +113,36 @@ export default function deviceReducer(state = initialState.devices, action) {
       loading: false,
       data: action.data.device,
       extendedTTNInfo: { data: action.data.ttnDevice, loading: false }
+    };
+    const devices = addDeviceToState(state, device);
+    return [...devices];
+  }
+
+  /////////////////////////////////////////////
+  //DELETE EXISTING TTN INFO
+  ////////////////////////////////////////////
+
+  if (action.type == types.BEGIN_DELETE_TTN_DEVICE_INFO) {
+    const thisDevice = getDeviceFromState(state, action.data.deviceId);
+    let device = { ...thisDevice, loading: true };
+    const devices = addDeviceToState(state, device);
+    return [...devices];
+  }
+
+  if (action.type == types.END_DELETE_TTN_DEVICE_INFO) {
+    const thisDevice = getDeviceFromState(state, action.data.deviceId);
+    let device = { ...thisDevice, loading: false };
+    const devices = addDeviceToState(state, device);
+    return [...devices];
+  }
+
+  if (action.type == types.DELETE_TTN_DEVICE_INFO_SUCCESS) {
+    const thisDevice = getDeviceFromState(state, action.data.deviceId);
+    let device = {
+      ...thisDevice,
+      data: action.data.device,
+      loading: false,
+      extendedTTNInfo: stateHelper.getDevice().extendedTTNInfo
     };
     const devices = addDeviceToState(state, device);
     return [...devices];

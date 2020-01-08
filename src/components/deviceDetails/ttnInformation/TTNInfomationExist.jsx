@@ -32,7 +32,7 @@ class TTNInfomationExist extends React.Component {
   handleDeleteTTNInfo = event => {
     let { ttnActions } = this.props;
     ttnActions
-      .saveExistingTTNDevice(this.props.device._id, null)
+      .deleteTTNDeviceInfo(this.props.device._id)
       .then(() => {
         toastr.success("Successfully deleted existing TTN Info !");
       })
@@ -52,7 +52,10 @@ class TTNInfomationExist extends React.Component {
       extendedTTNInfo.data.appEui == null
     ) {
       ttnActions
-        .loadExtendedTTNInfo(this.props.device._id)
+        .loadExtendedTTNInfo(
+          this.props.device._id,
+          this.props.device.ttnInfo.dev_id
+        )
         .then(() => {
           toastr.success("Successfully loaded extended TTN Info !");
         })

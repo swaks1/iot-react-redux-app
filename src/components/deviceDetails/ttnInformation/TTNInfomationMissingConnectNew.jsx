@@ -21,7 +21,7 @@ class TTNInfomationMissingConnectNew extends React.Component {
       isModalOpened: true,
       saving: false,
       device: {
-        appId: "",
+        devId: "",
         description: ""
       }
     };
@@ -32,8 +32,8 @@ class TTNInfomationMissingConnectNew extends React.Component {
     let device = this.state.device;
 
     switch (field) {
-      case "device.appId":
-        device.appId = event.target.value;
+      case "device.devId":
+        device.devId = event.target.value;
         break;
       case "device.description":
         device.description = event.target.value;
@@ -71,16 +71,16 @@ class TTNInfomationMissingConnectNew extends React.Component {
                 </Col>
               </Row>
               <FormGroup row className="mt-3">
-                <Label for="device.appId" sm={5}>
+                <Label for="device.devId" sm={5}>
                   {" "}
-                  App Id <br/>(only lower case letters):
+                  Dev Id <br/>(only lower case letters):
                 </Label>
                 <Col sm={7}>
                   <Input
                     type="text"
-                    name="device.appId"
-                    id="device.appId"
-                    placeholder="TTN App Id"
+                    name="device.devId"
+                    id="device.devId"
+                    placeholder="TTN Dev Id"
                     onChange={this.handleInputChange}
                     value={this.state.device.devId}
                   />

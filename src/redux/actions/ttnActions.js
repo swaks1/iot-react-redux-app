@@ -30,7 +30,7 @@ export function saveExistingTTNDeviceSuccess(device) {
     type: types.SAVE_EXISTING_TTN_DEVICE_SUCCESS,
     data: {
       deviceId: device._id,
-      data: device
+      device: device
     }
   };
 }
@@ -60,6 +60,34 @@ export function registerNewTTNDeviceSuccess(device, ttnDevice) {
       deviceId: device._id,
       device: device,
       ttnDevice: ttnDevice
+    }
+  };
+}
+
+export function beginDeleteTTNDeviceInfo(deviceId) {
+  return {
+    type: types.BEGIN_DELETE_TTN_DEVICE_INFO,
+    data: {
+      deviceId
+    }
+  };
+}
+
+export function endDeleteTTNDeviceInfo(deviceId) {
+  return {
+    type: types.END_DELETE_TTN_DEVICE_INFO,
+    data: {
+      deviceId
+    }
+  };
+}
+
+export function deleteTTNDeviceInfoSuccess(deviceId, device) {
+  return {
+    type: types.DELETE_TTN_DEVICE_INFO_SUCCESS,
+    data: {
+      deviceId,
+      device
     }
   };
 }
@@ -124,8 +152,8 @@ export function registerNewTTNDevice(deviceId, ttnDeviceToRegister) {
       .then(ttnResponse => {
         iotApi
           .saveExistingTTNDevice(deviceId, {
-            dev_id: ttnResponse.data.devId,
-            app_id: ttnResponse.data.appId
+            app_id: ttnResponse.data.appId,
+            dev_id: ttnResponse.data.devId
           })
           .then(deviceResponse => {
             dispatch(
@@ -145,13 +173,33 @@ export function registerNewTTNDevice(deviceId, ttnDeviceToRegister) {
   };
 }
 
-export function loadExtendedTTNInfo(deviceId) {
+export function deleteTTNDeviceInfo(deviceId) {
+  return function(dispatch) {
+    dispatch(beginAjaxCall());
+    dispatch(beginDeleteTTNDeviceInfo(deviceId));
+
+    return iotApi
+      .deleteTTNDeviceInfo(deviceId)
+      .then(response => {
+        dispatch(deleteTTNDeviceInfoSuccess(deviceId, response.data));
+      })
+      .catch(error => {
+        dispatch(ajaxCallError());
+        throw error;
+      })
+      .finally(() => {
+        dispatch(endDeleteTTNDeviceInfo(deviceId));
+      });
+  };
+}
+
+export function loadExtendedTTNInfo(deviceId, devId) {
   return function(dispatch) {
     dispatch(beginAjaxCall());
     dispatch(beginLoadExtendedTTNInfo(deviceId));
 
     return iotApi
-      .loadExtendedTTNInfo(deviceId)
+      .loadExtendedTTNInfo(devId)
       .then(response => {
         dispatch(loadExtendedTTNInfoSuccess(deviceId, response.data));
       })
