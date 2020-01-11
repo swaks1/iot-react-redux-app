@@ -120,6 +120,29 @@ export function loadExtendedTTNInfoSuccess(deviceId, extendedTTNInfo) {
   };
 }
 
+export function beginLoadTTNApplicationInfo() {
+  return {
+    type: types.BEGIN_LOAD_TTN_APPLICATION_INFO,
+    data: {}
+  };
+}
+
+export function endLoadTTNApplicationInfo() {
+  return {
+    type: types.END_LOAD_TTN_APPLICATION_INFO,
+    data: {}
+  };
+}
+
+export function loadTTNApplicationInfoSuccess(applicationInfo) {
+  return {
+    type: types.LOAD_TTN_APPLICATION_INFO_SUCCESS,
+    data: {
+      applicationInfo
+    }
+  };
+}
+
 //THUNKS thunk async functions that return action
 
 export function saveExistingTTNDevice(deviceId, existingTTNDevice) {
@@ -209,6 +232,26 @@ export function loadExtendedTTNInfo(deviceId, devId) {
       })
       .finally(() => {
         dispatch(endLoadExtendedTTNInfo(deviceId));
+      });
+  };
+}
+
+export function loadTTNApplicationInfo() {
+  return function(dispatch) {
+    dispatch(beginAjaxCall());
+    dispatch(beginLoadTTNApplicationInfo());
+
+    return iotApi
+      .loadTTNApplicationInfo()
+      .then(response => {
+        dispatch(loadTTNApplicationInfoSuccess(response.data));
+      })
+      .catch(error => {
+        dispatch(ajaxCallError());
+        throw error;
+      })
+      .finally(() => {
+        dispatch(endLoadTTNApplicationInfo());
       });
   };
 }

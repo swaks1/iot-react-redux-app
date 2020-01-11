@@ -290,6 +290,23 @@ class IotApi {
         });
     });
   }
+
+  static loadTTNApplicationInfo() {
+    return new Promise((resolve, reject) => {
+      axios
+        .get(`http://localhost:8000/api/ttnDevices/application/info`)
+        .then(response => {
+          setTimeout(() => {
+            resolve(response);
+          }, 400);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+
+
 }
 
 export default IotApi;

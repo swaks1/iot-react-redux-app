@@ -25,5 +25,15 @@ export default {
       dataMonthly: [],
       loading: false
     }
-  ]
+  ],
+  ttnIntegration: {
+    applicationInfoState: {
+      applicationInfo: {},
+      loading: false
+    },
+    deviceState: {
+      devices: [],
+      loading: false
+    }
+  }
 };

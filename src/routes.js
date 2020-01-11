@@ -1,6 +1,7 @@
 import Dashboard from "./components/dashboard/Dashboard";
 import Devices from "./components/devices/Devices";
 import DevicesDetails from "./components/deviceDetails/DeviceDetails";
+import TheThingsNetwork from "./components/theThingsNetwork/TheThingsNetwork"
 
 var prefix = "app";
 
@@ -24,6 +25,13 @@ var routes = [
     icon: "tim-icons icon-mobile",
     component: DevicesDetails,
     hidden: true
+  },
+  {
+    path: `/${prefix}/ttn`,
+    name: "The Things Network",
+    icon: "tim-icons icon-puzzle-10",
+    component: TheThingsNetwork,
+    exact: true
   }
 ];
 export default routes;
