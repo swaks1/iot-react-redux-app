@@ -1,0 +1,63 @@
+import React from "react";
+
+import { Card, Row, Col, Button } from "reactstrap";
+
+import LoaderOverlay from "../../_common/LoaderOverlay";
+
+const TTNDevicesColumnActions = ({
+  editMode,
+  currentDevice,
+  selectedDevice,
+  onButtonClick
+}) => {
+  return editMode == false ? (
+    <>
+      <LoaderOverlay isLoading={false}>
+        <Button
+          color="danger"
+          size="sm"
+          id={`deleteBtn_${currentDevice.devId}`}
+          onClick={onButtonClick}
+        >
+          Delete
+        </Button>
+        {" | "}
+        <Button
+          color="default"
+          size="sm"
+          id={`editBtn_${currentDevice.devId}`}
+          onClick={onButtonClick}
+        >
+          Edit
+        </Button>
+      </LoaderOverlay>
+    </>
+  ) : currentDevice.devId == selectedDevice.devId ? (
+    <>
+      <LoaderOverlay isLoading={false}>
+        {" "}
+        <Button
+          color="success"
+          size="sm"
+          id={`saveBtn_${currentDevice.devId}`}
+          onClick={onButtonClick}
+        >
+          Save
+        </Button>
+        {" | "}
+        <Button
+          color="danger"
+          size="sm"
+          id={`cancelBtn_${currentDevice.devId}`}
+          onClick={onButtonClick}
+        >
+          Cancel
+        </Button>
+      </LoaderOverlay>
+    </>
+  ) : (
+    <span> </span>
+  );
+};
+
+export default TTNDevicesColumnActions;

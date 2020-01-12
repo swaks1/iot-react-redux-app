@@ -12,17 +12,65 @@ import { Row, Col, FormGroup, Label, Input, Button } from "reactstrap";
 import LoaderRow from "../../_common/LoaderRow";
 import Table from "../../_common/Table";
 
+import TTNDevicesColumnActions from "./TTNDevicesColumnActions";
+import TTNDevicesColumnIOTDevice from "./TTNDevicesColumnIOTDevice";
+
 class TTNDevices extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      editMode: false,
+      selectedDevice: {
+        devId: "",
+        connectedIotDevice: null
+      }
+    };
   }
 
   componentDidMount() {
     let { ttnActions } = this.props;
     ttnActions.loadTTNDevices().catch(error => toastr.error(error));
   }
+
+  handleButtonClick = event => {
+    let fullBtnId = event.target.id;
+    let btnId = fullBtnId.split("_")[0];
+    let devId = fullBtnId.split("_")[1];
+
+    let { ttnActions, deviceActions } = this.props;
+    let { editMode } = this.state;
+
+    switch (btnId) {
+      case "deleteBtn":
+        break;
+      case "editBtn":
+        this.setState({
+          editMode: true,
+          selectedDevice: this.getSelectedDevice(devId)
+        });
+        break;
+      case "saveBtn":
+        break;
+      case "cancelBtn":
+        this.setState({
+          editMode: false,
+          selectedDevice: { devId: "", connectedIotDevice: null }
+        });
+        break;
+      default:
+        console.log(btnId, devId, "Unknown btn...");
+    }
+  };
+
+  getSelectedDevice = devId => {
+    let { ttnDevices } = this.props;
+    var selectedDevice = ttnDevices.find(item => item.devId == devId);
+    return {
+      devId: selectedDevice.devId,
+      connectedIotDevice: { ...selectedDevice.connectedIotDevice }
+    };
+  };
 
   render() {
     const {
@@ -31,8 +79,9 @@ class TTNDevices extends React.Component {
       ttnDevicesLoading,
       notConnectedIotDevices
     } = this.props;
+    const { editMode, selectedDevice } = this.state;
+    let redirectLocation = location.pathname.replace("/ttn", "/devices");
 
-    let redirectLocation = location.pathname.replace("/ttn","/devices");
     return (
       <>
         {ttnDevicesLoading ? (
@@ -56,36 +105,28 @@ class TTNDevices extends React.Component {
                     <tr key={item.devId}>
                       <td>{item.devId}</td>
                       <td>
-                        {item.connectedIotDevice ? (
-                          <Link
-                            to={`${redirectLocation}/${item.connectedIotDevice._id}`}
-                          >
-                            {item.connectedIotDevice.name}
-                          </Link>
-                        ) : (
-                          ""
-                        )}
+                        <TTNDevicesColumnIOTDevice
+                          editMode={editMode}
+                          redirectLocation={redirectLocation}
+                          currentDevice={{
+                            devId: item.devId,
+                            connectedIotDevice: item.connectedIotDevice
+                          }}
+                          selectedDevice={selectedDevice}
+                          notConnectedIotDevices={notConnectedIotDevices}
+                          onSelectChange={this.handleButtonClick}
+                        />
                       </td>
                       <td>
-                        <Button
-                          color="danger"
-                          size="sm"
-                          id={`deleteBtn_${item.devId}`}
-                          onClick={() => {}}
-                          tooltip={"delete"}
-                        >
-                          <i className="fa fa-trash" />
-                        </Button>
-                        {" | "}
-                        <Button
-                          color="default"
-                          size="sm"
-                          id={`deleteBtn_${item.devId}`}
-                          onClick={() => {}}
-                          tooltip={"delete"}
-                        >
-                          <i className="fa fa-edit" />
-                        </Button>
+                        <TTNDevicesColumnActions
+                          editMode={editMode}
+                          currentDevice={{
+                            devId: item.devId,
+                            connectedIotDevice: item.connectedIotDevice
+                          }}
+                          selectedDevice={selectedDevice}
+                          onButtonClick={this.handleButtonClick}
+                        />
                       </td>
                     </tr>
                   ))}
