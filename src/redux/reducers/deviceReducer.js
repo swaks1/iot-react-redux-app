@@ -76,7 +76,7 @@ export default function deviceReducer(state = initialState.devices, action) {
   }
 
   /////////////////////////////////////////////
-  //REGISTER NEW or EXISTING TTN INFO
+  // REGISTER NEW or EXISTING TTN INFO
   ////////////////////////////////////////////
 
   if (
@@ -119,7 +119,7 @@ export default function deviceReducer(state = initialState.devices, action) {
   }
 
   /////////////////////////////////////////////
-  //DELETE EXISTING TTN INFO
+  // DELETE EXISTING TTN INFO
   ////////////////////////////////////////////
 
   if (action.type == types.BEGIN_DELETE_TTN_DEVICE_INFO) {
@@ -149,7 +149,7 @@ export default function deviceReducer(state = initialState.devices, action) {
   }
 
   //////////////////////////////
-  //EXTENDED TTN INFO
+  // EXTENDED TTN INFO
   //////////////////////////////
 
   if (action.type == types.BEGIN_LOAD_EXTENDED_TTN_INFO) {

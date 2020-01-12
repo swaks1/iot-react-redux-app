@@ -143,6 +143,29 @@ export function loadTTNApplicationInfoSuccess(applicationInfo) {
   };
 }
 
+export function beginLoadTTNDevices() {
+  return {
+    type: types.BEGIN_LOAD_TTN_DEVICES,
+    data: {}
+  };
+}
+
+export function endLoadTTNDevices() {
+  return {
+    type: types.END_LOAD_TTN_DEVICES,
+    data: {}
+  };
+}
+
+export function loadTTNDevicesSuccess(ttnDevices) {
+  return {
+    type: types.LOAD_TTN_DEVICES_SUCCESS,
+    data: {
+      ttnDevices
+    }
+  };
+}
+
 //THUNKS thunk async functions that return action
 
 export function saveExistingTTNDevice(deviceId, existingTTNDevice) {
@@ -252,6 +275,26 @@ export function loadTTNApplicationInfo() {
       })
       .finally(() => {
         dispatch(endLoadTTNApplicationInfo());
+      });
+  };
+}
+
+export function loadTTNDevices() {
+  return function(dispatch) {
+    dispatch(beginAjaxCall());
+    dispatch(beginLoadTTNDevices());
+
+    return iotApi
+      .loadTTNDevices()
+      .then(response => {
+        dispatch(loadTTNDevicesSuccess(response.data));
+      })
+      .catch(error => {
+        dispatch(ajaxCallError());
+        throw error;
+      })
+      .finally(() => {
+        dispatch(endLoadTTNDevices());
       });
   };
 }

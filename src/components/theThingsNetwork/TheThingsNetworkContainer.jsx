@@ -1,8 +1,9 @@
 import React from "react";
 import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
 import ApplicaitonInfo from "./ApplicaitonInfo";
+import TTNDevicesContainer from "./ttnDevices/TTNDevicesContainer";
 
-class TheThingsNetwork extends React.Component {
+class TheThingsNetworkContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -19,8 +20,14 @@ class TheThingsNetwork extends React.Component {
               </CardHeader>
               <CardBody>
                 <Row>
-                  <Col md="12">
+                  <Col md={12}>
                     <ApplicaitonInfo />
+                  </Col>
+                  <Col md={{ size: 10, offset: 1 }} className="mt-2">
+                    <hr />
+                  </Col>
+                  <Col md="12">
+                    <TTNDevicesContainer />
                   </Col>
                 </Row>
               </CardBody>
@@ -32,4 +39,4 @@ class TheThingsNetwork extends React.Component {
   }
 }
 
-export default TheThingsNetwork;
+export default TheThingsNetworkContainer;

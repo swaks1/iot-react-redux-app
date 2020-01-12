@@ -1,7 +1,7 @@
 import Dashboard from "./components/dashboard/Dashboard";
 import Devices from "./components/devices/Devices";
 import DevicesDetails from "./components/deviceDetails/DeviceDetails";
-import TheThingsNetwork from "./components/theThingsNetwork/TheThingsNetwork"
+import TheThingsNetworkContainer from "./components/theThingsNetwork/TheThingsNetworkContainer"
 
 var prefix = "app";
 
@@ -30,7 +30,7 @@ var routes = [
     path: `/${prefix}/ttn`,
     name: "The Things Network",
     icon: "tim-icons icon-puzzle-10",
-    component: TheThingsNetwork,
+    component: TheThingsNetworkContainer,
     exact: true
   }
 ];

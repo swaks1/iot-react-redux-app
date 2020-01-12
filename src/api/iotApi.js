@@ -306,6 +306,21 @@ class IotApi {
     });
   }
 
+  static loadTTNDevices() {
+    return new Promise((resolve, reject) => {
+      axios
+        .get(`http://localhost:8000/api/ttnDevices`)
+        .then(response => {
+          setTimeout(() => {
+            resolve(response);
+          }, 400);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+
 
 }
 

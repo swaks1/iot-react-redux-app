@@ -21,7 +21,6 @@ class ApplicaitonInfo extends React.Component {
     let { ttnActions } = this.props;
     ttnActions
       .loadTTNApplicationInfo()
-      .then(() => toastr.success("Loaded ttn app info"))
       .catch(error => toastr.error(error));
   }
 
@@ -61,8 +60,8 @@ class ApplicaitonInfo extends React.Component {
                     id="decoder"
                     defaultValue={applicationInfo.decoder}
                     disabled={true}
-                    rows={10}
-                    cols={100}
+                    rows={7}
+                    cols={50}
                   />
                 </Col>
               </Row>
@@ -95,9 +94,9 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-var ApplicaitonInfoContainer = connect(
+var ApplicaitonInfoConnected = connect(
   mapStateToProps,
   mapDispatchToProps
 )(ApplicaitonInfo);
 
-export default withRouter(ApplicaitonInfoContainer);
+export default withRouter(ApplicaitonInfoConnected);
