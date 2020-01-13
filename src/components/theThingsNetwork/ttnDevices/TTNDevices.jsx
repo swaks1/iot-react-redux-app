@@ -21,9 +21,10 @@ class TTNDevices extends React.Component {
 
     this.state = {
       editMode: false,
+      showOverlay: false,
       selectedDevice: {
         devId: "",
-        connectedIotDevice: null
+        connectedIotDevice: {}
       }
     };
   }
@@ -51,16 +52,40 @@ class TTNDevices extends React.Component {
         });
         break;
       case "saveBtn":
+        this.setState({
+          showOverlay: true
+        });
         break;
       case "cancelBtn":
         this.setState({
           editMode: false,
-          selectedDevice: { devId: "", connectedIotDevice: null }
+          selectedDevice: { devId: "", connectedIotDevice: {} }
         });
         break;
       default:
         console.log(btnId, devId, "Unknown btn...");
     }
+  };
+
+  handleSelectChange = event => {
+    var _id = event.target.value;
+    var name = event.target.selectedOptions[0].text;
+
+    let connectedIotDevice = {};
+
+    if (_id) {
+      connectedIotDevice = {
+        _id,
+        name
+      };
+    }
+
+    this.setState(prevState => ({
+      selectedDevice: {
+        devId: prevState.selectedDevice.devId,
+        connectedIotDevice: connectedIotDevice
+      }
+    }));
   };
 
   getSelectedDevice = devId => {
@@ -79,7 +104,7 @@ class TTNDevices extends React.Component {
       ttnDevicesLoading,
       notConnectedIotDevices
     } = this.props;
-    const { editMode, selectedDevice } = this.state;
+    const { editMode, showOverlay, selectedDevice } = this.state;
     let redirectLocation = location.pathname.replace("/ttn", "/devices");
 
     return (
@@ -114,12 +139,13 @@ class TTNDevices extends React.Component {
                           }}
                           selectedDevice={selectedDevice}
                           notConnectedIotDevices={notConnectedIotDevices}
-                          onSelectChange={this.handleButtonClick}
+                          onSelectChange={this.handleSelectChange}
                         />
                       </td>
                       <td>
                         <TTNDevicesColumnActions
                           editMode={editMode}
+                          showOverlay={showOverlay}
                           currentDevice={{
                             devId: item.devId,
                             connectedIotDevice: item.connectedIotDevice

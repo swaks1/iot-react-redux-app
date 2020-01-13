@@ -6,13 +6,14 @@ import LoaderOverlay from "../../_common/LoaderOverlay";
 
 const TTNDevicesColumnActions = ({
   editMode,
+  showOverlay,
   currentDevice,
   selectedDevice,
   onButtonClick
 }) => {
   return editMode == false ? (
     <>
-      <LoaderOverlay isLoading={false}>
+      <LoaderOverlay isLoading={showOverlay}>
         <Button
           color="danger"
           size="sm"
@@ -34,7 +35,7 @@ const TTNDevicesColumnActions = ({
     </>
   ) : currentDevice.devId == selectedDevice.devId ? (
     <>
-      <LoaderOverlay isLoading={false}>
+      <LoaderOverlay isLoading={showOverlay}>
         {" "}
         <Button
           color="success"

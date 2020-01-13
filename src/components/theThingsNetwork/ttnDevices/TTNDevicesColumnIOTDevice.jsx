@@ -12,9 +12,10 @@ const TTNDevicesColumnIOTDevice = ({
   notConnectedIotDevices,
   onSelectChange
 }) => {
-  return editMode == false &&
-    currentDevice.connectedIotDevice != null &&
-    currentDevice.connectedIotDevice._id ? (
+  const connectedDeviceExists = device => {
+    return device.connectedIotDevice != null && device.connectedIotDevice._id;
+  };
+  return editMode == false && connectedDeviceExists(currentDevice) ? (
     <>
       <Link to={`${redirectLocation}/${currentDevice.connectedIotDevice._id}`}>
         {currentDevice.connectedIotDevice.name}
@@ -22,17 +23,18 @@ const TTNDevicesColumnIOTDevice = ({
     </>
   ) : editMode == true && currentDevice.devId == selectedDevice.devId ? (
     <select
+      className="form-select"
       value={
-        selectedDevice.connectedIotDevice._id
+        connectedDeviceExists(selectedDevice)
           ? selectedDevice.connectedIotDevice._id
           : ""
       }
       onChange={onSelectChange}
     >
       <option value="">{""}</option>
-      {selectedDevice.connectedIotDevice._id ? (
-        <option value={selectedDevice.connectedIotDevice._id}>
-          {selectedDevice.connectedIotDevice.name}
+      {connectedDeviceExists(currentDevice) ? (
+        <option value={currentDevice.connectedIotDevice._id}>
+          {currentDevice.connectedIotDevice.name}
         </option>
       ) : (
         <></>
