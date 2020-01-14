@@ -40,10 +40,10 @@ const TTNDevicesColumnActions = ({
         <Button
           color="success"
           size="sm"
-          id={`saveBtn_${currentDevice.devId}`}
+          id={`updateBtn_${currentDevice.devId}`}
           onClick={onButtonClick}
         >
-          Save
+          Update
         </Button>
         {" | "}
         <Button

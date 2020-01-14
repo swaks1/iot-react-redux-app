@@ -3,7 +3,7 @@ import Devices from "./components/devices/Devices";
 import DevicesDetails from "./components/deviceDetails/DeviceDetails";
 import TheThingsNetworkContainer from "./components/theThingsNetwork/TheThingsNetworkContainer"
 
-var prefix = "app";
+export const prefix = "app";
 
 var routes = [
   {
@@ -34,4 +34,5 @@ var routes = [
     exact: true
   }
 ];
+
 export default routes;

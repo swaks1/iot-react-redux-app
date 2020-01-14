@@ -23,6 +23,7 @@ class TTNDevices extends React.Component {
       editMode: false,
       showOverlay: false,
       selectedDevice: {
+        appId: "",
         devId: "",
         connectedIotDevice: {}
       }
@@ -39,9 +40,6 @@ class TTNDevices extends React.Component {
     let btnId = fullBtnId.split("_")[0];
     let devId = fullBtnId.split("_")[1];
 
-    let { ttnActions, deviceActions } = this.props;
-    let { editMode } = this.state;
-
     switch (btnId) {
       case "deleteBtn":
         break;
@@ -51,20 +49,78 @@ class TTNDevices extends React.Component {
           selectedDevice: this.getSelectedDevice(devId)
         });
         break;
-      case "saveBtn":
-        this.setState({
-          showOverlay: true
-        });
+      case "updateBtn":
+        this.handleUpdateClick();
         break;
       case "cancelBtn":
         this.setState({
           editMode: false,
-          selectedDevice: { devId: "", connectedIotDevice: {} }
+          selectedDevice: { appId: "", devId: "", connectedIotDevice: {} }
         });
         break;
       default:
         console.log(btnId, devId, "Unknown btn...");
     }
+  };
+
+  handleUpdateClick = () => {
+    let { ttnActions } = this.props;
+    let { selectedDevice } = this.state;
+
+    this.setState({
+      showOverlay: true
+    });
+
+    var deviceToChange = this.getSelectedDevice(selectedDevice.devId);
+
+    if (
+      deviceToChange.connectedIotDevice &&
+      deviceToChange.connectedIotDevice._id
+    ) {
+      ttnActions
+        .deleteTTNDeviceInfo(deviceToChange.connectedIotDevice._id)
+        .then(() => {
+          this.updateTTNInfo();
+        })
+        .catch(error => {
+          toastr.error("Failed deleting existing TTN Info..", error);
+          this.exitEditMode();
+        });
+    } else {
+      this.updateTTNInfo();
+    }
+  };
+
+  updateTTNInfo = () => {
+    let { ttnActions } = this.props;
+    let { selectedDevice } = this.state;
+
+    if (
+      selectedDevice.connectedIotDevice &&
+      selectedDevice.connectedIotDevice._id
+    ) {
+      ttnActions
+        .saveExistingTTNDevice(selectedDevice.connectedIotDevice._id, {
+          app_id: selectedDevice.appId,
+          dev_id: selectedDevice.devId
+        })
+        .then(() => {
+          this.exitEditMode();
+        })
+        .catch(error => {
+          this.exitEditMode();
+          throw error;
+        });
+    } else {
+      this.exitEditMode();
+    }
+  };
+
+  exitEditMode = () => {
+    this.setState({
+      editMode: false,
+      showOverlay: false
+    });
   };
 
   handleSelectChange = event => {
@@ -82,6 +138,7 @@ class TTNDevices extends React.Component {
 
     this.setState(prevState => ({
       selectedDevice: {
+        appId: prevState.selectedDevice.appId,
         devId: prevState.selectedDevice.devId,
         connectedIotDevice: connectedIotDevice
       }
@@ -92,6 +149,7 @@ class TTNDevices extends React.Component {
     let { ttnDevices } = this.props;
     var selectedDevice = ttnDevices.find(item => item.devId == devId);
     return {
+      appId: selectedDevice.appId,
       devId: selectedDevice.devId,
       connectedIotDevice: { ...selectedDevice.connectedIotDevice }
     };

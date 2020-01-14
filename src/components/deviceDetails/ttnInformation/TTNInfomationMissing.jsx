@@ -18,68 +18,33 @@ import {
   Label,
   Input
 } from "reactstrap";
+
+import { prefix } from "../../../routes";
+
 import TTNInfomationMissingAvailableActions from "./TTNInfomationMissingAvailableActions";
-import TTNInfomationMissingConnectExisting from "./TTNInfomationMissingConnectExisting";
 import TTNInfomationMissingConnectNew from "./TTNInfomationMissingConnectNew";
 
 class TTNInfomationMissing extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      connectExisting: false,
-      connectNew: false,
-      existingTTNDevice: {
-        dev_id: "",
-        app_id: ""
-      }
+      connectNew: false
     };
   }
 
   handleTTNButtonClick = event => {
     let btnId = event.target.id;
-    let existingTTNDevice = this.state.existingTTNDevice;
-    let { ttnActions } = this.props ;
+    let { ttnActions, history } = this.props;
 
     switch (btnId) {
       case "connectExisting":
-        this.setState({ connectExisting: true });
-        break;
-
-      case "saveExisting":
-        if (
-          existingTTNDevice.app_id.trim() == "" ||
-          existingTTNDevice.dev_id.trim() == ""
-        )
-          toastr.error("Enter values for Dev Id and App Id !");
-        else {
-          ttnActions
-            .saveExistingTTNDevice(
-              this.props.device._id,
-              this.state.existingTTNDevice
-            )
-            .then(() => {
-              toastr.success("Successfully saved existing TTN Info !");
-            })
-            .catch(() => {
-              toastr.error("Failed to save existing TTN Info");
-            });
-        }
-        break;
-      case "cancelExisting":
-        this.setState({
-          connectExisting: false,
-          existingTTNDevice: {
-            dev_id: "",
-            app_id: ""
-          }
-        });
+        history.push(`/${prefix}/ttn`);
         break;
 
       case "connectNew":
         this.setState({ connectNew: true });
         break;
 
-        
       case "connectNew_Yes":
         ttnActions
           .registerNewTTNDevice(this.props.device._id, event.data)
@@ -103,25 +68,8 @@ class TTNInfomationMissing extends React.Component {
     }
   };
 
-  handleExistingTTNDeviceFieldChange = event => {
-    const field = event.target.name;
-    var existingTTNDevice = this.state.existingTTNDevice;
-    switch (field) {
-      case "existingTTNDevice.app_id":
-        existingTTNDevice.app_id = event.target.value;
-        break;
-      case "existingTTNDevice.dev_id":
-        existingTTNDevice.dev_id = event.target.value;
-        break;
-      default:
-        existingTTNDevice[field] = event.target.value;
-    }
-
-    return this.setState({ existingTTNDevice });
-  };
-
   render() {
-    //const { lg, md, sm, device, deviceLoading, extendedTTNInfo } = this.props;
+    const { location } = this.props;
 
     return (
       <>
@@ -134,20 +82,7 @@ class TTNInfomationMissing extends React.Component {
             </h4>
           </Col>
         </Row>
-        {this.state.connectExisting == false &&
-        this.state.connectNew == false ? (
-          <TTNInfomationMissingAvailableActions
-            onTTNButtonClick={this.handleTTNButtonClick}
-          />
-        ) : this.state.connectExisting ? (
-          <TTNInfomationMissingConnectExisting
-            existingTTNDevice={this.state.existingTTNDevice}
-            onTTNButtonClick={this.handleTTNButtonClick}
-            onExistingTTNDeviceFieldChange={
-              this.handleExistingTTNDeviceFieldChange
-            }
-          />
-        ) : this.state.connectNew ? (
+        {this.state.connectNew ? (
           <>
             <TTNInfomationMissingConnectNew
               confirmAction={ttnDeviceToRegister => {
@@ -164,7 +99,10 @@ class TTNInfomationMissing extends React.Component {
             />
           </>
         ) : (
-          <></>
+          <TTNInfomationMissingAvailableActions
+            location={location}
+            onTTNButtonClick={this.handleTTNButtonClick}
+          />
         )}
       </>
     );
