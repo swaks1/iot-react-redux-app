@@ -166,6 +166,29 @@ export function loadTTNDevicesSuccess(ttnDevices) {
   };
 }
 
+export function beginDeleteTTNDevice() {
+  return {
+    type: types.BEGIN_DELETE_TTN_DEVICE,
+    data: {}
+  };
+}
+
+export function endDeleteTTNDevice() {
+  return {
+    type: types.END_DELETE_TTN_DEVICE,
+    data: {}
+  };
+}
+
+export function deleteTTNDeviceSuccess(devId) {
+  return {
+    type: types.DELETE_TTN_DEVICE_SUCCESS,
+    data: {
+      devId
+    }
+  };
+}
+
 //THUNKS thunk async functions that return action
 
 export function saveExistingTTNDevice(deviceId, existingTTNDevice) {
@@ -295,6 +318,26 @@ export function loadTTNDevices() {
       })
       .finally(() => {
         dispatch(endLoadTTNDevices());
+      });
+  };
+}
+
+export function deleteTTNDevice(devId) {
+  return function(dispatch) {
+    dispatch(beginAjaxCall());
+    dispatch(beginDeleteTTNDevice());
+
+    return iotApi
+      .deleteTTNDevice(devId)
+      .then(response => {
+        dispatch(deleteTTNDeviceSuccess(devId));
+      })
+      .catch(error => {
+        dispatch(ajaxCallError());
+        throw error;
+      })
+      .finally(() => {
+        dispatch(endDeleteTTNDevice());
       });
   };
 }

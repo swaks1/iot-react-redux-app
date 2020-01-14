@@ -21,7 +21,7 @@ class TTNDevices extends React.Component {
 
     this.state = {
       editMode: false,
-      showOverlay: false,
+      actionExecuting: false,
       selectedDevice: {
         appId: "",
         devId: "",
@@ -37,11 +37,13 @@ class TTNDevices extends React.Component {
 
   handleButtonClick = event => {
     let fullBtnId = event.target.id;
-    let btnId = fullBtnId.split("_")[0];
-    let devId = fullBtnId.split("_")[1];
+    let delimiterIndex = fullBtnId.indexOf("_");
+    let btnId = fullBtnId.substring(0, delimiterIndex);
+    let devId = fullBtnId.substring(delimiterIndex + 1);
 
     switch (btnId) {
       case "deleteBtn":
+        this.handleDeleteClick(devId);
         break;
       case "editBtn":
         this.setState({
@@ -68,7 +70,7 @@ class TTNDevices extends React.Component {
     let { selectedDevice } = this.state;
 
     this.setState({
-      showOverlay: true
+      actionExecuting: true
     });
 
     var deviceToChange = this.getSelectedDevice(selectedDevice.devId);
@@ -119,8 +121,27 @@ class TTNDevices extends React.Component {
   exitEditMode = () => {
     this.setState({
       editMode: false,
-      showOverlay: false
+      actionExecuting: false
     });
+  };
+
+  handleDeleteClick = devId => {
+    let { ttnActions } = this.props;
+
+    this.setState({
+      actionExecuting: true
+    });
+
+    ttnActions
+      .deleteTTNDevice(devId)
+      .then(() => {
+        toastr.success(`Successfully deleted the device: ${devId}`);
+        this.exitEditMode();
+      })
+      .catch(error => {
+        toastr.error("Failed deleting existing TTN Info..", error);
+        this.exitEditMode();
+      });
   };
 
   handleSelectChange = event => {
@@ -162,7 +183,7 @@ class TTNDevices extends React.Component {
       ttnDevicesLoading,
       notConnectedIotDevices
     } = this.props;
-    const { editMode, showOverlay, selectedDevice } = this.state;
+    const { editMode, actionExecuting, selectedDevice } = this.state;
     let redirectLocation = location.pathname.replace("/ttn", "/devices");
 
     return (
@@ -203,7 +224,7 @@ class TTNDevices extends React.Component {
                       <td>
                         <TTNDevicesColumnActions
                           editMode={editMode}
-                          showOverlay={showOverlay}
+                          actionExecuting={actionExecuting}
                           currentDevice={{
                             devId: item.devId,
                             connectedIotDevice: item.connectedIotDevice

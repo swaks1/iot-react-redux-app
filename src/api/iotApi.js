@@ -321,6 +321,21 @@ class IotApi {
     });
   }
 
+  static deleteTTNDevice(devId) {
+    return new Promise((resolve, reject) => {
+      axios
+        .delete(`http://localhost:8000/api/ttnDevices/${devId}`)
+        .then(response => {
+          setTimeout(() => {
+            resolve(response);
+          }, 400);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+
 
 }
 

@@ -114,7 +114,7 @@ class TTNInfomationMissingConnectNew extends React.Component {
           <>
             <Row>
               <Col md={12}>
-                <h4>Connecting... </h4>
+                <h4>Creating... </h4>
               </Col>
             </Row>
             <LoaderRow />
@@ -123,7 +123,7 @@ class TTNInfomationMissingConnectNew extends React.Component {
           <>
             <Row>
               <Col md={12}>
-                <h4>Connect new.. ?? </h4>
+                <h4>Create new.. ?? </h4>
               </Col>
             </Row>
           </>
