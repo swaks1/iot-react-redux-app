@@ -35,30 +35,24 @@ export function saveExistingTTNDeviceSuccess(device) {
   };
 }
 
-export function beginRegisterNewTTNDevice(deviceId) {
+export function beginRegisterNewTTNDevice() {
   return {
     type: types.BEGIN_REGISTER_NEW_TTN_DEVICE,
-    data: {
-      deviceId
-    }
+    data: {}
   };
 }
 
-export function endRegisterNewTTNDevice(deviceId) {
+export function endRegisterNewTTNDevice() {
   return {
     type: types.END_REGISTER_NEW_TTN_DEVICE,
-    data: {
-      deviceId
-    }
+    data: {}
   };
 }
 
-export function registerNewTTNDeviceSuccess(device, ttnDevice) {
+export function registerNewTTNDeviceSuccess(ttnDevice) {
   return {
     type: types.REGISTER_NEW_TTN_DEVICE_SUCCESS,
     data: {
-      deviceId: device._id,
-      device: device,
       ttnDevice: ttnDevice
     }
   };
@@ -211,33 +205,23 @@ export function saveExistingTTNDevice(deviceId, existingTTNDevice) {
   };
 }
 
-export function registerNewTTNDevice(deviceId, ttnDeviceToRegister) {
+export function registerNewTTNDevice(ttnDeviceToRegister) {
   return function(dispatch) {
     dispatch(beginAjaxCall());
-    dispatch(beginRegisterNewTTNDevice(deviceId));
+    dispatch(beginRegisterNewTTNDevice());
 
     return iotApi
-      .registerNewTTNDevice(deviceId, ttnDeviceToRegister)
+      .registerNewTTNDevice(ttnDeviceToRegister)
       .then(ttnResponse => {
-        iotApi
-          .saveExistingTTNDevice(deviceId, {
-            app_id: ttnResponse.data.appId,
-            dev_id: ttnResponse.data.devId
-          })
-          .then(deviceResponse => {
-            dispatch(
-              registerNewTTNDeviceSuccess(deviceResponse.data, ttnResponse.data)
-            );
-            dispatch(endRegisterNewTTNDevice(deviceId));
-          })
-          .catch(error => {
-            throw error;
-          });
+        dispatch(registerNewTTNDeviceSuccess(ttnResponse.data));
+        return ttnResponse.data;
       })
       .catch(error => {
         dispatch(ajaxCallError());
-        dispatch(endRegisterNewTTNDevice(deviceId));
         throw error;
+      })
+      .finally(() => {
+        dispatch(endRegisterNewTTNDevice());
       });
   };
 }

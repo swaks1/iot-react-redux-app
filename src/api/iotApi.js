@@ -239,7 +239,7 @@ class IotApi {
     });
   }
 
-  static registerNewTTNDevice(deviceId, ttnDeviceToRegister) {
+  static registerNewTTNDevice(ttnDeviceToRegister) {
     return new Promise((resolve, reject) => {
       axios
         .post(`http://localhost:8000/api/ttnDevices`, {

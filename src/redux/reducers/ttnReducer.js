@@ -66,6 +66,30 @@ export default function ttnReducer(
   /////////////////////////////////////////////
   // TTN DEVICE
   ////////////////////////////////////////////
+  if (action.type == types.BEGIN_REGISTER_NEW_TTN_DEVICE) {
+    return {
+      ...state,
+      deviceState: { ...state.deviceState, loading: true }
+    };
+  }
+
+  if (action.type == types.REGISTER_NEW_TTN_DEVICE_SUCCESS) {
+    return {
+      ...state,
+      deviceState: {
+        ...state.deviceState,
+        devices: [...state.deviceState.devices, action.data.ttnDevice],
+        loading: false
+      }
+    };
+  }
+
+  if (action.type == types.END_REGISTER_NEW_TTN_DEVICE) {
+    return {
+      ...state,
+      deviceState: { ...state.deviceState, loading: false }
+    };
+  }
 
   if (action.type == types.BEGIN_DELETE_TTN_DEVICE) {
     return state;

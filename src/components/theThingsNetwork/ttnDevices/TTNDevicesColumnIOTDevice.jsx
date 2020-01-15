@@ -47,7 +47,11 @@ const TTNDevicesColumnIOTDevice = ({
     </select>
   ) : (
     <>
-      <span></span>
+      {connectedDeviceExists(currentDevice) ? (
+        <span>{currentDevice.connectedIotDevice.name}</span>
+      ) : (
+        <span></span>
+      )}
     </>
   );
 };

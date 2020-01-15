@@ -14,7 +14,7 @@ import {
 import Modal from "./../../_common/Modal";
 import LoaderRow from "./../../_common/LoaderRow";
 
-class TTNInfomationMissingConnectNew extends React.Component {
+class TTNDevicesCreateNewDevice extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -73,7 +73,7 @@ class TTNInfomationMissingConnectNew extends React.Component {
               <FormGroup row className="mt-3">
                 <Label for="device.devId" sm={5}>
                   {" "}
-                  Dev Id <br/>(only lower case letters):
+                  Dev Id 
                 </Label>
                 <Col sm={7}>
                   <Input
@@ -84,9 +84,10 @@ class TTNInfomationMissingConnectNew extends React.Component {
                     onChange={this.handleInputChange}
                     value={this.state.device.devId}
                   />
+                  <div className={"text-danger font-weight-bold"}>Lower case letters, no spaces!</div>
                 </Col>
               </FormGroup>
-              <FormGroup row>
+              <FormGroup row className="mt-3">
                 <Label for="device.description" sm={5}>
                   {" "}
                   Description
@@ -109,28 +110,10 @@ class TTNInfomationMissingConnectNew extends React.Component {
           denyText={"Cancel"}
           denyAction={this.localDenyAction}
           toggle={this.localDenyAction}
-        />
-        {this.state.saving ? (
-          <>
-            <Row>
-              <Col md={12}>
-                <h4>Creating... </h4>
-              </Col>
-            </Row>
-            <LoaderRow />
-          </>
-        ) : (
-          <>
-            <Row>
-              <Col md={12}>
-                <h4>Create new.. ?? </h4>
-              </Col>
-            </Row>
-          </>
-        )}
+        />       
       </>
     );
   }
 }
 
-export default TTNInfomationMissingConnectNew;
+export default TTNDevicesCreateNewDevice;

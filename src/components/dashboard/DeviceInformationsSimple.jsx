@@ -32,21 +32,24 @@ const DeviceInformationsSimple = ({
               </Col>
             </Row>
 
-            <Row style={{ marginTop: "10px" }}>
+            <Row
+              style={{
+                marginTop: "10px",
+                fontSize: "0.8em"
+              }}
+            >
               <Col className="text-left" md={5}>
-                <span>Descr:</span>
+                <span>TTN DevId:</span>
               </Col>
-              <Col
-                className="text-left"
-                md={7}
-                style={{ paddingLeft: "0px", fontSize: "0.8em" }}
-              >
-                <span className="text-muted">{device.description}</span>
+              <Col className="text-left" md={7} style={{ paddingLeft: "0px" }}>
+                <span className="font-weight-bold">
+                  {device.ttnInfo ? device.ttnInfo.dev_id : ""}
+                </span>
               </Col>
             </Row>
 
-            <Row style={{ marginTop: "10px" }}>
-              <Col className="text-left" md={5}>
+            <Row style={{ marginTop: "10px " }}>
+              <Col className="text-left" md={5} style={{ fontSize: "0.9em" }}>
                 <span>Active:</span>
               </Col>
               <Col className="text-left" md={7} style={{ paddingLeft: "0px" }}>
@@ -88,7 +91,7 @@ const DeviceInformationsSimple = ({
             </Row>
 
             <Row style={{ marginTop: "10px" }}>
-              <Col className="text-left" md={5}>
+              <Col className="text-left" md={5} style={{ fontSize: "0.9em" }}>
                 <span>Interval:</span>
               </Col>
               <Col className="text-left" md={7} style={{ paddingLeft: "0px" }}>
@@ -97,7 +100,7 @@ const DeviceInformationsSimple = ({
             </Row>
 
             <Row style={{ marginTop: "10px" }}>
-              <Col className="text-left" md={5}>
+              <Col className="text-left" md={5} style={{ fontSize: "0.9em" }}>
                 <span>Location:</span>
               </Col>
               <Col className="text-left" md={7} style={{ paddingLeft: "0px" }}>

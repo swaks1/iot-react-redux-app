@@ -118,7 +118,7 @@ class TTNInfomationExist extends React.Component {
                 id="deleteExisting"
                 onClick={this.handleDeleteTTNInfo}
               >
-                Delete
+                Disconnect
               </Button>
             </Col>
           </Row>

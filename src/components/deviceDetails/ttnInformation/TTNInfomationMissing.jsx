@@ -21,8 +21,9 @@ import {
 
 import { prefix } from "../../../routes";
 
+import LoaderRow from "../../_common/LoaderRow";
 import TTNInfomationMissingAvailableActions from "./TTNInfomationMissingAvailableActions";
-import TTNInfomationMissingConnectNew from "./TTNInfomationMissingConnectNew";
+import TTNDevicesCreateNewDevice from "../../theThingsNetwork/ttnDevices/TTNDevicesCreateNewDevice";
 
 class TTNInfomationMissing extends React.Component {
   constructor(props) {
@@ -47,15 +48,25 @@ class TTNInfomationMissing extends React.Component {
 
       case "connectNew_Yes":
         ttnActions
-          .registerNewTTNDevice(this.props.device._id, event.data)
-          .then(() => {
-            toastr.success(
-              "Successfully registered and connected TTN device !"
-            );
+          .registerNewTTNDevice(event.data)
+          .then(ttnDevice => {
+            ttnActions
+              .saveExistingTTNDevice(this.props.device._id, {
+                app_id: ttnDevice.appId,
+                dev_id: ttnDevice.devId
+              })
+              .then(() => {
+                toastr.success(
+                  "Successfully registered TTN Device and connected it to this IOT device !"
+                );
+              })
+              .catch(error => {
+                throw error;
+              });
           })
-          .catch(() => {
+          .catch(error => {
             this.setState({ connectNew: false });
-            toastr.error("Failed to register and conneect TTN device");
+            toastr.error("Failed to register or conneect TTN device", error);
           });
         break;
 
@@ -84,7 +95,7 @@ class TTNInfomationMissing extends React.Component {
         </Row>
         {this.state.connectNew ? (
           <>
-            <TTNInfomationMissingConnectNew
+            <TTNDevicesCreateNewDevice
               confirmAction={ttnDeviceToRegister => {
                 this.handleTTNButtonClick({
                   data: ttnDeviceToRegister,
@@ -97,6 +108,7 @@ class TTNInfomationMissing extends React.Component {
                 });
               }}
             />
+            <LoaderRow />
           </>
         ) : (
           <TTNInfomationMissingAvailableActions
