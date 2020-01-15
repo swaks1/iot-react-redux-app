@@ -52,8 +52,8 @@ class TTNInfomationMissing extends React.Component {
           .then(ttnDevice => {
             ttnActions
               .saveExistingTTNDevice(this.props.device._id, {
-                app_id: ttnDevice.appId,
-                dev_id: ttnDevice.devId
+                appId: ttnDevice.appId,
+                devId: ttnDevice.devId
               })
               .then(() => {
                 toastr.success(

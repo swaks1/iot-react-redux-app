@@ -40,7 +40,7 @@ class TTNInformationContainer extends React.Component {
             </h4>
             <LoaderOverlay isLoading={deviceLoading}>
               <Form>
-                {device.ttnInfo && device.ttnInfo.dev_id ? (
+                {device.ttnInfo && device.ttnInfo.devId ? (
                   <TTNInfomationExist />
                 ) : (
                   <TTNInfomationMissing />

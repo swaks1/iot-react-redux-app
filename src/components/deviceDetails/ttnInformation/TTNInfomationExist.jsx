@@ -54,7 +54,7 @@ class TTNInfomationExist extends React.Component {
       ttnActions
         .loadExtendedTTNInfo(
           this.props.device._id,
-          this.props.device.ttnInfo.dev_id
+          this.props.device.ttnInfo.devId
         )
         .then(() => {
           toastr.success("Successfully loaded extended TTN Info !");
@@ -73,21 +73,21 @@ class TTNInfomationExist extends React.Component {
     return (
       <>
         <FormGroup row>
-          <Label for="app_id" sm={5}>
+          <Label for="appId" sm={5}>
             {" "}
             App Id
           </Label>
           <Col sm={7}>
-            {<h4 className={"col-form-label"}>{ttnInfo.app_id}</h4>}
+            {<h4 className={"col-form-label"}>{ttnInfo.appId}</h4>}
           </Col>
         </FormGroup>
         <FormGroup row>
-          <Label for="dev_id" sm={5}>
+          <Label for="devId" sm={5}>
             {" "}
             Dev Id
           </Label>
           <Col sm={7}>
-            {<h4 className={"col-form-label"}>{ttnInfo.dev_id}</h4>}
+            {<h4 className={"col-form-label"}>{ttnInfo.devId}</h4>}
           </Col>
         </FormGroup>
         <Row>

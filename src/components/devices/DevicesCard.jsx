@@ -49,7 +49,7 @@ const DevicesCard = ({ devices, loading, onSwitchChange, location }) => {
                                 {item.name}
                               </Link>
                             </td>
-                            <td>{item.ttnInfo ? item.ttnInfo.dev_id : ""}</td>
+                            <td>{item.ttnInfo ? item.ttnInfo.devId : ""}</td>
                             <td>
                               {item.isActive ? (
                                 <i

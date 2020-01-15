@@ -43,7 +43,7 @@ const DeviceInformationsSimple = ({
               </Col>
               <Col className="text-left" md={7} style={{ paddingLeft: "0px" }}>
                 <span className="font-weight-bold">
-                  {device.ttnInfo ? device.ttnInfo.dev_id : ""}
+                  {device.ttnInfo ? device.ttnInfo.devId : ""}
                 </span>
               </Col>
             </Row>

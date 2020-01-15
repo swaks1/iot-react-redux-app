@@ -109,8 +109,8 @@ class TTNDevicesContainer extends React.Component {
     ) {
       ttnActions
         .saveExistingTTNDevice(selectedDevice.connectedIotDevice._id, {
-          app_id: selectedDevice.appId,
-          dev_id: selectedDevice.devId
+          appId: selectedDevice.appId,
+          devId: selectedDevice.devId
         })
         .then(() => {
           toastr.success("Successfuly changed IOT device! ");
@@ -333,7 +333,7 @@ const mapStateToProps = (state, ownProps) => {
   ttnDevices = ttnDevices.map(ttnDevice => {
     var connectedIotDevice = iotDevices.find(
       iotDevice =>
-        iotDevice.ttnInfo != null && iotDevice.ttnInfo.dev_id == ttnDevice.devId
+        iotDevice.ttnInfo != null && iotDevice.ttnInfo.devId == ttnDevice.devId
     );
     if (connectedIotDevice != null) {
       connectedIotDevices.push(connectedIotDevice);
