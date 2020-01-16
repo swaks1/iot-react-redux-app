@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import * as deviceActions from "../../redux/actions/deviceActions";
+import * as importedDeviceActions from "../../redux/actions/deviceActions";
 
 import toastr from "toastr";
 
@@ -18,8 +18,8 @@ class Devices extends React.Component {
   }
 
   componentDidMount() {
-    //const { actions } = this.props;
-    //actions.loadDevices();
+    //const { deviceActions } = this.props;
+    //deviceActions.loadDevices();
   }
 
   componentDidUpdate = () => {
@@ -27,8 +27,8 @@ class Devices extends React.Component {
   };
 
   handleSwitch = (checked, id) => {
-    const { actions, data } = this.props;
-    actions
+    const { deviceActions, data } = this.props;
+    deviceActions
       .toggleDeviceToDashboard(checked, id, data)
       .then(() => {
         let text = checked ? "Added to dashboard" : "Removed from dashboard";
@@ -40,14 +40,14 @@ class Devices extends React.Component {
   };
 
   handleDialogAction = (data, action) => {
-    const { actions } = this.props;
+    const { deviceActions } = this.props;
 
     if (action == "OPEN") {
       this.setState({ showDeviceDialog: true });
     }
 
     if (action == "CONFIRMED") {
-      actions
+      deviceActions
         .registerDevice(data)
         .then(device => {
           toastr.success(`Successfully registered IoT device: ${device.name} `);
@@ -64,6 +64,24 @@ class Devices extends React.Component {
     }
   };
 
+  handleDeleteDeviceClick = deviceId => {
+    const { deviceActions } = this.props;
+    if (
+      window.confirm(
+        "Are you sure you wish to --------> DELETE <--------- this IOT device ? ALL DATA WILL BE LOST !!!!"
+      )
+    ) {
+      deviceActions
+        .deleteDevice(deviceId)
+        .then(() => {
+          toastr.success(`Successfully deleted IoT device.`);
+        })
+        .catch(error => {
+          toastr.error("Failed to delete IoT device", error);
+        });
+    }
+  };
+
   render() {
     const { data, loading } = this.props;
 
@@ -74,6 +92,7 @@ class Devices extends React.Component {
         onSwitchChange={this.handleSwitch}
         showDialog={this.state.showDeviceDialog}
         onDialogAction={this.handleDialogAction}
+        onDeleteDeviceClick={this.handleDeleteDeviceClick}
         {...this.props}
       />
     );
@@ -93,7 +112,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    actions: bindActionCreators(deviceActions, dispatch)
+    deviceActions: bindActionCreators(importedDeviceActions, dispatch)
   };
 };
 

@@ -15,6 +15,7 @@ const DevicesCard = ({
   onSwitchChange,
   showDialog,
   onDialogAction,
+  onDeleteDeviceClick,
   location
 }) => {
   return (
@@ -73,7 +74,20 @@ const DevicesCard = ({
                       <tbody>
                         {devices.map((item, index) => (
                           <tr key={item._id}>
-                            <td>{item._id}</td>
+                            <td>
+                              {item._id}{" "}
+                              <Button
+                                className="btn-link text-danger"
+                                size="sm"
+                                id="deleteDevice"
+                                style={{ paddingBottom: "10px" }}
+                                onClick={() => {
+                                  onDeleteDeviceClick(item._id);
+                                }}
+                              >
+                                x
+                              </Button>
+                            </td>
                             <td>
                               <Link to={`${location.pathname}/${item._id}`}>
                                 {item.name}

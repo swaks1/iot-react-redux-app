@@ -69,6 +69,29 @@ export function registerDeviceSuccess(device) {
   };
 }
 
+export function beginDeleteDevice() {
+  return {
+    type: types.BEGIN_DELETE_IOT_DEVICE,
+    data: {}
+  };
+}
+
+export function endDeleteDevice() {
+  return {
+    type: types.END_DELETE_IOT_DEVICE,
+    data: {}
+  };
+}
+
+export function deleteDeviceSuccess(deviceId) {
+  return {
+    type: types.DELETE_IOT_DEVICE_SUCCESS,
+    data: {
+      deviceId
+    }
+  };
+}
+
 export function saveDeviceSuccess(device) {
   return {
     type: types.SAVE_DEVICE_SUCCESS,
@@ -150,6 +173,26 @@ export function registerDevice(iotDevice) {
       })
       .finally(() => {
         dispatch(endRegisterDevice());
+      });
+  };
+}
+
+export function deleteDevice(deviceId) {
+  return function(dispatch) {
+    dispatch(beginAjaxCall());
+    dispatch(beginDeleteDevice());
+
+    return iotApi
+      .deleteDevice(deviceId)
+      .then(response => {
+        dispatch(deleteDeviceSuccess(deviceId));
+      })
+      .catch(error => {
+        dispatch(ajaxCallError());
+        throw error;
+      })
+      .finally(() => {
+        dispatch(endDeleteDevice());
       });
   };
 }

@@ -76,7 +76,7 @@ export default function deviceReducer(state = initialState.devices, action) {
   }
 
   /////////////////////////////////////////////
-  // REGISTER NEW IOT DEVICE
+  // REGISTER IOT DEVICE
   ////////////////////////////////////////////
 
   if (action.type == types.BEGIN_REGISTER_IOT_DEVICE) {
@@ -95,6 +95,23 @@ export default function deviceReducer(state = initialState.devices, action) {
       data: action.data.device
     };
     return [...state, device];
+  }
+
+  /////////////////////////////////////////////
+  // DELETE IOT DEVICE
+  ////////////////////////////////////////////
+
+  if (action.type == types.BEGIN_DELETE_IOT_DEVICE) {
+    return state;
+  }
+
+  if (action.type == types.END_DELETE_IOT_DEVICE) {
+    return state;
+  }
+
+  if (action.type == types.DELETE_IOT_DEVICE_SUCCESS) {
+    let devices = state.filter(device => device.deviceId != action.data.deviceId);
+    return [...devices];
   }
 
   /////////////////////////////////////////////

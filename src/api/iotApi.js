@@ -67,6 +67,21 @@ class IotApi {
     });
   }
 
+  static deleteDevice(deviceId) {
+    return new Promise((resolve, reject) => {
+      axios
+        .delete(`http://localhost:8000/api/devices/${deviceId}`)
+        .then(response => {
+          setTimeout(() => {
+            resolve(response);
+          }, 400);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+
   static saveDeviceInfo(device) {
     return new Promise((resolve, reject) => {
       axios
