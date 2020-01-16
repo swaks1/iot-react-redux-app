@@ -4,6 +4,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 const ModalWrapper = props => {
   const {
     isOpen,
+    confirming,
     modalTitle,
     modalBody,
     confirmText,
@@ -19,10 +20,10 @@ const ModalWrapper = props => {
         <ModalHeader toggle={toggle}>{modalTitle}</ModalHeader>
         <ModalBody>{modalBody}</ModalBody>
         <ModalFooter>
-          <Button color="success" onClick={confirmAction}>
+          <Button color="success" onClick={confirmAction} disabled={confirming}>
             {confirmText}
           </Button>{" "}
-          <Button color="warning" onClick={denyAction}>
+          <Button color="warning" onClick={denyAction} disabled={confirming}>
             {denyText}
           </Button>
         </ModalFooter>

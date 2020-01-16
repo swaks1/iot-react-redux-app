@@ -76,7 +76,29 @@ export default function deviceReducer(state = initialState.devices, action) {
   }
 
   /////////////////////////////////////////////
-  // REGISTER NEW or EXISTING TTN INFO
+  // REGISTER NEW IOT DEVICE
+  ////////////////////////////////////////////
+
+  if (action.type == types.BEGIN_REGISTER_IOT_DEVICE) {
+    return state;
+  }
+
+  if (action.type == types.END_REGISTER_IOT_DEVICE) {
+    return state;
+  }
+
+  if (action.type == types.REGISTER_IOT_DEVICE_SUCCESS) {
+    let device = {
+      ...stateHelper.getDevice(),
+      loading: false,
+      deviceId: action.data.device._id,
+      data: action.data.device
+    };
+    return [...state, device];
+  }
+
+  /////////////////////////////////////////////
+  // SAVE EXISTING TTN INFO
   ////////////////////////////////////////////
 
   if (action.type == types.BEGIN_SAVE_EXISTING_TTN_DEVICE) {

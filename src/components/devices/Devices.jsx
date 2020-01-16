@@ -14,19 +14,12 @@ class Devices extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = { showDeviceDialog: false };
   }
 
   componentDidMount() {
     //const { actions } = this.props;
     //actions.loadDevices();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // necessary to populate from when existing course is loaded directly
-    // if (this.props.course.id != nextProps.course.id) {
-    //   this.setState({ course: Object.assign({}, nextProps.course) });
-    // }
   }
 
   componentDidUpdate = () => {
@@ -46,6 +39,31 @@ class Devices extends React.Component {
       });
   };
 
+  handleDialogAction = (data, action) => {
+    const { actions } = this.props;
+
+    if (action == "OPEN") {
+      this.setState({ showDeviceDialog: true });
+    }
+
+    if (action == "CONFIRMED") {
+      actions
+        .registerDevice(data)
+        .then(device => {
+          toastr.success(`Successfully registered IoT device: ${device.name} `);
+          this.setState({ showDeviceDialog: false });
+        })
+        .catch(error => {
+          this.setState({ showDeviceDialog: false });
+          toastr.error("Failed to register IoT device", error);
+        });
+    }
+
+    if (action == "DENIED") {
+      this.setState({ showDeviceDialog: false });
+    }
+  };
+
   render() {
     const { data, loading } = this.props;
 
@@ -54,6 +72,8 @@ class Devices extends React.Component {
         devices={data}
         loading={loading}
         onSwitchChange={this.handleSwitch}
+        showDialog={this.state.showDeviceDialog}
+        onDialogAction={this.handleDialogAction}
         {...this.props}
       />
     );

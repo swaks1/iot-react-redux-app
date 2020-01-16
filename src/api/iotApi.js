@@ -52,6 +52,21 @@ class IotApi {
     });
   }
 
+  static registerDevice(device) {
+    return new Promise((resolve, reject) => {
+      axios
+        .post(`http://localhost:8000/api/devices`, device)
+        .then(response => {
+          setTimeout(() => {
+            resolve(response);
+          }, 400);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+
   static saveDeviceInfo(device) {
     return new Promise((resolve, reject) => {
       axios
@@ -335,8 +350,6 @@ class IotApi {
         });
     });
   }
-
-
 }
 
 export default IotApi;

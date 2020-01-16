@@ -2,20 +2,50 @@ import React from "react";
 //import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 
-import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
+import { Card, CardHeader, CardBody, Row, Col, Button } from "reactstrap";
 import Loader from "react-loader-spinner";
 import Switch from "react-switch";
 import Table from "../_common/Table";
 
-const DevicesCard = ({ devices, loading, onSwitchChange, location }) => {
+import CreateNewDeviceDialog from "./CreateNewDeviceDialog";
+
+const DevicesCard = ({
+  devices,
+  loading,
+  onSwitchChange,
+  showDialog,
+  onDialogAction,
+  location
+}) => {
   return (
     <>
       <Row>
         <Col md="12">
           <Card>
             <CardHeader>
-              <h3 className="title">Devices</h3>
-              <p className="category">All devices registered on the API</p>
+              <Row>
+                <Col md="12" className="mt-2 pl-5">
+                  <h3
+                    style={{ display: "inline-block", marginRight: "10px" }}
+                    className="title"
+                  >
+                    IOT Devices
+                  </h3>
+                  <Button
+                    color="success"
+                    size="sm"
+                    id="addNewTTNDevice"
+                    onClick={() => {
+                      onDialogAction(null, "OPEN");
+                    }}
+                  >
+                    +
+                  </Button>
+                  <p className="category">
+                    All IoT devices registered on the API
+                  </p>
+                </Col>
+              </Row>
             </CardHeader>
             <CardBody>
               <Row>
@@ -89,6 +119,18 @@ const DevicesCard = ({ devices, loading, onSwitchChange, location }) => {
           </Card>
         </Col>
       </Row>
+      {showDialog ? (
+        <CreateNewDeviceDialog
+          confirmAction={iotDevice => {
+            onDialogAction(iotDevice, "CONFIRMED");
+          }}
+          denyAction={() => {
+            onDialogAction(null, "DENIED");
+          }}
+        />
+      ) : (
+        <></>
+      )}
     </>
   );
 };

@@ -46,6 +46,29 @@ export function loadDeviceSuccess(deviceId, device) {
   };
 }
 
+export function beginRegisterDevice() {
+  return {
+    type: types.BEGIN_REGISTER_IOT_DEVICE,
+    data: {}
+  };
+}
+
+export function endRegisterDevice() {
+  return {
+    type: types.END_REGISTER_IOT_DEVICE,
+    data: {}
+  };
+}
+
+export function registerDeviceSuccess(device) {
+  return {
+    type: types.REGISTER_IOT_DEVICE_SUCCESS,
+    data: {
+      device
+    }
+  };
+}
+
 export function saveDeviceSuccess(device) {
   return {
     type: types.SAVE_DEVICE_SUCCESS,
@@ -106,6 +129,27 @@ export function loadDevice(id) {
       })
       .finally(() => {
         dispatch(endLoadDevice(id));
+      });
+  };
+}
+
+export function registerDevice(iotDevice) {
+  return function(dispatch) {
+    dispatch(beginAjaxCall());
+    dispatch(beginRegisterDevice());
+
+    return iotApi
+      .registerDevice(iotDevice)
+      .then(response => {
+        dispatch(registerDeviceSuccess(response.data));
+        return response.data;
+      })
+      .catch(error => {
+        dispatch(ajaxCallError());
+        throw error;
+      })
+      .finally(() => {
+        dispatch(endRegisterDevice());
       });
   };
 }
