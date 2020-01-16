@@ -75,7 +75,7 @@ const DevicesCard = ({
                         {devices.map((item, index) => (
                           <tr key={item._id}>
                             <td>
-                              {item._id}{" "}
+                              {item._id}
                               <Button
                                 className="btn-link text-danger"
                                 size="sm"
