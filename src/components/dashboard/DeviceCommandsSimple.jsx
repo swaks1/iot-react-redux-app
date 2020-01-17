@@ -19,35 +19,46 @@ const DeviceCommandsSimple = ({
             Device Available Commands
           </h4>
 
+          <Row>
+            <Col md={12}>
+              <i className="fa fa-wifi"></i> Wifi Commands
+            </Col>
+          </Row>
+
           <Row className="mt-2">
             {deviceWrapper.isActive ? (
-              <Col className="text-center" md={{ size: 6, offset: 3 }}>
+              <Col className="text-center" md={{ size: 6, offset: 0 }}>
                 <Button
                   color="danger"
                   size="sm"
                   id="deactivateBtn"
+                  className="btn-block"
                   onClick={onCommandClick}
                 >
                   Deactivate Device
                 </Button>
               </Col>
             ) : (
-              <Col className="text-center" md={{ size: 6, offset: 3 }}>
+              <Col className="text-center" md={{ size: 6, offset: 0 }}>
                 <Button
                   color="success"
                   size="sm"
                   id="activateBtn"
+                  className="btn-block"
                   onClick={onCommandClick}
                 >
                   Activate Device
                 </Button>
               </Col>
             )}
-          </Row>
 
-          <Row className="mt-4">
-            <Col className="text-center" md={{ size: 6, offset: 3 }}>
-              <Button size="sm" id="updateLocationBtn" onClick={onCommandClick}>
+            <Col className="text-center" md={{ size: 6, offset: 0 }}>
+              <Button
+                size="sm"
+                id="updateLocationBtn"
+                className="btn-block"
+                onClick={onCommandClick}
+              >
                 Update Location
               </Button>
             </Col>
@@ -75,6 +86,44 @@ const DeviceCommandsSimple = ({
             <Col className="text-left pl-0" sm={{ size: 4 }}>
               <Button size="sm" id="changeIntervalBtn" onClick={onCommandClick}>
                 Change
+              </Button>
+            </Col>
+          </Row>
+
+          <Row className="mt-2">
+            <Col>
+              <hr />
+            </Col>
+          </Row>
+
+          <Row>
+            <Col md={12}>
+              <i className="fa fa-signal"></i> LoraWAN Commands
+            </Col>
+          </Row>
+
+          <Row className="mt-2">
+            <Col className="text-center" md={{ size: 6, offset: 0 }}>
+              <Button
+                size="sm"
+                id="ledOn_Lora"
+                color="success"
+                className="btn-block"
+                onClick={onCommandClick}
+              >
+                Led On
+              </Button>
+            </Col>
+
+            <Col className="text-center" md={{ size: 6, offset: 0 }}>
+              <Button
+                size="sm"
+                id="ledOff_Lora"
+                color="warning"
+                className="btn-block"
+                onClick={onCommandClick}
+              >
+                Led Off
               </Button>
             </Col>
           </Row>
