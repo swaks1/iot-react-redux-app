@@ -108,14 +108,11 @@ const DeviceDetailsCard = ({
                           sm="12"
                           device={device}
                           deviceLoading={deviceLoading}
-                          dataType={dataType}
-                          onDataTypeChange={onDataTypeChange}
                           onRefreshClick={onRefreshClick}
-                          onReloadDataTypeClick={onReloadDataTypeClick}
                           editMode={editMode}
+                          onDeviceFieldChange={onDeviceFieldChange}
                           onEditInfo={onEditInfo}
                           onCancelEditInfo={onCancelEditInfo}
-                          onDeviceFieldChange={onDeviceFieldChange}
                           onSaveInfo={onSaveInfo}
                         />
                       </Row>
@@ -126,8 +123,6 @@ const DeviceDetailsCard = ({
                           sm="12"
                           device={device}
                           deviceLoading={deviceLoading}
-                          dataType={dataType}
-                          onDataTypeChange={onDataTypeChange}
                           onReloadDataTypeClick={onReloadDataTypeClick}
                         />
                       </Row>
@@ -168,7 +163,6 @@ const DeviceDetailsCard = ({
                       device={device}
                       dataType={dataType}
                       onDataTypeChange={onDataTypeChange}
-                      deviceData={deviceData}
                       deviceDataLoading={deviceDataLoading}
                       getDataForLineChart={getDataForLineChart}
                       onRefreshClick={onRefreshClick}
@@ -180,9 +174,9 @@ const DeviceDetailsCard = ({
                       sm="8"
                       deviceData={deviceData}
                       deviceDataLoading={deviceDataLoading}
-                      dataPeriod={dataPeriod}
                       onDataLineChartButtonClick={onDataLineChartButtonClick}
                       getDataForLineChart={getDataForLineChart}
+                      dataPeriod={dataPeriod}
                     />
                   </Row>
                   <Row>

@@ -14,7 +14,6 @@ const DeviceDataTable = ({
   device,
   dataType,
   onDataTypeChange,
-  deviceData,
   deviceDataLoading,
   getDataForLineChart,
   onRefreshClick

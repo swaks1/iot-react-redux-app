@@ -40,15 +40,13 @@ class TTNInformationContainer extends React.Component {
                 <i className="fa fa-signal"></i> LoraWAN (The Things Network)
               </Col>
             </Row>
-            <LoaderOverlay isLoading={deviceLoading}>
-              <Form>
-                {device.ttnInfo && device.ttnInfo.devId ? (
-                  <TTNInfomationExist />
-                ) : (
-                  <TTNInfomationMissing />
-                )}
-              </Form>
-            </LoaderOverlay>
+            <Form>
+              {device && device.ttnInfo && device.ttnInfo.devId ? (
+                <TTNInfomationExist />
+              ) : (
+                <TTNInfomationMissing />
+              )}
+            </Form>
           </Card>
         </Col>
       </>
