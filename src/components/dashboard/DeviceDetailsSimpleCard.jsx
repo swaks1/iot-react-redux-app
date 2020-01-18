@@ -95,7 +95,6 @@ const DeviceDetailsSimpleCard = ({
                       sm="12"
                       device={device}
                       deviceLoading={deviceLoading}
-                      dataType={dataType}
                       onDataTypeChange={onDataTypeChange}
                     />
 
@@ -103,6 +102,9 @@ const DeviceDetailsSimpleCard = ({
                       lg="3"
                       md="12"
                       sm="12"
+                      device={device}
+                      dataType={dataType}
+                      onDataTypeChange={onDataTypeChange}
                       deviceData={deviceData}
                       deviceDataLoading={deviceDataLoading}
                       getDataForLineChart={getDataForLineChart}
@@ -117,7 +119,6 @@ const DeviceDetailsSimpleCard = ({
                       dataPeriod={dataPeriod}
                       onDataLineChartButtonClick={onDataLineChartButtonClick}
                       getDataForLineChart={getDataForLineChart}
-                      hideInfoHeader={true}
                     />
 
                     <DeviceCommandsSimple

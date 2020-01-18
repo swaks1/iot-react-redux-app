@@ -1,7 +1,8 @@
 import React from "react";
 
-import { Card, Col } from "reactstrap";
+import classNames from "classnames";
 
+import { Card, Row, Col, Button, ButtonGroup } from "reactstrap";
 import Table from "../_common/Table";
 import LoaderOverlay from "../_common/LoaderOverlay";
 
@@ -9,6 +10,9 @@ const DeviceDataTableSimple = ({
   lg,
   md,
   sm,
+  device,
+  dataType,
+  onDataTypeChange,
   deviceData,
   deviceDataLoading,
   getDataForLineChart,
@@ -25,6 +29,47 @@ const DeviceDataTableSimple = ({
             Device Data &nbsp;
           </h4>
           <LoaderOverlay isLoading={deviceDataLoading}>
+            <Row className="mb-3 text-center">
+              <Col md={12}>
+                <ButtonGroup className="btn-group-toggle" data-toggle="buttons">
+                  {device.dataTypes != null ? (
+                    <>
+                      {device.dataTypes.map((item, index) => {
+                        return (
+                          <Button
+                            key={index}
+                            id={index}
+                            color="info"
+                            size="sm"
+                            tag="label"
+                            className={classNames("btn-simple", {
+                              active: dataType === item
+                            })}
+                            onClick={e => {
+                              e.preventDefault();
+                              onDataTypeChange(item);
+                            }} //was firing twice for some reason ???
+                          >
+                            <input
+                              defaultChecked
+                              className="d-none"
+                              name="options"
+                              type="radio"
+                            />
+                            <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
+                              {item}
+                            </span>
+                            <span className="d-block d-sm-none">
+                              <i className="tim-icons icon-tap-02" />
+                            </span>
+                          </Button>
+                        );
+                      })}
+                    </>
+                  ) : null}
+                </ButtonGroup>
+              </Col>
+            </Row>
             <Table className="simpleTable">
               <thead className="text-primary">
                 <tr>

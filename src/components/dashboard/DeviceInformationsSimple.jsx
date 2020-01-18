@@ -9,9 +9,7 @@ const DeviceInformationsSimple = ({
   md,
   sm,
   device,
-  deviceLoading,
-  dataType,
-  onDataTypeChange
+  deviceLoading
 }) => {
   return (
     <>
@@ -32,19 +30,12 @@ const DeviceInformationsSimple = ({
               </Col>
             </Row>
 
-            <Row
-              style={{
-                marginTop: "10px",
-                fontSize: "0.8em"
-              }}
-            >
-              <Col className="text-left" md={5}>
-                <span>TTN DevId:</span>
+            <Row>
+              <Col md={12}>
+                <hr />
               </Col>
-              <Col className="text-left" md={7} style={{ paddingLeft: "0px" }}>
-                <span className="font-weight-bold">
-                  {device.ttnInfo ? device.ttnInfo.devId : ""}
-                </span>
+              <Col md={12} style={{ fontSize: "0.8em" }}>
+                <i className="fa fa-wifi"></i> WiFi
               </Col>
             </Row>
 
@@ -62,35 +53,6 @@ const DeviceInformationsSimple = ({
             </Row>
 
             <Row style={{ marginTop: "10px" }}>
-              <Col className="text-left" md={5} style={{ fontSize: "0.8em" }}>
-                <span>DataTypes:</span>
-              </Col>
-              <Col
-                className="text-left"
-                md={7}
-                style={{ paddingLeft: "0px", fontSize: "0.8em" }}
-              >
-                {device.dataTypes != null ? (
-                  <>
-                    {device.dataTypes.map((item, index) => {
-                      return (
-                        <div key={index}>
-                          <Button
-                            color="btn btn-link"
-                            onClick={() => onDataTypeChange(item)}
-                            style={{ padding: "0px 0px" }}
-                          >
-                            {item}
-                          </Button>
-                        </div>
-                      );
-                    })}
-                  </>
-                ) : null}
-              </Col>
-            </Row>
-
-            <Row style={{ marginTop: "10px" }}>
               <Col className="text-left" md={5} style={{ fontSize: "0.9em" }}>
                 <span>Interval:</span>
               </Col>
@@ -99,18 +61,30 @@ const DeviceInformationsSimple = ({
               </Col>
             </Row>
 
-            <Row style={{ marginTop: "10px" }}>
-              <Col className="text-left" md={5} style={{ fontSize: "0.9em" }}>
-                <span>Location:</span>
+            <Row>
+              <Col md={12}>
+                <hr />
               </Col>
-              <Col className="text-left" md={7} style={{ paddingLeft: "0px" }}>
-                <span className="text-muted">{`(${device.location.lat} , ${device.location.lng})`}</span>{" "}
-                <br />
-                <span
-                  style={{ fontSize: "0.8em" }}
-                >{`${device.location.description}`}</span>
+              <Col md={12} style={{ fontSize: "0.8em" }}>
+                <i className="fa fa-signal"></i> LoraWAN
               </Col>
             </Row>
+
+            <Row
+              style={{
+                marginTop: "10px",
+                fontSize: "0.8em"
+              }}
+            >
+              <Col className="text-left" md={5}>
+                <span>TTN DevId:</span>
+              </Col>
+              <Col className="text-left" md={7} style={{ paddingLeft: "0px" }}>
+                <span className="font-weight-bold">
+                  {device.ttnInfo ? device.ttnInfo.devId : ""}
+                </span>
+              </Col>
+            </Row>           
           </LoaderOverlay>
         </Card>
       </Col>

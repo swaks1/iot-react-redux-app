@@ -18,10 +18,7 @@ const DeviceInformations = ({
   sm,
   device,
   deviceLoading,
-  dataType,
-  onDataTypeChange,
   onRefreshClick,
-  onReloadDataTypeClick,
   editMode,
   onDeviceFieldChange,
   onEditInfo,
@@ -74,70 +71,6 @@ const DeviceInformations = ({
                 </Col>
               </FormGroup>
 
-              <FormGroup row>
-                <Label for="active" sm={5}>
-                  {" "}
-                  Active{" "}
-                </Label>
-                <Col sm={7}>
-                  {device.isActive ? (
-                    <i
-                      className="fa fa-check fa-2x"
-                      style={{ color: "green" }}
-                    ></i>
-                  ) : (
-                    <i className="fa fa-times fa-2x" style={{ color: "red" }} />
-                  )}
-                </Col>
-              </FormGroup>
-              {editMode === false ? (
-                <FormGroup row>
-                  <Label for="dataTypes" sm={5}>
-                    {" "}
-                    Data Types{" "}
-                  </Label>
-                  <Col sm={5} style={{ paddingLeft: "0px", fontSize: "0.8em" }}>
-                    {device.dataTypes != null ? (
-                      <>
-                        {device.dataTypes.map((item, index) => {
-                          return (
-                            <div key={index}>
-                              <Button
-                                color="btn btn-link"
-                                onClick={() => onDataTypeChange(item)}
-                                style={{ padding: "0px 0px" }}
-                              >
-                                {item}
-                              </Button>
-                            </div>
-                          );
-                        })}
-                      </>
-                    ) : null}
-                  </Col>
-                  <Col sm={2}>
-                    <i
-                      className="fa fa-sync"
-                      style={{ color: "green", cursor: "pointer" }}
-                      id="ReloadDataTypeBtn"
-                      onClick={onReloadDataTypeClick}
-                    ></i>
-                  </Col>
-                </FormGroup>
-              ) : null}
-
-              {editMode === false ? (
-                <FormGroup row>
-                  <Label for="active" sm={5}>
-                    {" "}
-                    Send Interval{" "}
-                  </Label>
-                  <Col sm={7}>
-                    <h4>{`${device.sendDataDelay} ms`}</h4>
-                  </Col>
-                </FormGroup>
-              ) : null}
-
               {editMode === false ? (
                 <FormGroup row>
                   <Label for="active" sm={5}>
@@ -145,7 +78,7 @@ const DeviceInformations = ({
                     Location{" "}
                   </Label>
                   <Col sm={7}>
-                    <h4>
+                    <h4 className={"col-form-label"}>
                       {`(${device.location.lat} , ${device.location.lng})`}{" "}
                       <br /> {`${device.location.description}`}
                     </h4>
@@ -205,7 +138,7 @@ const DeviceInformations = ({
                 </>
               )}
 
-              <FormGroup row className="mt-5">
+              <FormGroup row>
                 {editMode === true ? (
                   <>
                     <Col sm={{ size: 3, offset: 1 }} className="text-left">
@@ -224,17 +157,19 @@ const DeviceInformations = ({
                     </Col>
                   </>
                 ) : (
-                  <Col sm={{ size: 4, offset: 0 }}>
-                    <Button
-                      color="link"
-                      style={{ paddingLeft: "0px" }}
-                      onClick={onEditInfo}
-                    >
-                      Edit Info
-                    </Button>
-                  </Col>
+                  <>
+                    <Col sm={{ size: 4, offset: 0 }}>
+                      <Button
+                        color="link"
+                        style={{ paddingLeft: "0px" }}
+                        onClick={onEditInfo}
+                      >
+                        Edit Info
+                      </Button>
+                    </Col>
+                  </>
                 )}
-              </FormGroup>
+              </FormGroup>             
             </Form>
           </LoaderOverlay>
         </Card>

@@ -7,7 +7,8 @@ import { Card, CardHeader, CardBody, Row, Col, Input } from "reactstrap";
 import LoaderRow from "../_common/LoaderRow";
 import Switch from "react-switch";
 import DeviceInformations from "./DeviceInformations";
-import TTNInformationContainer from "./ttnInformation/TTNInformationContainer";
+import DeviceDataTypes from "./DeviceDataTypes";
+import DeviceConnections from "./DeviceConnections";
 import DeviceCommands from "./DeviceCommands";
 import DeviceCommandsHistory from "./DeviceCommandsHistory";
 import DeviceDataTable from "./DeviceDataTable";
@@ -99,26 +100,47 @@ const DeviceDetailsCard = ({
               ) : (
                 <>
                   <Row>
-                    <DeviceInformations
+                    <Col lg="4" md="12" sm="12">
+                      <Row>
+                        <DeviceInformations
+                          lg="12"
+                          md="12"
+                          sm="12"
+                          device={device}
+                          deviceLoading={deviceLoading}
+                          dataType={dataType}
+                          onDataTypeChange={onDataTypeChange}
+                          onRefreshClick={onRefreshClick}
+                          onReloadDataTypeClick={onReloadDataTypeClick}
+                          editMode={editMode}
+                          onEditInfo={onEditInfo}
+                          onCancelEditInfo={onCancelEditInfo}
+                          onDeviceFieldChange={onDeviceFieldChange}
+                          onSaveInfo={onSaveInfo}
+                        />
+                      </Row>
+                      <Row>
+                        <DeviceDataTypes
+                          lg="12"
+                          md="12"
+                          sm="12"
+                          device={device}
+                          deviceLoading={deviceLoading}
+                          dataType={dataType}
+                          onDataTypeChange={onDataTypeChange}
+                          onReloadDataTypeClick={onReloadDataTypeClick}
+                        />
+                      </Row>
+                    </Col>
+
+                    <DeviceConnections
                       lg="4"
-                      md="6"
+                      md="12"
                       sm="12"
                       device={device}
                       deviceLoading={deviceLoading}
-                      dataType={dataType}
-                      onDataTypeChange={onDataTypeChange}
-                      onRefreshClick={onRefreshClick}
-                      onReloadDataTypeClick={onReloadDataTypeClick}
-                      editMode={editMode}
-                      onEditInfo={onEditInfo}
-                      onCancelEditInfo={onCancelEditInfo}
-                      onDeviceFieldChange={onDeviceFieldChange}
-                      onSaveInfo={onSaveInfo}
                     />
-
-                    <TTNInformationContainer lg="4" md="6" sm="12" />
-
-                    <Col lg="4" md="6" sm="12">
+                    <Col lg="4" md="12" sm="12">
                       <Row>
                         <DeviceCommands
                           sm="12"
@@ -143,6 +165,9 @@ const DeviceDetailsCard = ({
                       lg="4"
                       md="4"
                       sm="4"
+                      device={device}
+                      dataType={dataType}
+                      onDataTypeChange={onDataTypeChange}
                       deviceData={deviceData}
                       deviceDataLoading={deviceDataLoading}
                       getDataForLineChart={getDataForLineChart}

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Card, Col } from "reactstrap";
+import { Card, Col, Row } from "reactstrap";
 import GoogleMapReact from "google-map-react";
 import SimpleMarker from "../_common/SimpleMarker";
 import LoaderOverlay from "../_common/LoaderOverlay";
@@ -37,7 +37,9 @@ const DeviceLocationMap = ({ lg, md, sm, device, deviceLoading }) => {
           <LoaderOverlay isLoading={deviceLoading}>
             <div style={{ height: "40vh", width: "100%" }}>
               <GoogleMapReact
-                bootstrapURLKeys={{ key: "" }}
+                bootstrapURLKeys={{
+                  key: ""
+                }}
                 defaultCenter={locationCenter.center}
                 center={locationCenter.center}
                 defaultZoom={locationCenter.zoom}
@@ -54,6 +56,17 @@ const DeviceLocationMap = ({ lg, md, sm, device, deviceLoading }) => {
                 />
               </GoogleMapReact>
             </div>
+            <Row style={{ marginTop: "30px" }}>
+              <Col className="text-left" md={3} style={{ fontSize: "0.9em" }}>
+                <span>Location:</span>
+              </Col>
+              <Col className="text-left" md={3} style={{ paddingLeft: "0px" }}>
+                <span className="text-muted">{`(${device.location.lat} , ${device.location.lng})`}</span>{" "}
+              </Col>
+              <Col className="text-left" md={6}>
+                <span>{`${device.location.description}`}</span>
+              </Col>
+            </Row>
           </LoaderOverlay>
         </Card>
       </Col>

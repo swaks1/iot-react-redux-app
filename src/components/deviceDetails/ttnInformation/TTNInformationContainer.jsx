@@ -34,10 +34,12 @@ class TTNInformationContainer extends React.Component {
     return (
       <>
         <Col lg={lg} md={md} sm={sm}>
-          <Card style={{ backgroundColor: "#f7f6f6", padding: "20px 20px" }}>
-            <h4 className="text-center font-italic font-weight-light">
-              Device TTN Information &nbsp;
-            </h4>
+          <Card style={{ backgroundColor: "#f7f6f6", padding: "0px 0px" }}>
+            <Row>
+              <Col md={12}>
+                <i className="fa fa-signal"></i> LoraWAN (The Things Network)
+              </Col>
+            </Row>
             <LoaderOverlay isLoading={deviceLoading}>
               <Form>
                 {device.ttnInfo && device.ttnInfo.devId ? (
