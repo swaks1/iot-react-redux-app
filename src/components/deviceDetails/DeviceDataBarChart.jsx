@@ -3,7 +3,7 @@ import { Bar } from "react-chartjs-2";
 
 import { Card, CardHeader, CardBody, CardTitle, Col } from "reactstrap";
 
-import { BarChartHelper } from "../../charts/chartHelper";
+import { BarChartHelper } from "../../utils/chartHelper";
 
 import LoaderOverlay from "../_common/LoaderOverlay";
 

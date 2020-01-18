@@ -33,6 +33,7 @@ const DeviceCommandsHistory = ({
                   <th className="text-center">Created</th>
                   <th className="text-center">Type</th>
                   <th className="text-center">Value</th>
+                  <th className="text-center">Channel</th>
                   <th className="text-center">Executed</th>
                 </tr>
               </thead>
@@ -51,6 +52,9 @@ const DeviceCommandsHistory = ({
                       </td>
                       <td className="text-center">
                         {item.commandItem.commandValue}
+                      </td>
+                      <td className="text-center">
+                        {item.channel}
                       </td>
                       <td className="text-center">
                         {item.executed ? (

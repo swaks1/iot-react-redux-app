@@ -24,9 +24,10 @@ const DeviceCommandsHistorySimple = ({
               <thead className="text-primary">
                 <tr>
                   <th className="text-center">Created</th>
-                  <th className="text-center">Type</th>
-                  <th className="text-center">Value</th>
-                  <th className="text-center">Executed</th>
+                  <th className="text-center" style={{fontSize:"0.7em"}}>Type</th>
+                  <th className="text-center" style={{fontSize:"0.7em"}}>Value</th>
+                  <th className="text-center" style={{fontSize:"0.7em"}}>Channel</th>
+                  <th className="text-center" style={{fontSize:"0.7em"}}>Executed</th>
                 </tr>
               </thead>
               <tbody>
@@ -39,13 +40,16 @@ const DeviceCommandsHistorySimple = ({
                       <td className="text-center">
                         {date} <br /> {time}
                       </td>
-                      <td className="text-center">
+                      <td className="text-center font-weight-bold" style={{fontSize:"0.7em"}}>
                         {item.commandItem.commandType}
                       </td>
-                      <td className="text-center">
+                      <td className="text-center font-weight-bold" style={{fontSize:"0.7em"}}>
                         {item.commandItem.commandValue}
                       </td>
-                      <td className="text-center">
+                      <td className="text-center font-weight-bold" style={{fontSize:"0.7em"}}>
+                        {item.channel}
+                      </td>
+                      <td className="text-center" style={{fontSize:"0.7em"}}>
                         {item.executed ? (
                           <i
                             className="fa fa-check fa-1x"

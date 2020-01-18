@@ -13,7 +13,7 @@ import {
   Col
 } from "reactstrap";
 
-import { LineChartHelper } from "../../charts/chartHelper";
+import { LineChartHelper } from "../../utils/chartHelper";
 import LoaderOverlay from "../_common/LoaderOverlay";
 
 const DeviceDataLineChart = ({

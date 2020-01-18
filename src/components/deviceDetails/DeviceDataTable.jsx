@@ -90,7 +90,7 @@ const DeviceDataTable = ({
                   let date = dateAndTime.substring(0, 10);
                   let time = dateAndTime.substring(11, 19);
                   let type = response.name;
-                  let value = response.data[index].toString().substring(0, 4);
+                  let value = response.data[index].toFixed(2);
 
                   return (
                     <tr key={index}>

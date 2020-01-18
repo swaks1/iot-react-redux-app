@@ -8,7 +8,7 @@ import * as importedCommandActions from "../../redux/actions/commandActions";
 import * as importedDeviceDataActions from "../../redux/actions/deviceDataActions";
 
 import toastr from "toastr";
-
+import { commandHelper } from "./../../utils/commandHelper";
 import DeviceDetailsSimpleCard from "./DeviceDetailsSimpleCard";
 
 class DeviceDetailsSimple extends React.Component {
@@ -223,6 +223,33 @@ class DeviceDetailsSimple extends React.Component {
             toastr.error(error);
           });
         break;
+      case "ledOn_Lora":
+        commandActions
+          .sendGenericCommand(
+            deviceId,
+            commandHelper.getLoraWANCommand("LED_ON", 1)
+          )
+          .then(() => {
+            toastr.success(`Inserted Led ON command !`);
+          })
+          .catch(error => {
+            toastr.error(error);
+          });
+        break;
+      case "ledOff_Lora":
+        commandActions
+          .sendGenericCommand(
+            deviceId,
+            commandHelper.getLoraWANCommand("LED_OFF", 0)
+          )
+          .then(() => {
+            toastr.success(`Inserted Led OFF command !`);
+          })
+          .catch(error => {
+            toastr.error(error);
+          });
+        break;
+
       default:
         console.log("unknown btn command");
     }

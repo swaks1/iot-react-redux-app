@@ -2,20 +2,30 @@ import * as types from "./actionTypes";
 import iotApi from "../../api/iotApi";
 import { beginAjaxCall, ajaxCallError, endAjaxCall } from "./ajaxStatusActions";
 
-export function beginLoadDeviceCommands(deviceId) {
+export function beginDeviceCommands(deviceId) {
   return {
-    type: types.BEGIN_LOAD_DEVICE_COMMANDS,
+    type: types.BEGIN_DEVICE_COMMANDS,
     data: {
       deviceId: deviceId
     }
   };
 }
 
-export function endLoadDeviceCommands(deviceId) {
+export function endDeviceCommands(deviceId) {
   return {
-    type: types.END_LOAD_DEVICE_COMMANDS,
+    type: types.END_DEVICE_COMMANDS,
     data: {
       deviceId: deviceId
+    }
+  };
+}
+
+export function deviceCommandsSuccess(deviceId, commands) {
+  return {
+    type: types.DEVICE_COMMANDS_SUCCESS,
+    data: {
+      deviceId: deviceId,
+      data: commands
     }
   };
 }
@@ -72,39 +82,39 @@ export function changeIntervalCommandSuccess(deviceId, commands) {
 
 //THUNKS thunk async functions that return action
 
-export function loadDeviceCommands(id) {
+export function loadDeviceCommands(deviceId) {
   return function(dispatch) {
     dispatch(beginAjaxCall());
-    dispatch(beginLoadDeviceCommands(id));
+    dispatch(beginDeviceCommands(deviceId));
 
     return iotApi
-      .loadCommands(id)
+      .loadCommands(deviceId)
       .then(response => {
-        dispatch(loadDeviceCommandsSuccess(id, response.data));
+        dispatch(loadDeviceCommandsSuccess(deviceId, response.data));
       })
       .catch(error => {
         dispatch(ajaxCallError());
         throw error;
       })
       .finally(() => {
-        dispatch(endLoadDeviceCommands(id));
+        dispatch(endDeviceCommands(deviceId));
       });
   };
 }
 
-export function activateDeviceCommand(id) {
+export function activateDeviceCommand(deviceId) {
   return function(dispatch) {
     dispatch(beginAjaxCall());
-    dispatch(beginLoadDeviceCommands(id));
+    dispatch(beginDeviceCommands(deviceId));
 
     return iotApi
-      .activateDeviceCommand(id)
+      .activateDeviceCommand(deviceId)
       .then(response => {
         iotApi
-          .loadCommands(id)
+          .loadCommands(deviceId)
           .then(response => {
-            dispatch(activateDeviceCommandSuccess(id, response.data));
-            dispatch(endLoadDeviceCommands(id));
+            dispatch(activateDeviceCommandSuccess(deviceId, response.data));
+            dispatch(endDeviceCommands(deviceId));
           })
           .catch(error => {
             throw error;
@@ -112,25 +122,25 @@ export function activateDeviceCommand(id) {
       })
       .catch(error => {
         dispatch(ajaxCallError());
-        dispatch(endLoadDeviceCommands(id));
+        dispatch(endDeviceCommands(deviceId));
         throw error;
       });
   };
 }
 
-export function deactivateDeviceCommand(id) {
+export function deactivateDeviceCommand(deviceId) {
   return function(dispatch) {
     dispatch(beginAjaxCall());
-    dispatch(beginLoadDeviceCommands(id));
+    dispatch(beginDeviceCommands(deviceId));
 
     return iotApi
-      .deactivateDeviceCommand(id)
+      .deactivateDeviceCommand(deviceId)
       .then(response => {
         iotApi
-          .loadCommands(id)
+          .loadCommands(deviceId)
           .then(response => {
-            dispatch(deactivateDeviceCommandSuccess(id, response.data));
-            dispatch(endLoadDeviceCommands(id));
+            dispatch(deactivateDeviceCommandSuccess(deviceId, response.data));
+            dispatch(endDeviceCommands(deviceId));
           })
           .catch(error => {
             throw error;
@@ -138,25 +148,25 @@ export function deactivateDeviceCommand(id) {
       })
       .catch(error => {
         dispatch(ajaxCallError());
-        dispatch(endLoadDeviceCommands(id));
+        dispatch(endDeviceCommands(deviceId));
         throw error;
       });
   };
 }
 
-export function updateLocationCommand(id) {
+export function updateLocationCommand(deviceId) {
   return function(dispatch) {
     dispatch(beginAjaxCall());
-    dispatch(beginLoadDeviceCommands(id));
+    dispatch(beginDeviceCommands(deviceId));
 
     return iotApi
-      .updateLocationCommand(id)
+      .updateLocationCommand(deviceId)
       .then(response => {
         iotApi
-          .loadCommands(id)
+          .loadCommands(deviceId)
           .then(response => {
-            dispatch(updateLocationCommandSuccess(id, response.data));
-            dispatch(endLoadDeviceCommands(id));
+            dispatch(updateLocationCommandSuccess(deviceId, response.data));
+            dispatch(endDeviceCommands(deviceId));
           })
           .catch(error => {
             throw error;
@@ -169,19 +179,19 @@ export function updateLocationCommand(id) {
   };
 }
 
-export function changeIntervalCommand(id, interval) {
+export function changeIntervalCommand(deviceId, interval) {
   return function(dispatch) {
     dispatch(beginAjaxCall());
-    dispatch(beginLoadDeviceCommands(id));
+    dispatch(beginDeviceCommands(deviceId));
 
     return iotApi
-      .changeIntervalCommand(id, interval)
+      .changeIntervalCommand(deviceId, interval)
       .then(response => {
         iotApi
-          .loadCommands(id)
+          .loadCommands(deviceId)
           .then(response => {
-            dispatch(changeIntervalCommandSuccess(id, response.data));
-            dispatch(endLoadDeviceCommands(id));
+            dispatch(changeIntervalCommandSuccess(deviceId, response.data));
+            dispatch(endDeviceCommands(deviceId));
           })
           .catch(error => {
             throw error;
@@ -189,7 +199,33 @@ export function changeIntervalCommand(id, interval) {
       })
       .catch(error => {
         dispatch(ajaxCallError());
-        dispatch(endLoadDeviceCommands(id));
+        dispatch(endDeviceCommands(deviceId));
+        throw error;
+      });
+  };
+}
+
+export function sendGenericCommand(deviceId, command) {
+  return function(dispatch) {
+    dispatch(beginAjaxCall());
+    dispatch(beginDeviceCommands(deviceId));
+
+    return iotApi
+      .sendGenericCommand(deviceId, command)
+      .then(response => {
+        iotApi
+          .loadCommands(deviceId)
+          .then(response => {
+            dispatch(deviceCommandsSuccess(deviceId, response.data));
+            dispatch(endDeviceCommands(deviceId));
+          })
+          .catch(error => {
+            throw error;
+          });
+      })
+      .catch(error => {
+        dispatch(ajaxCallError());
+        dispatch(endDeviceCommands(deviceId));
         throw error;
       });
   };

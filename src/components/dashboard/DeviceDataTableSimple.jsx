@@ -20,7 +20,6 @@ const DeviceDataTableSimple = ({
 }) => {
   //let deviceDataTop10 = deviceData.slice(0, 10);
   let response = getDataForLineChart();
-
   return (
     <>
       <Col lg={lg} md={md} sm={sm}>
@@ -84,7 +83,7 @@ const DeviceDataTableSimple = ({
                   let date = dateAndTime.substring(0, 10);
                   let time = dateAndTime.substring(11, 19);
                   let type = response.name;
-                  let value = response.data[index].toString().substring(0, 4);
+                  let value = response.data[index].toFixed(2);
 
                   return (
                     <tr key={index}>

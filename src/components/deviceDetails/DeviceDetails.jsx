@@ -10,6 +10,8 @@ import * as importedDeviceDataActions from "../../redux/actions/deviceDataAction
 
 import toastr from "toastr";
 
+import { commandHelper } from "./../../utils/commandHelper";
+
 import DeviceDetailsCard from "./DeviceDetailsCard";
 
 class DeviceDetails extends React.Component {
@@ -272,6 +274,32 @@ class DeviceDetails extends React.Component {
             toastr.success(
               `Inserted CHANGE INTERVAL (${deviceInterval}) Command !`
             );
+          })
+          .catch(error => {
+            toastr.error(error);
+          });
+        break;
+        case "ledOn_Lora":
+        commandActions
+          .sendGenericCommand(
+            deviceId,
+            commandHelper.getLoraWANCommand("LED_ON", 1)
+          )
+          .then(() => {
+            toastr.success(`Inserted Led ON command !`);
+          })
+          .catch(error => {
+            toastr.error(error);
+          });
+        break;
+      case "ledOff_Lora":
+        commandActions
+          .sendGenericCommand(
+            deviceId,
+            commandHelper.getLoraWANCommand("LED_OFF", 0)
+          )
+          .then(() => {
+            toastr.success(`Inserted Led OFF command !`);
           })
           .catch(error => {
             toastr.error(error);

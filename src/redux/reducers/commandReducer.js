@@ -3,7 +3,7 @@ import * as types from "../actions/actionTypes";
 import initialState from "./initialState";
 
 export default function commandReducer(state = initialState.commands, action) {
-  if (action.type == types.BEGIN_LOAD_DEVICE_COMMANDS) {
+  if (action.type == types.BEGIN_DEVICE_COMMANDS) {
     const otherCommands = state.filter(
       item => item.deviceId != action.data.deviceId
     );
@@ -26,7 +26,7 @@ export default function commandReducer(state = initialState.commands, action) {
     return [...otherCommands, command];
   }
 
-  if (action.type == types.END_LOAD_DEVICE_COMMANDS) {
+  if (action.type == types.END_DEVICE_COMMANDS) {
     const otherCommands = state.filter(
       item => item.deviceId != action.data.deviceId
     );
@@ -41,20 +41,9 @@ export default function commandReducer(state = initialState.commands, action) {
     return [...otherCommands, command];
   }
 
-  if (action.type == types.LOAD_DEVICE_COMMANDS_SUCCESS) {
-    const otherCommands = state.filter(
-      item => item.deviceId != action.data.deviceId
-    );
-    let command = {
-      loading: false,
-      deviceId: action.data.deviceId,
-      data: action.data.data
-    };
-
-    return [...otherCommands, command];
-  }
-
   if (
+    action.type == types.DEVICE_COMMANDS_SUCCESS ||
+    action.type == types.LOAD_DEVICE_COMMANDS_SUCCESS ||
     action.type == types.ACTIVATE_DEVICE_COMMAND_SUCCESS ||
     action.type == types.DEACTIVATE_DEVICE_COMMAND_SUCCESS ||
     action.type == types.UPDATE_LOCATION_COMMAND_SUCCESS ||

@@ -137,7 +137,8 @@ class IotApi {
           commandItem: {
             commandValue: true,
             commandType: "IS_ACTIVE"
-          }
+          },
+          channel: "WiFi"
         })
         .then(response => {
           setTimeout(() => {
@@ -158,7 +159,8 @@ class IotApi {
           commandItem: {
             commandValue: false,
             commandType: "IS_ACTIVE"
-          }
+          },
+          channel: "WiFi"
         })
         .then(response => {
           setTimeout(() => {
@@ -179,7 +181,8 @@ class IotApi {
           commandItem: {
             commandValue: "Location",
             commandType: "DEVICE_INFO"
-          }
+          },
+          channel: "WiFi"
         })
         .then(response => {
           setTimeout(() => {
@@ -200,7 +203,30 @@ class IotApi {
           commandItem: {
             commandValue: interval,
             commandType: "SEND_DATA_DELAY"
-          }
+          },
+          channel: "WiFi"
+        })
+        .then(response => {
+          setTimeout(() => {
+            resolve(response);
+          }, 400);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+
+  static sendGenericCommand(id, command) {
+    return new Promise((resolve, reject) => {
+      axios
+        .post(`http://localhost:8000/api/command`, {
+          device: id,
+          commandItem: {
+            commandValue: command.commandValue,
+            commandType: command.commandType
+          },
+          channel: command.channel
         })
         .then(response => {
           setTimeout(() => {
