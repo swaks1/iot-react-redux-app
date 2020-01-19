@@ -20,6 +20,23 @@ const DeviceDataTableSimple = ({
 }) => {
   //let deviceDataTop10 = deviceData.slice(0, 10);
   let response = getDataForLineChart();
+
+  // create arrays of 3 elemets and add them to the following array to be rendered as buttons
+  let dataTypesArray = [];
+  if (device.dataTypes && device.dataTypes.length > 0) {
+    let tempArray = [];
+    device.dataTypes.forEach((item, index) => {
+      if (index % 3 == 0 && tempArray.length > 0) {
+        dataTypesArray.push(tempArray);
+        tempArray = [];
+      }
+      tempArray.push(item);
+    });
+    if (tempArray.length > 0) {
+      dataTypesArray.push(tempArray);
+    }
+  }
+
   return (
     <>
       <Col lg={lg} md={md} sm={sm}>
@@ -29,14 +46,17 @@ const DeviceDataTableSimple = ({
           </h4>
           <LoaderOverlay isLoading={deviceDataLoading}>
             <Row className="mb-3 text-center">
-              <Col md={12}>
-                <ButtonGroup className="btn-group-toggle" data-toggle="buttons">
-                  {device.dataTypes != null ? (
-                    <>
-                      {device.dataTypes.map((item, index) => {
+              {dataTypesArray.map((array, arrayIndex) => {
+                return (
+                  <Col md={12} key={`group-${arrayIndex}`}>
+                    <ButtonGroup
+                      className="btn-group-toggle"
+                      data-toggle="buttons"
+                    >
+                      {array.map((item, index) => {
                         return (
                           <Button
-                            key={index}
+                            key={`button-${arrayIndex}-${index}`}
                             id={index}
                             color="info"
                             size="sm"
@@ -64,10 +84,10 @@ const DeviceDataTableSimple = ({
                           </Button>
                         );
                       })}
-                    </>
-                  ) : null}
-                </ButtonGroup>
-              </Col>
+                    </ButtonGroup>
+                  </Col>
+                );
+              })}
             </Row>
             <Table className="simpleTable">
               <thead className="text-primary">
