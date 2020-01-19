@@ -27,6 +27,7 @@ const TTNInfomationExistExtendedInformation = ({ extendedTTNInfo }) => {
               type="text"
               name="appEui"
               id="appEui"
+              style={{ cursor: "text" }}
               readOnly
               defaultValue={extendedTTNInfo.data.appEui}
             />
@@ -39,6 +40,7 @@ const TTNInfomationExistExtendedInformation = ({ extendedTTNInfo }) => {
               type="text"
               name="appKey"
               id="appKey"
+              style={{ cursor: "text" }}
               readOnly
               defaultValue={extendedTTNInfo.data.appKey}
             />
@@ -51,6 +53,7 @@ const TTNInfomationExistExtendedInformation = ({ extendedTTNInfo }) => {
               type="text"
               name="appSKey"
               id="appSKey"
+              style={{ cursor: "text" }}
               readOnly
               defaultValue={extendedTTNInfo.data.appSKey}
             />
@@ -63,6 +66,7 @@ const TTNInfomationExistExtendedInformation = ({ extendedTTNInfo }) => {
               type="text"
               name="nwkSKey"
               id="nwkSKey"
+              style={{ cursor: "text" }}
               readOnly
               defaultValue={extendedTTNInfo.data.nwkSKey}
             />
@@ -75,6 +79,7 @@ const TTNInfomationExistExtendedInformation = ({ extendedTTNInfo }) => {
               type="text"
               name="devAddr"
               id="devAddr"
+              style={{ cursor: "text" }}
               readOnly
               defaultValue={extendedTTNInfo.data.devAddr}
             />

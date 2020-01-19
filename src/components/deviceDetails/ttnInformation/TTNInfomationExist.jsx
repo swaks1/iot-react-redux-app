@@ -29,6 +29,28 @@ class TTNInfomationExist extends React.Component {
     };
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    // when collapse is opened and you refresh the device info, the extedned info should be reloaded...
+    if (
+      prevProps.extendedTTNInfo.data.devId &&
+      prevProps.extendedTTNInfo.data.devId !==
+        this.props.extendedTTNInfo.data.devId &&
+      prevState.collapseElementOpened == true
+    ) {
+      this.props.ttnActions
+        .loadExtendedTTNInfo(
+          this.props.device._id,
+          this.props.device.ttnInfo.devId
+        )
+        .then(() => {
+          toastr.success("Successfully loaded extended TTN Info !");
+        })
+        .catch(() => {
+          toastr.error("Failed to load extended TTN Info");
+        });
+    }
+  }
+
   handleDeleteTTNInfo = event => {
     let { ttnActions } = this.props;
     ttnActions
