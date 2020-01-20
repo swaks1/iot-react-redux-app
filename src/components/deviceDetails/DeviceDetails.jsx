@@ -52,7 +52,7 @@ class DeviceDetails extends React.Component {
     deviceActions.loadDevice(deviceId);
     commandActions.loadDeviceCommands(deviceId);
     if (dataType != "") {
-      deviceDataActions.loadDeviceData(deviceId, dataPeriod, 10, dataType);
+      deviceDataActions.loadDeviceData(deviceId, dataPeriod, dataType);
     }
 
     // set Interval for refrshing the views every autoRefreshInterval sec
@@ -139,7 +139,6 @@ class DeviceDetails extends React.Component {
         let deviceDataPromise = deviceDataActions.loadDeviceData(
           deviceId,
           dataPeriod,
-          10,
           dataType
         );
         promises.push(deviceDataPromise);
@@ -179,7 +178,7 @@ class DeviceDetails extends React.Component {
     return this.setState({ device: currentDevice });
   };
 
-  setEditMode = value => {    
+  setEditMode = value => {
     this.setState({
       editMode: value
     });
@@ -279,7 +278,7 @@ class DeviceDetails extends React.Component {
             toastr.error(error);
           });
         break;
-        case "ledOn_Lora":
+      case "ledOn_Lora":
         commandActions
           .sendGenericCommand(
             deviceId,
@@ -342,7 +341,7 @@ class DeviceDetails extends React.Component {
       case "DeviceData":
         if (dataType != "") {
           deviceDataActions
-            .loadDeviceData(deviceId, dataPeriod, 10, dataType)
+            .loadDeviceData(deviceId, dataPeriod, dataType)
             .then(() => {
               toastr.success("Reloaded Device Data!");
             })
@@ -366,9 +365,11 @@ class DeviceDetails extends React.Component {
       datesCreated: []
     };
 
-    let { deviceData } = this.props;
+    let { deviceData, deviceDataLoading } = this.props;
     let { dataPeriod } = this.state;
 
+    // if (deviceDataLoading) return response;
+    
     try {
       if (deviceData instanceof Array && deviceData.length > 0) {
         let datesCreated = [];
@@ -377,7 +378,7 @@ class DeviceDetails extends React.Component {
         let name = deviceData[0].dataItem.dataType;
 
         data = deviceData.map((item, index) => {
-          return parseFloat(item.dataItem.dataValue);
+          return Math.round(parseFloat(item.dataItem.dataValue) * 100) / 100;
         });
         datesCreated = deviceData.map((item, index) => {
           return item.created;
@@ -391,7 +392,7 @@ class DeviceDetails extends React.Component {
             return item.created.slice(11, 19); //"17:44:54" only hour
           });
         }
-        if (dataPeriod === "lastHour") {
+        if (dataPeriod === "lastHour" || dataPeriod == "last24h") {
           labels = deviceData.map((item, index) => {
             return item.created.slice(11, 17); //"17:44:54" only hour
           });
@@ -455,7 +456,7 @@ class DeviceDetails extends React.Component {
         const { deviceDataActions } = this.props;
         const { dataPeriod, dataType } = this.state;
         if (dataType != "") {
-          deviceDataActions.loadDeviceData(deviceId, dataPeriod, 10, dataType);
+          deviceDataActions.loadDeviceData(deviceId, dataPeriod, dataType);
         }
       }
     );
@@ -471,7 +472,7 @@ class DeviceDetails extends React.Component {
         const { deviceDataActions } = this.props;
         const { dataPeriod, dataType } = this.state;
         if (dataType != "") {
-          deviceDataActions.loadDeviceData(deviceId, dataPeriod, 10, dataType);
+          deviceDataActions.loadDeviceData(deviceId, dataPeriod, dataType);
         }
       }
     );

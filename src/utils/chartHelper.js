@@ -2,7 +2,7 @@ export class LineChartHelper {
   constructor(data, labels, name) {
     this.data = data;
     this.labels = labels;
-    this.name = name;
+    this.name = name;    
   }
 
   getMaxValue = () => {
@@ -64,7 +64,8 @@ export class LineChartHelper {
               zeroLineColor: "transparent"
             },
             ticks: {
-              padding: 20,
+              autoSkip: true, //show labels as much as there is space... hide others
+              maxTicksLimit: 12,
               fontColor: "#9a9a9a"
             }
           }
@@ -99,7 +100,7 @@ export class LineChartHelper {
           pointBorderWidth: 20,
           pointHoverRadius: 4,
           pointHoverBorderWidth: 15,
-          pointRadius: 4,
+          pointRadius: 1.5, // how big the points on the chart are... The smaller the more it looks like line
           data: this.data
         }
       ]

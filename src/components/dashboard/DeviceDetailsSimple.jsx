@@ -51,7 +51,7 @@ class DeviceDetailsSimple extends React.Component {
     deviceActions.loadDevice(deviceId);
     commandActions.loadDeviceCommands(deviceId);
     if (dataType != "") {
-      deviceDataActions.loadDeviceData(deviceId, dataPeriod, 5, dataType);
+      deviceDataActions.loadDeviceData(deviceId, dataPeriod, dataType);
     }
 
     // set Interval for refrshing the views every autoRefreshInterval sec
@@ -135,7 +135,6 @@ class DeviceDetailsSimple extends React.Component {
         let deviceDataPromise = deviceDataActions.loadDeviceData(
           deviceId,
           dataPeriod,
-          5,
           dataType
         );
         promises.push(deviceDataPromise);
@@ -265,7 +264,6 @@ class DeviceDetailsSimple extends React.Component {
 
     let { deviceData } = this.props;
     let { dataPeriod } = this.state;
-
     try {
       if (deviceData instanceof Array && deviceData.length > 0) {
         let datesCreated = [];
@@ -274,7 +272,7 @@ class DeviceDetailsSimple extends React.Component {
         let name = deviceData[0].dataItem.dataType;
 
         data = deviceData.map((item, index) => {
-          return parseFloat(item.dataItem.dataValue);
+          return Math.round(parseFloat(item.dataItem.dataValue) * 100) / 100;
         });
         datesCreated = deviceData.map((item, index) => {
           return item.created;
@@ -288,9 +286,9 @@ class DeviceDetailsSimple extends React.Component {
             return item.created.slice(11, 19); //"17:44:54" only hour
           });
         }
-        if (dataPeriod === "lastHour") {
+        if (dataPeriod === "lastHour" || dataPeriod == "last24h") {
           labels = deviceData.map((item, index) => {
-            return item.created.slice(11, 17); //"17:44:54" only hour
+            return item.created.slice(11, 17); //"17:44" only hour
           });
         }
 
@@ -352,7 +350,7 @@ class DeviceDetailsSimple extends React.Component {
         const { deviceDataActions } = this.props;
         const { dataPeriod, dataType } = this.state;
         if (dataType != "") {
-          deviceDataActions.loadDeviceData(deviceId, dataPeriod, 5, dataType);
+          deviceDataActions.loadDeviceData(deviceId, dataPeriod, dataType);
         }
       }
     );
@@ -368,7 +366,7 @@ class DeviceDetailsSimple extends React.Component {
         const { deviceDataActions } = this.props;
         const { dataPeriod, dataType } = this.state;
         if (dataType != "") {
-          deviceDataActions.loadDeviceData(deviceId, dataPeriod, 5, dataType);
+          deviceDataActions.loadDeviceData(deviceId, dataPeriod, dataType);
         }
       }
     );

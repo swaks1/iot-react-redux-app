@@ -32,13 +32,14 @@ export function loadDeviceDataSuccess(deviceId, data, dataMonthly) {
 }
 
 //THUNKS thunk async functions that return action
-export function loadDeviceData(
-  id,
-  dataPeriod = "",
-  pageSize = 10,
-  deviceType = ""
-) {
+export function loadDeviceData(id, dataPeriod = "", deviceType = "") {
   return function(dispatch) {
+    let pageSize = 10;
+    if (dataPeriod == "monthly") pageSize = 12;
+    if (dataPeriod == "daily") pageSize = 5;
+    if (dataPeriod == "lastHour") pageSize = 60;
+    if (dataPeriod == "last24h") pageSize = 24;
+
     dispatch(beginAjaxCall());
     dispatch(beginLoadDeviceData(id));
 

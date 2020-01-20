@@ -111,10 +111,32 @@ const DeviceDataLineChart = ({
                   >
                     <input className="d-none" name="options" type="radio" />
                     <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
-                      Last Hour
+                      Last 1h
                     </span>
                     <span className="d-block d-sm-none">
                       <i className="tim-icons icon-gift-2" />
+                    </span>
+                  </Button>
+
+                  <Button
+                    tag="label"
+                    className={classNames("btn-simple", {
+                      active: dataPeriod === "last24h"
+                    })}
+                    color="info"
+                    id="0"
+                    size="sm"
+                    onClick={e => {
+                      e.preventDefault();
+                      onDataLineChartButtonClick("last24h");
+                    }} //was firing twice for some reason ???
+                  >
+                    <input className="d-none" name="options" type="radio" />
+                    <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
+                      Last 24h
+                    </span>
+                    <span className="d-block d-sm-none">
+                      <i className="tim-icons icon-single-02" />
                     </span>
                   </Button>
 
@@ -139,6 +161,7 @@ const DeviceDataLineChart = ({
                       <i className="tim-icons icon-single-02" />
                     </span>
                   </Button>
+
                 </ButtonGroup>
               </Col>
             </Row>
