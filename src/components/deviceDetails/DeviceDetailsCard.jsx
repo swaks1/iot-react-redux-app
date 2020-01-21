@@ -167,27 +167,32 @@ const DeviceDetailsCard = ({
                       getDataForLineChart={getDataForLineChart}
                       onRefreshClick={onRefreshClick}
                     />
-
-                    <DeviceDataLineChart
-                      lg="8"
-                      md="8"
-                      sm="8"
-                      deviceData={deviceData}
-                      deviceDataLoading={deviceDataLoading}
-                      onDataLineChartButtonClick={onDataLineChartButtonClick}
-                      getDataForLineChart={getDataForLineChart}
-                      dataPeriod={dataPeriod}
-                    />
-                  </Row>
-                  <Row>
-                    <DeviceDataBarChart
-                      lg="12"
-                      md="12"
-                      sm="12"
-                      deviceData={deviceData}
-                      deviceDataLoading={deviceDataLoading}
-                      getDataForBarChart={getDataForBarChart}
-                    />
+                    <Col md="8">
+                      <Row>
+                        <DeviceDataLineChart
+                          lg="12"
+                          md="12"
+                          sm="12"
+                          deviceData={deviceData}
+                          deviceDataLoading={deviceDataLoading}
+                          onDataLineChartButtonClick={
+                            onDataLineChartButtonClick
+                          }
+                          getDataForLineChart={getDataForLineChart}
+                          dataPeriod={dataPeriod}
+                        />
+                        <Col className="mt-2">
+                        </Col>
+                        <DeviceDataBarChart
+                          lg="12"
+                          md="12"
+                          sm="12"
+                          deviceData={deviceData}
+                          deviceDataLoading={deviceDataLoading}
+                          getDataForBarChart={getDataForBarChart}
+                        />
+                      </Row>
+                    </Col>
                   </Row>
 
                   <Row className="mt-5">

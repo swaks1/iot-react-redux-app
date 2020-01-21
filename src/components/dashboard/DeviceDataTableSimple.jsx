@@ -3,7 +3,7 @@ import React from "react";
 import classNames from "classnames";
 
 import { Card, Row, Col, Button, ButtonGroup } from "reactstrap";
-import Table from "../_common/Table";
+import TableWithPagination from "../_common/TableWithPagination";
 import LoaderOverlay from "../_common/LoaderOverlay";
 
 const DeviceDataTableSimple = ({
@@ -37,10 +37,28 @@ const DeviceDataTableSimple = ({
     }
   }
 
+  let tableData = response.data.map((item, index) => {
+    let dateTimeCreated = response.datesCreated[index];
+    return {
+      index: index,
+      dateAndTime: dateTimeCreated,
+      date: dateTimeCreated.substring(0, 10),
+      time: dateTimeCreated.substring(11, 19),
+      type: response.name,
+      value: item.toFixed(2)
+    };
+  });
+
   return (
     <>
       <Col lg={lg} md={md} sm={sm}>
-        <Card style={{ background: "transparent", padding: "10px 15px" }}>
+        <Card
+          style={{
+            background: "transparent",
+            padding: "10px 15px",
+            marginBottom: "5px"
+          }}
+        >
           <h4 className="text-center font-italic font-weight-light">
             Device Data &nbsp;
           </h4>
@@ -89,34 +107,31 @@ const DeviceDataTableSimple = ({
                 );
               })}
             </Row>
-            <Table className="simpleTable">
-              <thead className="text-primary">
-                <tr>
-                  <th className="text-center">DateTime</th>
-                  <th className="text-center">Type</th>
-                  <th className="text-center">Value/Average</th>
-                </tr>
-              </thead>
-              <tbody>
-                {response.data.map((item, index) => {
-                  let dateAndTime = response.datesCreated[index];
-                  let date = dateAndTime.substring(0, 10);
-                  let time = dateAndTime.substring(11, 19);
-                  let type = response.name;
-                  let value = response.data[index].toFixed(2);
-
-                  return (
-                    <tr key={index}>
-                      <td className="text-center">
-                        {date} <br /> {time}
-                      </td>
-                      <td className="text-center">{type}</td>
-                      <td className="text-center font-weight-bold">{value}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </Table>
+            <TableWithPagination
+              className="simpleTable"
+              tableHeadColumns={["DateTime", "Type", "Value/Average", ""].map(
+                (item, index) => (
+                  <th className="text-center" key={`th-${index}`}>
+                    {item}
+                  </th>
+                )
+              )}
+              pageSize={5}
+              data={tableData}
+              mapFunction={item => {
+                return (
+                  <tr key={`tr-${item.index}`}>
+                    <td className="text-center">
+                      {item.date} <br /> {item.time}
+                    </td>
+                    <td className="text-center">{item.type}</td>
+                    <td className="text-center font-weight-bold">
+                      {item.value}
+                    </td>
+                  </tr>
+                );
+              }}
+            ></TableWithPagination>
           </LoaderOverlay>
         </Card>
       </Col>

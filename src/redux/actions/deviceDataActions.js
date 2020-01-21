@@ -34,7 +34,7 @@ export function loadDeviceDataSuccess(deviceId, data, dataMonthly) {
 //THUNKS thunk async functions that return action
 export function loadDeviceData(id, dataPeriod = "", deviceType = "") {
   return function(dispatch) {
-    let pageSize = 10;
+    let pageSize = 20;
     if (dataPeriod == "monthly") pageSize = 12;
     if (dataPeriod == "daily") pageSize = 5;
     if (dataPeriod == "lastHour") pageSize = 60;

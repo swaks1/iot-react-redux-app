@@ -137,7 +137,7 @@ const DeviceDetailsSimpleCard = ({
                         <Button
                           color="btn btn-link"
                           onClick={onCollapseClick}
-                          style={{ marginBottom: "5px" }}
+                          style={{ marginBottom: "10px", padding: "0px 0px" }}
                         >
                           <span style={{ fontSize: "0.8em" }}>
                             <i className="fas fa-angle-double-down"></i> View
@@ -181,7 +181,7 @@ const DeviceDetailsSimpleCard = ({
                           <Button
                             color="btn btn-link"
                             onClick={onCollapseClick}
-                            style={{ marginBottom: "5px" }}
+                            style={{ marginBottom: "10px", padding: "0px 0px" }}
                           >
                             <span style={{ fontSize: "0.8em" }}>
                               <i className="fas fa-angle-double-up"></i> Show
