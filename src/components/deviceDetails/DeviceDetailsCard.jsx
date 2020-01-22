@@ -181,7 +181,7 @@ const DeviceDetailsCard = ({
                           getDataForLineChart={getDataForLineChart}
                           dataPeriod={dataPeriod}
                         />
-                        <Col className="mt-2">
+                        <Col className="mt-3">
                         </Col>
                         <DeviceDataBarChart
                           lg="12"

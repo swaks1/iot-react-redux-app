@@ -2,6 +2,7 @@ import React from "react";
 //import PropTypes from 'prop-types';
 import { Link } from "react-router-dom";
 
+import ReactTooltip from "react-tooltip";
 import { Card, CardHeader, CardBody, Row, Col, Button } from "reactstrap";
 import Loader from "react-loader-spinner";
 import Switch from "react-switch";
@@ -32,6 +33,7 @@ const DevicesCard = ({
                   >
                     IOT Devices
                   </h3>
+                  <ReactTooltip effect="solid" />
                   <Button
                     color="success"
                     size="sm"
@@ -39,6 +41,7 @@ const DevicesCard = ({
                     onClick={() => {
                       onDialogAction(null, "OPEN");
                     }}
+                    data-tip="Create new IOT device"
                   >
                     +
                   </Button>
@@ -75,18 +78,21 @@ const DevicesCard = ({
                         {devices.map((item, index) => (
                           <tr key={item._id}>
                             <td>
-                              {item._id}
-                              <Button
-                                className="btn-link text-danger"
-                                size="sm"
+                              {item._id}{" "}
+                              <span
                                 id="deleteDevice"
-                                style={{ paddingBottom: "10px" }}
+                                style={{
+                                  color: "red",
+                                  cursor: "pointer",
+                                  fontSize: "0.7em",
+                                  opacity: "0.4"
+                                }}
                                 onClick={() => {
                                   onDeleteDeviceClick(item._id);
                                 }}
                               >
-                                x
-                              </Button>
+                                <i className="fa fa-trash"></i>
+                              </span>
                             </td>
                             <td>
                               <Link to={`${location.pathname}/${item._id}`}>

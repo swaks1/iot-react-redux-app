@@ -11,6 +11,7 @@ import {
 } from "reactstrap";
 import LoaderRow from "../../_common/LoaderRow";
 import toastr from "toastr";
+import ReactTooltip from "react-tooltip";
 
 const TTNInfomationExistExtendedInformation = ({ extendedTTNInfo }) => {
   return (
@@ -70,6 +71,7 @@ const TTNInfomationExistExtendedInformation = ({ extendedTTNInfo }) => {
                     formatToHexArray(extendedTTNInfo.data.appSKey)
                   )
                 }
+                data-tip="Copy to clipboard"
               >
                 <i className="fa fa-copy"></i>
               </span>
@@ -99,6 +101,7 @@ const TTNInfomationExistExtendedInformation = ({ extendedTTNInfo }) => {
                     formatToHexArray(extendedTTNInfo.data.nwkSKey)
                   )
                 }
+                data-tip="Copy to clipboard"
               >
                 <i className="fa fa-copy"></i>
               </span>
@@ -123,8 +126,12 @@ const TTNInfomationExistExtendedInformation = ({ extendedTTNInfo }) => {
                   padding: "5px 5px",
                   cursor: "pointer"
                 }}
-                onClick={() => copyToClipborad(`0x${extendedTTNInfo.data.devAddr}`)}
+                onClick={() =>
+                  copyToClipborad(`0x${extendedTTNInfo.data.devAddr}`)
+                }
+                data-tip="Copy to clipboard"
               >
+                <ReactTooltip effect="solid" />
                 <i className="fa fa-copy"></i>
               </span>
             </div>

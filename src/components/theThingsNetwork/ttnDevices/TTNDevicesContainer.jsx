@@ -6,6 +6,7 @@ import { bindActionCreators } from "redux";
 import * as importedTtnActions from "../../../redux/actions/ttnActions";
 import * as importedDeviceActions from "../../../redux/actions/deviceActions";
 
+import ReactTooltip from "react-tooltip";
 import toastr from "toastr";
 
 import { Row, Col, FormGroup, Label, Input, Button } from "reactstrap";
@@ -246,6 +247,39 @@ class TTNDevicesContainer extends React.Component {
                   <h3 style={{ display: "inline-block", marginRight: "10px" }}>
                     Devices
                   </h3>
+                  <ReactTooltip effect="solid" id="customTooltip">
+                    <div className="text-center">
+                      <h4 style={{ color: "white" }}>
+                        {" "}
+                        Register new device on the Things Network ?{" "}
+                      </h4>
+                    </div>
+                    <div
+                      className="p-2 mb-2 bg-warning text-white"
+                      style={{
+                        borderRadius: "10px",
+                        display: "flex",
+                        justifyContent: "center",
+                        flexFlow: "wrap",
+                        maxWidth: "500px"
+                      }}
+                    >
+                      <p style={{ maxWidth: "300px" }}>
+                        Currently all newly created devices will be regisered with{" "}
+                        <b>OTAA</b> Activation Method.
+                      </p>
+                      <p style={{ maxWidth: "300px" }}>
+                        If <b>ABP</b> is the preffered one, after registering
+                        new device, click on the corresponding DevId in the
+                        table below and you will be redirected to the device details on TTN
+                        netowork.
+                      </p>
+                      <p style={{ maxWidth: "300px" }}>
+                        Then just go to settings and change the Activation
+                        Method.
+                      </p>
+                    </div>
+                  </ReactTooltip>
                   <Button
                     color="success"
                     size="sm"
@@ -253,6 +287,8 @@ class TTNDevicesContainer extends React.Component {
                     onClick={() => {
                       this.handleDialogButton(null, "OPEN");
                     }}
+                    data-tip
+                    data-for="customTooltip"
                   >
                     +
                   </Button>
@@ -269,7 +305,15 @@ class TTNDevicesContainer extends React.Component {
                     <tbody>
                       {ttnDevices.map((item, index) => (
                         <tr key={item.devId}>
-                          <td>{item.devId}</td>
+                          <td>
+                            <a
+                              href={`https://console.thethingsnetwork.org/applications/${item.appId}/devices/${item.devId}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {item.devId}
+                            </a>
+                          </td>
                           <td>
                             <TTNDevicesColumnIOTDevice
                               editMode={editMode}
