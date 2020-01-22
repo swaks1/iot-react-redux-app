@@ -10,6 +10,7 @@ import {
   Input
 } from "reactstrap";
 import LoaderRow from "../../_common/LoaderRow";
+import toastr from "toastr";
 
 const TTNInfomationExistExtendedInformation = ({ extendedTTNInfo }) => {
   return (
@@ -49,40 +50,84 @@ const TTNInfomationExistExtendedInformation = ({ extendedTTNInfo }) => {
             Applicaiton Session Key
           </Label>
           <Col sm={7}>
-            <Input
-              type="text"
-              name="appSKey"
-              id="appSKey"
-              style={{ cursor: "text" }}
-              readOnly
-              defaultValue={extendedTTNInfo.data.appSKey}
-            />
+            <div style={{ display: "flex" }}>
+              <Input
+                type="text"
+                name="appSKey"
+                id="appSKey"
+                style={{ cursor: "text" }}
+                readOnly
+                defaultValue={formatToHexArray(extendedTTNInfo.data.appSKey)}
+              />
+              <span
+                style={{
+                  marginTop: "5px",
+                  padding: "5px 5px",
+                  cursor: "pointer"
+                }}
+                onClick={() =>
+                  copyToClipborad(
+                    formatToHexArray(extendedTTNInfo.data.appSKey)
+                  )
+                }
+              >
+                <i className="fa fa-copy"></i>
+              </span>
+            </div>
           </Col>
           <Label for="nwkSKey" sm={5}>
             Network Session Key
           </Label>
           <Col sm={7}>
-            <Input
-              type="text"
-              name="nwkSKey"
-              id="nwkSKey"
-              style={{ cursor: "text" }}
-              readOnly
-              defaultValue={extendedTTNInfo.data.nwkSKey}
-            />
+            <div style={{ display: "flex" }}>
+              <Input
+                type="text"
+                name="nwkSKey"
+                id="nwkSKey"
+                style={{ cursor: "text" }}
+                readOnly
+                defaultValue={formatToHexArray(extendedTTNInfo.data.nwkSKey)}
+              />
+              <span
+                style={{
+                  marginTop: "5px",
+                  padding: "5px 5px",
+                  cursor: "pointer"
+                }}
+                onClick={() =>
+                  copyToClipborad(
+                    formatToHexArray(extendedTTNInfo.data.nwkSKey)
+                  )
+                }
+              >
+                <i className="fa fa-copy"></i>
+              </span>
+            </div>
           </Col>
           <Label for="devAddr" sm={5}>
             Dev Addr
           </Label>
           <Col sm={7}>
-            <Input
-              type="text"
-              name="devAddr"
-              id="devAddr"
-              style={{ cursor: "text" }}
-              readOnly
-              defaultValue={extendedTTNInfo.data.devAddr}
-            />
+            <div style={{ display: "flex" }}>
+              <Input
+                type="text"
+                name="devAddr"
+                id="devAddr"
+                style={{ cursor: "text" }}
+                readOnly
+                defaultValue={`0x${extendedTTNInfo.data.devAddr}`}
+              />
+              <span
+                style={{
+                  marginTop: "5px",
+                  padding: "5px 5px",
+                  cursor: "pointer"
+                }}
+                onClick={() => copyToClipborad(`0x${extendedTTNInfo.data.devAddr}`)}
+              >
+                <i className="fa fa-copy"></i>
+              </span>
+            </div>
           </Col>
         </Row>
       ) : (
@@ -90,6 +135,20 @@ const TTNInfomationExistExtendedInformation = ({ extendedTTNInfo }) => {
       )}
     </>
   );
+};
+
+const formatToHexArray = str => {
+  let strArray = str.split("");
+  let result = [];
+  for (let i = 0; i < strArray.length - 1; i += 2) {
+    result.push(`0x${strArray[i]}${strArray[i + 1]}`);
+  }
+  return `{${result.join(", ")}}`;
+};
+
+const copyToClipborad = value => {
+  navigator.clipboard.writeText(value);
+  toastr.success("Copied to cliboard!");
 };
 
 export default TTNInfomationExistExtendedInformation;
