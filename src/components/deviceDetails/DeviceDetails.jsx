@@ -357,7 +357,7 @@ class DeviceDetails extends React.Component {
     }
   };
 
-  getDataForLineChart = () => {
+  getDataForLineChart = reverse => {
     let response = {
       data: [],
       labels: [],
@@ -369,12 +369,13 @@ class DeviceDetails extends React.Component {
     let { dataPeriod } = this.state;
 
     // if (deviceDataLoading) return response;
-    
+
     try {
       if (deviceData instanceof Array && deviceData.length > 0) {
         let datesCreated = [];
         let data = [];
         let labels = [];
+        let channels = [];
         let name = deviceData[0].dataItem.dataType;
 
         data = deviceData.map((item, index) => {
@@ -385,6 +386,9 @@ class DeviceDetails extends React.Component {
         });
         labels = deviceData.map((item, index) => {
           return item.created;
+        });
+        channels = deviceData.map((item, index) => {
+          return item.channel;
         });
 
         if (dataPeriod === "mostRecent") {
@@ -397,10 +401,10 @@ class DeviceDetails extends React.Component {
             return item.created.slice(11, 17); //"17:44:54" only hour
           });
         }
-
-        response.data = data.reverse();
-        response.labels = labels.reverse();
-        response.datesCreated = datesCreated.reverse();
+        response.data = reverse ? data.reverse() : data;
+        response.labels = reverse ? labels.reverse() : labels;
+        response.channels = reverse ? channels.reverse() : channels;
+        response.datesCreated = reverse ? datesCreated.reverse() : datesCreated;
         response.name = name;
       }
     } catch (error) {

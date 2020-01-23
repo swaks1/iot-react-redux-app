@@ -27,7 +27,7 @@ const DeviceDataLineChart = ({
   dataPeriod,
   hideInfoHeader
 }) => {
-  let response = getDataForLineChart();
+  let response = getDataForLineChart(true);
   let lineChart = new LineChartHelper(
     response.data,
     response.labels,

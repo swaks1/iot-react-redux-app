@@ -3,6 +3,8 @@ import React from "react";
 import classNames from "classnames";
 
 import { Card, Row, Col, Button, ButtonGroup } from "reactstrap";
+import ReactTooltip from "react-tooltip";
+
 import TableWithPagination from "../_common/TableWithPagination";
 import LoaderOverlay from "../_common/LoaderOverlay";
 
@@ -45,7 +47,8 @@ const DeviceDataTableSimple = ({
       date: dateTimeCreated.substring(0, 10),
       time: dateTimeCreated.substring(11, 19),
       type: response.name,
-      value: item.toFixed(2)
+      value: item.toFixed(2),
+      channel: response.channels[index]
     };
   });
 
@@ -124,7 +127,26 @@ const DeviceDataTableSimple = ({
                     <td className="text-center">
                       {item.date} <br /> {item.time}
                     </td>
-                    <td className="text-center">{item.type}</td>
+                    <td className="text-center">
+                      <span>{item.type}</span>
+                      {item.channel ? (
+                        <>
+                          <ReactTooltip effect="solid" />
+                          <span
+                            style={{ paddingLeft: "10px", fontSize: "0.8em" }}
+                          >
+                            {item.channel == "LoraWAN" ? (
+                              <i
+                                className="fa fa-signal"
+                                data-tip="LoraWAN"
+                              ></i>
+                            ) : (
+                              <i className="fa fa-wifi" data-tip="WiFi"></i>
+                            )}
+                          </span>
+                        </>
+                      ) : null}
+                    </td>
                     <td className="text-center font-weight-bold">
                       {item.value}
                     </td>
