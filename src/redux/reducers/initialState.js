@@ -35,5 +35,20 @@ export default {
       devices: [],
       loading: false
     }
+  },
+  summaryDashboard: {
+    dashboardName: "",
+    deviceIdsState: {
+      deviceIds: [],
+      loading: false
+    },
+    dataTypesState: {
+      dataTypes: [],
+      loading: false
+    },
+    devicesWithDataState: {
+      devices: [],
+      loading: false
+    }
   }
 };

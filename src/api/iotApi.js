@@ -391,6 +391,21 @@ class IotApi {
         });
     });
   }
+
+  static loadSummaryDashboard(dashboardName) {
+    return new Promise((resolve, reject) => {
+      axios
+        .get(`http://localhost:8000/api/settings/${dashboardName}`)
+        .then(response => {
+          setTimeout(() => {
+            resolve(response);
+          }, 400);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
 }
 
 export default IotApi;

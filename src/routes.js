@@ -2,6 +2,7 @@ import Dashboard from "./components/dashboard/Dashboard";
 import Devices from "./components/devices/Devices";
 import DevicesDetails from "./components/deviceDetails/DeviceDetails";
 import TheThingsNetworkContainer from "./components/theThingsNetwork/TheThingsNetworkContainer"
+import SummaryDashboardContainer from "./components/summaryDashboad/SummaryDashboardContainer"
 
 export const prefix = "app";
 
@@ -32,7 +33,14 @@ var routes = [
     icon: "tim-icons icon-puzzle-10",
     component: TheThingsNetworkContainer,
     exact: true
-  }
+  },
+  {
+    path: `/${prefix}/beehive`,
+    name: "Beehive Dashboard",
+    icon: "tim-icons icon-chart-bar-32",
+    component: SummaryDashboardContainer,
+    exact: true
+  },
 ];
 
 export default routes;

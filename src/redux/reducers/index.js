@@ -4,13 +4,15 @@ import deviceReducer from "./deviceReducer"; //the name can be changed because i
 import commands from "./commandReducer";
 import deviceData from "./deviceDataReducer";
 import ttnReducer from "./ttnReducer";
+import summaryDashboardReducer from "./summaryDashboardReducer";
 
 const rootReducer = combineReducers({
   devices: deviceReducer, //all the state that is returned from deviceReducer will be available in react with state.devices
   commands,
   deviceData,
   ajaxCallsInProgress,
-  ttnIntegration: ttnReducer
+  ttnIntegration: ttnReducer,
+  summaryDashboard: summaryDashboardReducer
 });
 
 export default rootReducer;
