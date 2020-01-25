@@ -10,6 +10,7 @@ import {
   Input
 } from "reactstrap";
 import LoaderRow from "../../_common/LoaderRow";
+import SpanButton from "../../_common/SpanButton";
 import toastr from "toastr";
 import ReactTooltip from "react-tooltip";
 
@@ -60,21 +61,16 @@ const TTNInfomationExistExtendedInformation = ({ extendedTTNInfo }) => {
                 readOnly
                 defaultValue={formatToHexArray(extendedTTNInfo.data.appSKey)}
               />
-              <span
-                style={{
-                  marginTop: "5px",
-                  padding: "5px 5px",
-                  cursor: "pointer"
-                }}
+              <SpanButton
+                text=""
+                tooltip="Copy to clipboard"
+                faIcon="copy"
                 onClick={() =>
                   copyToClipborad(
                     formatToHexArray(extendedTTNInfo.data.appSKey)
                   )
                 }
-                data-tip="Copy to clipboard"
-              >
-                <i className="fa fa-copy"></i>
-              </span>
+              />
             </div>
           </Col>
           <Label for="nwkSKey" sm={5}>
@@ -90,21 +86,16 @@ const TTNInfomationExistExtendedInformation = ({ extendedTTNInfo }) => {
                 readOnly
                 defaultValue={formatToHexArray(extendedTTNInfo.data.nwkSKey)}
               />
-              <span
-                style={{
-                  marginTop: "5px",
-                  padding: "5px 5px",
-                  cursor: "pointer"
-                }}
+              <SpanButton
+                text=""
+                tooltip="Copy to clipboard"
+                faIcon="copy"
                 onClick={() =>
                   copyToClipborad(
                     formatToHexArray(extendedTTNInfo.data.nwkSKey)
                   )
                 }
-                data-tip="Copy to clipboard"
-              >
-                <i className="fa fa-copy"></i>
-              </span>
+              />
             </div>
           </Col>
           <Label for="devAddr" sm={5}>
@@ -120,20 +111,14 @@ const TTNInfomationExistExtendedInformation = ({ extendedTTNInfo }) => {
                 readOnly
                 defaultValue={`0x${extendedTTNInfo.data.devAddr}`}
               />
-              <span
-                style={{
-                  marginTop: "5px",
-                  padding: "5px 5px",
-                  cursor: "pointer"
-                }}
+              <SpanButton
+                text=""
+                tooltip="Copy to clipboard"
+                faIcon="copy"
                 onClick={() =>
                   copyToClipborad(`0x${extendedTTNInfo.data.devAddr}`)
                 }
-                data-tip="Copy to clipboard"
-              >
-                <ReactTooltip effect="solid" />
-                <i className="fa fa-copy"></i>
-              </span>
+              />
             </div>
           </Col>
         </Row>

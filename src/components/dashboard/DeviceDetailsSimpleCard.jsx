@@ -48,44 +48,49 @@ const DeviceDetailsSimpleCard = ({
               ) : (
                 <>
                   <Row style={{ paddingTop: "5px" }}>
-                    <Col md={1} className="text-right">
-                      <div>
-                        <label htmlFor="normal-switch">
-                          <span style={{ fontSize: "0.8em" }}>
-                            Auto Refresh &nbsp;
-                          </span>
+                    <Col md={3} className="text-left ml-1">
+                      <div className="d-flex">
+                        <label htmlFor="normal-switch" className="d-flex">
                           <Switch
-                            height={10}
-                            width={20}
+                            height={15}
+                            width={30}
                             onChange={toggleAutoRefresh}
                             checked={autoRefreshOn}
                             className="react-switch"
                             id="normal-switch"
                           />
+                          <span
+                            style={{ marginLeft: "5px", cursor: "pointer" }}
+                          >
+                            Auto Refresh
+                          </span>
                         </label>
+                        {autoRefreshOn ? (
+                          <>
+                            <Input
+                              type="number"
+                              name="autoRefreshInterval"
+                              id="autoRefreshInterval"
+                              className="sm"
+                              placeholder="Auto Refresh Interval"
+                              style={{
+                                padding: "3px 3px",
+                                height: "20px",
+                                width: "50px",
+                                display: "inline",
+                                marginLeft: "10px"
+                              }}
+                              onChange={onAutoRefreshIntervalChange}
+                              value={autoRefreshInterval}
+                            />
+                            <span
+                              style={{ fontSize: "0.8em", marginLeft: "5px" }}
+                            >
+                              seconds
+                            </span>
+                          </>
+                        ) : null}
                       </div>
-                    </Col>
-                    <Col md={1} className="text-left">
-                      {autoRefreshOn ? (
-                        <>
-                          <span style={{ fontSize: "0.8em" }}>Sec: &nbsp;</span>
-                          <Input
-                            type="number"
-                            name="autoRefreshInterval"
-                            id="autoRefreshInterval"
-                            className="sm"
-                            placeholder="Auto Refresh Interval"
-                            style={{
-                              padding: "3px 3px",
-                              height: "20px",
-                              width: "50px",
-                              display: "inline"
-                            }}
-                            onChange={onAutoRefreshIntervalChange}
-                            value={autoRefreshInterval}
-                          />
-                        </>
-                      ) : null}
                     </Col>
                   </Row>
                   <Row>

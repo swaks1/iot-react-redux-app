@@ -55,10 +55,9 @@ const DeviceDetailsCard = ({
                 <Link to={`/app/devices`}> Back to Devices</Link>
               </p>
               <Row style={{ paddingTop: "5px" }}>
-                <Col md={2} className="text-right">
-                  <div>
-                    <label htmlFor="normal-switch">
-                      <span>Auto Refresh &nbsp;</span>
+                <Col md={3} className="text-left">
+                  <div className="d-flex">
+                    <label htmlFor="normal-switch" className="d-flex">
                       <Switch
                         height={20}
                         width={40}
@@ -67,30 +66,34 @@ const DeviceDetailsCard = ({
                         className="react-switch"
                         id="normal-switch"
                       />
+                      <span style={{ marginLeft: "5px", cursor: "pointer" }}>
+                        Auto Refresh
+                      </span>
                     </label>
+                    {autoRefreshOn ? (
+                      <>
+                        <Input
+                          type="number"
+                          name="autoRefreshInterval"
+                          id="autoRefreshInterval"
+                          className="sm"
+                          placeholder="Auto Refresh Interval"
+                          style={{
+                            padding: "3px 3px",
+                            height: "20px",
+                            width: "50px",
+                            display: "inline",
+                            marginLeft: "10px"
+                          }}
+                          onChange={onAutoRefreshIntervalChange}
+                          value={autoRefreshInterval}
+                        />
+                        <span style={{ fontSize: "0.8em", marginLeft: "5px" }}>
+                          seconds
+                        </span>
+                      </>
+                    ) : null}
                   </div>
-                </Col>
-                <Col md={1} className="text-left">
-                  {autoRefreshOn ? (
-                    <>
-                      <span style={{ fontSize: "0.8em" }}>Sec: &nbsp;</span>
-                      <Input
-                        type="number"
-                        name="autoRefreshInterval"
-                        id="autoRefreshInterval"
-                        className="sm"
-                        placeholder="Auto Refresh Interval"
-                        style={{
-                          padding: "3px 3px",
-                          height: "20px",
-                          width: "50px",
-                          display: "inline"
-                        }}
-                        onChange={onAutoRefreshIntervalChange}
-                        value={autoRefreshInterval}
-                      />
-                    </>
-                  ) : null}
                 </Col>
               </Row>
             </CardHeader>
@@ -181,8 +184,7 @@ const DeviceDetailsCard = ({
                           getDataForLineChart={getDataForLineChart}
                           dataPeriod={dataPeriod}
                         />
-                        <Col className="mt-3">
-                        </Col>
+                        <Col className="mt-3"></Col>
                         <DeviceDataBarChart
                           lg="12"
                           md="12"

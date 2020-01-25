@@ -11,28 +11,25 @@
     background-clip: border-box;
     border: 1px solid rgba(0, 0, 0, 0.125);
     border-radius: 0.25rem;
-    color: inherit;
 
     .card-header {
       padding: 0.75rem 1.25rem;
       margin-bottom: 0;
       background-color: rgba(0, 0, 0, 0.03);
       border-bottom: 1px solid rgba(0, 0, 0, 0.125);
-      color: inherit;
+      color: #525f7f !important;
     }
 
     .card-body {
       flex: 1 1 auto;
       min-height: 1px;
       padding: 1.25rem;
-      color: inherit;
     }
 
     .card-footer {
       padding: 0.75rem 1.25rem;
       background-color: rgba(0, 0, 0, 0.03);
       border-top: 1px solid rgba(0, 0, 0, 0.125);
-      color: inherit;
     }
 
     .row {
@@ -43,9 +40,30 @@
       padding: 0 0;
     }
 
-    &.custom-summary-card,
+    &.custom-summary-card {
+      min-height: 160px;
+
+      .card-header {
+        span {
+          font-weight: 600;
+        }
+        i {
+          font-size: 1.5em;
+          margin-left: 10px;
+        }
+      }
+      .card-body {
+        padding: 0px 0px;
+      }
+
+      .data-value {
+        padding-top: 1.3rem;
+        font-size: 3em;
+      }
+    }
+
     &.custom-list-group-card {
-      min-height: 200px;
+      min-height: 205px;
 
       .card-header {
         span {
@@ -57,8 +75,9 @@
         }
       }
 
-      .card-body {
-        font-size: 3em;
+      .list-group-flush {
+        padding-right: 1px;
+        padding-left: 1px;
       }
 
       .list-group-item {
@@ -74,10 +93,10 @@
 
         .device-name {
           font-size: 0.8em;
-          max-width: "130px";
-          white-space: "nowrap";
-          overflow: "hidden";
-          text-overflow: "ellipsis";
+          max-width: 130px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         .device-date {
@@ -87,6 +106,7 @@
         .device-value {
           font-size: 1.8em;
           font-weight: 500;
+          color: #525f7f !important;
         }
       }
 
@@ -106,6 +126,8 @@
 
     &.custom-gauge-card {
       max-width: 200px;
+      padding-left: 1px;
+      padding-right: 1px;
 
       &:hover {
         cursor: pointer;
@@ -140,5 +162,17 @@
   i {
     margin-left: 10px;
     font-size: 1.5em;
+  }
+}
+
+.span-button {
+  margin-top: 5px;
+  padding: 5px 5px;
+  i {
+    margin-left: 2px;
+  }
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
   }
 }
