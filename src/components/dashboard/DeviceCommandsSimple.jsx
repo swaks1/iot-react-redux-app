@@ -33,6 +33,7 @@ const DeviceCommandsSimple = ({
                   size="sm"
                   id="deactivateBtn"
                   className="btn-block"
+                  style={{ fontSize: "0.8em" }}
                   onClick={onCommandClick}
                 >
                   Deactivate Device
@@ -45,6 +46,7 @@ const DeviceCommandsSimple = ({
                   size="sm"
                   id="activateBtn"
                   className="btn-block"
+                  style={{ fontSize: "0.8em" }}
                   onClick={onCommandClick}
                 >
                   Activate Device
@@ -57,6 +59,7 @@ const DeviceCommandsSimple = ({
                 size="sm"
                 id="updateLocationBtn"
                 className="btn-block"
+                style={{ fontSize: "0.8em" }}
                 onClick={onCommandClick}
               >
                 Update Location
@@ -65,12 +68,12 @@ const DeviceCommandsSimple = ({
           </Row>
 
           <Row className="mt-4">
-            <Col sm="7">
+            <Col sm="8">
               <Row>
-                <Col sm="6" className="text-right pt-2 pr-0">
+                <Col sm="5" className="text-right pt-2 pr-0">
                   <span> Interval</span>
                 </Col>
-                <Col sm="6" className="text-left">
+                <Col sm="7" className="text-left">
                   <Input
                     type="number"
                     name="interval"
@@ -84,7 +87,12 @@ const DeviceCommandsSimple = ({
               </Row>
             </Col>
             <Col className="text-left pl-0" sm={{ size: 4 }}>
-              <Button size="sm" id="changeIntervalBtn" onClick={onCommandClick}>
+              <Button
+                size="sm"
+                id="changeIntervalBtn"
+                onClick={onCommandClick}
+                style={{ fontSize: "0.8em" }}
+              >
                 Change
               </Button>
             </Col>

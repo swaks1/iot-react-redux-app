@@ -1,0 +1,144 @@
+.custom-bootstrap-card {
+  &.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    width: auto;
+    margin-bottom: 0px;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+    color: inherit;
+
+    .card-header {
+      padding: 0.75rem 1.25rem;
+      margin-bottom: 0;
+      background-color: rgba(0, 0, 0, 0.03);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+      color: inherit;
+    }
+
+    .card-body {
+      flex: 1 1 auto;
+      min-height: 1px;
+      padding: 1.25rem;
+      color: inherit;
+    }
+
+    .card-footer {
+      padding: 0.75rem 1.25rem;
+      background-color: rgba(0, 0, 0, 0.03);
+      border-top: 1px solid rgba(0, 0, 0, 0.125);
+      color: inherit;
+    }
+
+    .row {
+      margin: 0 0;
+    }
+
+    .col {
+      padding: 0 0;
+    }
+
+    &.custom-summary-card,
+    &.custom-list-group-card {
+      min-height: 200px;
+
+      .card-header {
+        span {
+          font-weight: 600;
+        }
+        i {
+          font-size: 1.5em;
+          margin-left: 10px;
+        }
+      }
+
+      .card-body {
+        font-size: 3em;
+      }
+
+      .list-group-item {
+        position: relative;
+        display: block;
+        padding: 5px 5px;
+        background-color: #fff;
+        border-top: 1px solid rgba(0, 0, 0, 0.125);
+
+        sup {
+          font-size: 0.6em;
+        }
+
+        .device-name {
+          font-size: 0.8em;
+          max-width: "130px";
+          white-space: "nowrap";
+          overflow: "hidden";
+          text-overflow: "ellipsis";
+        }
+
+        .device-date {
+          font-size: 0.8em;
+        }
+
+        .device-value {
+          font-size: 1.8em;
+          font-weight: 500;
+        }
+      }
+
+      .list-group-item:first-child {
+        border-top: 0px none;
+      }
+      .list-group-item:last-child {
+        border-bottom: 0px none;
+      }
+
+      .list-group-item:not(:last-child):hover,
+      .clickable-header:hover {
+        cursor: pointer;
+        box-shadow: 0 0 11px rgba(33, 33, 33, 0.2);
+      }
+    }
+
+    &.custom-gauge-card {
+      max-width: 200px;
+
+      &:hover {
+        cursor: pointer;
+        box-shadow: 0 0 11px rgba(33, 33, 33, 0.2);
+      }
+    }
+
+    &.custom-data-type-card {
+      .card-header {
+        padding: 10px 3px !important;
+
+        .dataType {
+          font-size: 1em;
+        }
+        i {
+          margin-left: 5px;
+          font-size: 1.2em;
+        }
+        .dataValue {
+          font-size: 2em;
+        }
+      }
+      &:hover {
+        cursor: pointer;
+        box-shadow: 0 0 11px rgba(33, 33, 33, 0.2);
+      }
+    }
+  }
+}
+
+.data-type-with-icon {
+  i {
+    margin-left: 10px;
+    font-size: 1.5em;
+  }
+}

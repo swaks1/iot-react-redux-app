@@ -2,7 +2,7 @@ export class LineChartHelper {
   constructor(data, labels, name) {
     this.data = data;
     this.labels = labels;
-    this.name = name;    
+    this.name = name;
   }
 
   getMaxValue = () => {
@@ -208,3 +208,84 @@ export class BarChartHelper {
     };
   };
 }
+
+
+// https://codesandbox.io/s/rkzro8yy4
+// https://codepen.io/davelebbing/pen/wGEQwx
+// https://www.npmjs.com/package/highcharts-react-official
+export const GaugeChartHelper = {
+  getOptions: (minValue, maxValue, currentValue, title) => {
+    return {
+      chart: {
+        type: "solidgauge",
+        height: "200",
+        width: "200"
+      },
+      series: [
+        {
+          data: [currentValue],
+          dataLabels: {
+            format: `<div style="text-align:center">
+              <span style="font-size:30px;color:#525f7f">{y}</span><br/>              
+              </div>`
+          }
+        }
+      ],
+      plotOptions: {
+        solidgauge: {
+          dataLabels: {
+            y: -40, // place of the dataLabels from series:[]
+            borderWidth: 0,
+            useHTML: true
+          }
+        }
+      },
+      pane: {
+        center: ["50%", "75%"],
+        size: "100%",
+        startAngle: -90,
+        endAngle: 90,
+        background: {
+          backgroundColor: "white",
+          innerRadius: "60%",
+          outerRadius: "100%",
+          shape: "arc"
+        }
+      },
+      tooltip: {
+        enabled: false
+      },
+      title: {
+        text: null
+      },
+      credits: {
+        enabled: false
+      },
+      // the value axis
+      yAxis: {
+        min: minValue,
+        max: maxValue,
+        title: {
+          text: title,
+          style: {
+            color: "#525f7f",
+            fontSize: "1.3em"
+          },
+          y: -60        // offset where the label will show on the gauge
+        },
+        stops: [
+          [0.1, "#55BF3B"], // green
+          [0.5, "#DDDF0D"], // yellow
+          [0.9, "#DF5353"] // red
+        ],
+        lineWidth: 0,
+        minorTickInterval: null,
+        tickPixelInterval: 1000,
+        tickWidth: 0,
+        labels: {
+          y: 16
+        }
+      }
+    };
+  }
+};
