@@ -13,13 +13,15 @@ import SpanButton from "../../_common/SpanButton";
 import CustomCard from "../../_common/CustomCard";
 
 import ManageDevicesDialog from "./ManageDevicesDialog";
+import ManageDataTypesDialog from "./ManageDataTypesDialog";
 
 class BasicInformationsContainer extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      isManageDevicesDialogOpened: false
+      isManageDevicesDialogOpened: false,
+      isManageDataTypesDialogOpened: false
     };
   }
 
@@ -30,7 +32,7 @@ class BasicInformationsContainer extends React.Component {
       .catch(error => toastr.error(error));
   }
 
-  handleDialogAction = (data, action) => {
+  handleManageDevicesDialogAction = (data, action) => {
     const { summaryDashboardActions, summaryDashboardName } = this.props;
 
     if (action == "OPEN-MANAGE-DEVICES") {
@@ -57,8 +59,41 @@ class BasicInformationsContainer extends React.Component {
     }
   };
 
+  handleManageDataTypesDialogAction = (data, action) => {
+    const { summaryDashboardActions, summaryDashboardName } = this.props;
+
+    if (action == "OPEN-MANAGE-DATA-TYPES") {
+      this.setState({ isManageDataTypesDialogOpened: true });
+    }
+
+    if (action == "CONFIRM-MANAGE-DATA-TYPES") {
+      // let checkedDevices = data.filter(item => item.checked);
+      // let deviceIds = checkedDevices.map(item => item.id);
+      // summaryDashboardActions
+      //   .updateDevicesOnSummaryDashboard(summaryDashboardName, deviceIds)
+      //   .then(response => {
+      //     toastr.success(`Successfully updated summary devices!`);
+      //     this.setState({ isManageDevicesDialogOpened: false });
+      //   })
+      //   .catch(error => {
+      //     this.setState({ isManageDevicesDialogOpened: false });
+      //     toastr.error("Failed to update summary devices", error);
+      //   });
+      console.log(data);
+      this.setState({ isManageDataTypesDialogOpened: false });
+    }
+
+    if (action == "DENY-MANAGE-DATA-TYPES") {
+      this.setState({ isManageDataTypesDialogOpened: false });
+    }
+  };
+
   render() {
-    const { summaryDeviceIdsState, devicesForDialog } = this.props;
+    const {
+      summaryDeviceIdsState,
+      devicesForDialog,
+      dataTypesForDialog
+    } = this.props;
 
     return (
       <>
@@ -102,7 +137,10 @@ class BasicInformationsContainer extends React.Component {
                       faIcon="mobile-alt"
                       style={{ fontSize: "0.9em" }}
                       onClick={() => {
-                        this.handleDialogAction(null, "OPEN-MANAGE-DEVICES");
+                        this.handleManageDevicesDialogAction(
+                          null,
+                          "OPEN-MANAGE-DEVICES"
+                        );
                       }}
                     />
                   </Col>
@@ -113,7 +151,10 @@ class BasicInformationsContainer extends React.Component {
                       faIcon="link"
                       style={{ fontSize: "0.9em" }}
                       onClick={() => {
-                        this.handleDialogAction(null, "OPEN");
+                        this.handleManageDataTypesDialogAction(
+                          null,
+                          "OPEN-MANAGE-DATA-TYPES"
+                        );
                       }}
                     />
                   </Col>
@@ -124,10 +165,32 @@ class BasicInformationsContainer extends React.Component {
               isDialogOpened={this.state.isManageDevicesDialogOpened}
               devices={devicesForDialog}
               confirmAction={devices => {
-                this.handleDialogAction(devices, "CONFIRM-MANAGE-DEVICES");
+                this.handleManageDevicesDialogAction(
+                  devices,
+                  "CONFIRM-MANAGE-DEVICES"
+                );
               }}
               denyAction={() => {
-                this.handleDialogAction(null, "DENY-MANAGE-DEVICES");
+                this.handleManageDevicesDialogAction(
+                  null,
+                  "DENY-MANAGE-DEVICES"
+                );
+              }}
+            />
+            <ManageDataTypesDialog
+              isDialogOpened={this.state.isManageDataTypesDialogOpened}
+              dataTypes={dataTypesForDialog}
+              confirmAction={dataTypes => {
+                this.handleManageDataTypesDialogAction(
+                  dataTypes,
+                  "CONFIRM-MANAGE-DATA-TYPES"
+                );
+              }}
+              denyAction={() => {
+                this.handleManageDataTypesDialogAction(
+                  null,
+                  "DENY-MANAGE-DATA-TYPES"
+                );
               }}
             />
           </>
@@ -140,6 +203,7 @@ class BasicInformationsContainer extends React.Component {
 //can be called many times by the framework
 const mapStateToProps = (state, ownProps) => {
   let summaryDashboardName = state.summaryDashboard.name;
+
   let summaryDeviceIdsState = {
     loading: true,
     ...state.summaryDashboard.deviceIdsState
@@ -148,6 +212,11 @@ const mapStateToProps = (state, ownProps) => {
   let allDevicesState = {
     loading: state.devices.length == 0,
     devices: state.devices.map(item => item.data)
+  };
+
+  let summaryDataTypesState = {
+    loading: true,
+    ...state.summaryDashboard.dataTypesState
   };
 
   let devicesForDialog = [];
@@ -163,11 +232,41 @@ const mapStateToProps = (state, ownProps) => {
       };
     });
   }
+
+  let dataTypesForDialog = [];
+  if (
+    summaryDataTypesState.loading == false &&
+    allDevicesState.loading == false
+  ) {
+    let dataTypesSet = new Set();
+    allDevicesState.devices.forEach(device => {
+      if (device.dataTypes && device.dataTypes.length > 0) {
+        device.dataTypes.forEach(dataType => {
+          dataTypesSet.add(dataType);
+        });
+      }
+    });
+    let uniqueDataTypes = [...dataTypesSet]; // just transfer set to array
+
+    dataTypesForDialog = uniqueDataTypes.map(dataType => {
+      let existing = summaryDataTypesState.dataTypes.find(
+        item => item.name == dataType
+      );
+      return {
+        name: dataType,
+        minValue: existing ? existing.minValue : 0,
+        maxValue: existing ? existing.maxValue : 10,
+        checked: existing ? true : false
+      };
+    });
+  }
+
   return {
     summaryDashboardName,
     summaryDeviceIdsState,
     allDevicesState,
-    devicesForDialog
+    devicesForDialog,
+    dataTypesForDialog
   };
 };
 

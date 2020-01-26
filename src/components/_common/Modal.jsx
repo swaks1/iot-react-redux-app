@@ -4,6 +4,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 const ModalWrapper = props => {
   const {
     isOpen,
+    className,
     confirming,
     modalTitle,
     modalBody,
@@ -16,7 +17,11 @@ const ModalWrapper = props => {
 
   return (
     <div>
-      <Modal isOpen={isOpen} toggle={toggle}>
+      <Modal
+        isOpen={isOpen}
+        toggle={toggle}
+        className={className ? className : ""}
+      >
         <ModalHeader toggle={toggle}>{modalTitle}</ModalHeader>
         <ModalBody>{modalBody}</ModalBody>
         <ModalFooter>
