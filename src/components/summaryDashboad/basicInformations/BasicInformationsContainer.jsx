@@ -12,11 +12,15 @@ import LoaderRow from "../../_common/LoaderRow";
 import SpanButton from "../../_common/SpanButton";
 import CustomCard from "../../_common/CustomCard";
 
+import ManageDevicesDialog from "./ManageDevicesDialog";
+
 class BasicInformationsContainer extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      isManageDevicesDialogOpened: false
+    };
   }
 
   componentDidMount() {
@@ -26,13 +30,40 @@ class BasicInformationsContainer extends React.Component {
       .catch(error => toastr.error(error));
   }
 
+  handleDialogAction = (data, action) => {
+    const { summaryDashboardActions, summaryDashboardName } = this.props;
+
+    if (action == "OPEN-MANAGE-DEVICES") {
+      this.setState({ isManageDevicesDialogOpened: true });
+    }
+
+    if (action == "CONFIRM-MANAGE-DEVICES") {
+      let checkedDevices = data.filter(item => item.checked);
+      let deviceIds = checkedDevices.map(item => item.id);
+      summaryDashboardActions
+        .updateDevicesOnSummaryDashboard(summaryDashboardName, deviceIds)
+        .then(response => {
+          toastr.success(`Successfully updated summary devices!`);
+          this.setState({ isManageDevicesDialogOpened: false });
+        })
+        .catch(error => {
+          this.setState({ isManageDevicesDialogOpened: false });
+          toastr.error("Failed to update summary devices", error);
+        });
+    }
+
+    if (action == "DENY-MANAGE-DEVICES") {
+      this.setState({ isManageDevicesDialogOpened: false });
+    }
+  };
+
   render() {
-    const { deviceIdsState } = this.props;
+    const { summaryDeviceIdsState, devicesForDialog } = this.props;
 
     return (
       <>
-        {deviceIdsState.loading ? (
-          <LoaderRow />
+        {summaryDeviceIdsState.loading ? (
+          <LoaderRow style={{ minHeight: "205px" }} />
         ) : (
           <>
             <Row>
@@ -45,7 +76,7 @@ class BasicInformationsContainer extends React.Component {
                     className: "text-uppercase text-center",
                     elements: (
                       <>
-                        <span>total hives</span>
+                        <span>Total Hives</span>
                         <i className={`fa fa-mobile-alt`}></i>
                       </>
                     )
@@ -55,7 +86,7 @@ class BasicInformationsContainer extends React.Component {
                     elements: (
                       <>
                         <div className="data-value">
-                          {deviceIdsState.deviceIds.length}
+                          {summaryDeviceIdsState.deviceIds.length}
                         </div>
                       </>
                     )
@@ -70,7 +101,9 @@ class BasicInformationsContainer extends React.Component {
                       tooltip="Manage Devices"
                       faIcon="mobile-alt"
                       style={{ fontSize: "0.9em" }}
-                      onClick={() => {}}
+                      onClick={() => {
+                        this.handleDialogAction(null, "OPEN-MANAGE-DEVICES");
+                      }}
                     />
                   </Col>
                   <Col className="col text-right pr-2" md={6}>
@@ -79,12 +112,24 @@ class BasicInformationsContainer extends React.Component {
                       tooltip="Manage Data Types"
                       faIcon="link"
                       style={{ fontSize: "0.9em" }}
-                      onClick={() => {}}
+                      onClick={() => {
+                        this.handleDialogAction(null, "OPEN");
+                      }}
                     />
                   </Col>
                 </Row>
               </Col>
             </Row>
+            <ManageDevicesDialog
+              isDialogOpened={this.state.isManageDevicesDialogOpened}
+              devices={devicesForDialog}
+              confirmAction={devices => {
+                this.handleDialogAction(devices, "CONFIRM-MANAGE-DEVICES");
+              }}
+              denyAction={() => {
+                this.handleDialogAction(null, "DENY-MANAGE-DEVICES");
+              }}
+            />
           </>
         )}
       </>
@@ -94,15 +139,35 @@ class BasicInformationsContainer extends React.Component {
 
 //can be called many times by the framework
 const mapStateToProps = (state, ownProps) => {
-  let deviceIdsState = {
-    loading: true
-  };
-  deviceIdsState = {
+  let summaryDashboardName = state.summaryDashboard.name;
+  let summaryDeviceIdsState = {
+    loading: true,
     ...state.summaryDashboard.deviceIdsState
   };
 
+  let allDevicesState = {
+    loading: state.devices.length == 0,
+    devices: state.devices.map(item => item.data)
+  };
+
+  let devicesForDialog = [];
+  if (
+    summaryDeviceIdsState.loading == false &&
+    allDevicesState.loading == false
+  ) {
+    devicesForDialog = allDevicesState.devices.map(item => {
+      return {
+        id: item._id,
+        name: item.name,
+        checked: summaryDeviceIdsState.deviceIds.indexOf(item._id) != -1
+      };
+    });
+  }
   return {
-    deviceIdsState
+    summaryDashboardName,
+    summaryDeviceIdsState,
+    allDevicesState,
+    devicesForDialog
   };
 };
 

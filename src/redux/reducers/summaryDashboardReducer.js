@@ -19,7 +19,7 @@ export default function summaryDashboardReducer(
   if (action.type == types.LOAD_SUMMARY_DASHBOARD_SUCCESS) {
     return {
       ...state,
-      name: action.data.dashboardName,
+      name: action.data.summaryDashboard.name,
       deviceIdsState: {
         ...state.deviceIdsState,
         deviceIds: action.data.summaryDashboard.value.devices,
@@ -37,10 +37,37 @@ export default function summaryDashboardReducer(
   if (action.type == types.END_LOAD_SUMMARY_DASHBOARD) {
     return {
       ...state,
-      name: action.data.dashboardName,
       deviceIdsState: { ...state.deviceIdsState, loading: false },
       dataTypesState: { ...state.dataTypesState, loading: false },
       devicesWithDataState: { ...state.devicesWithDataState, loading: false }
+    };
+  }
+
+  /////////////////////////////////////////////
+  // UPDATE DEVICES
+  ////////////////////////////////////////////
+  if (action.type == types.BEGIN_UPDATE_DEVICES_ON_SUMMARY_DASHBOARD) {
+    return {
+      ...state,
+      deviceIdsState: { ...state.deviceIdsState, loading: true }
+    };
+  }
+
+  if (action.type == types.UPDATE_DEVICES_ON_SUMMARY_DASHBOARD_SUCCESS) {
+    return {
+      ...state,
+      deviceIdsState: {
+        ...state.deviceIdsState,
+        deviceIds: action.data.deviceIds,
+        loading: false
+      }
+    };
+  }
+
+  if (action.type == types.END_UPDATE_DEVICES_ON_SUMMARY_DASHBOARD) {
+    return {
+      ...state,
+      deviceIdsState: { ...state.deviceIdsState, loading: false }
     };
   }
 

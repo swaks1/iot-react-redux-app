@@ -395,7 +395,25 @@ class IotApi {
   static loadSummaryDashboard(dashboardName) {
     return new Promise((resolve, reject) => {
       axios
-        .get(`http://localhost:8000/api/settings/${dashboardName}`)
+        .get(`http://localhost:8000/api/summaryDashboard/${dashboardName}`)
+        .then(response => {
+          setTimeout(() => {
+            resolve(response);
+          }, 400);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+
+  static updateDevicesOnSummaryDashboard(dashboardName, deviceIds) {
+    return new Promise((resolve, reject) => {
+      axios
+        .post(
+          `http://localhost:8000/api/summaryDashboard/${dashboardName}/updateDevices`,
+          { devices: deviceIds }
+        )
         .then(response => {
           setTimeout(() => {
             resolve(response);

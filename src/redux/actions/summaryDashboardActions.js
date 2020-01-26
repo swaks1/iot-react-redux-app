@@ -11,21 +11,38 @@ export function beginLoadSummaryDashboard(dashboardName) {
   };
 }
 
-export function endLoadSummaryDashboard(deviceId) {
+export function endLoadSummaryDashboard() {
   return {
-    type: types.END_LOAD_SUMMARY_DASHBOARD,
+    type: types.END_LOAD_SUMMARY_DASHBOARD
+  };
+}
+
+export function loadSummaryDashboardSuccess(summaryDashboard) {
+  return {
+    type: types.LOAD_SUMMARY_DASHBOARD_SUCCESS,
     data: {
-      deviceId
+      summaryDashboard
     }
   };
 }
 
-export function loadSummaryDashboardSuccess(dashboardName, summaryDashboard) {
+export function beginUpdateDevicesOnSummaryDashboard() {
   return {
-    type: types.LOAD_SUMMARY_DASHBOARD_SUCCESS,
+    type: types.BEGIN_UPDATE_DEVICES_ON_SUMMARY_DASHBOARD
+  };
+}
+
+export function endUpdateDevicesOnSummaryDashboard() {
+  return {
+    type: types.END_UPDATE_DEVICES_ON_SUMMARY_DASHBOARD
+  };
+}
+
+export function updateDevicesOnSummaryDashboardSuccess(deviceIds) {
+  return {
+    type: types.UPDATE_DEVICES_ON_SUMMARY_DASHBOARD_SUCCESS,
     data: {
-      dashboardName,
-      summaryDashboard
+      deviceIds
     }
   };
 }
@@ -39,14 +56,34 @@ export function loadSummaryDashboard(dashboardName) {
     return iotApi
       .loadSummaryDashboard(dashboardName)
       .then(response => {
-        dispatch(loadSummaryDashboardSuccess(dashboardName, response.data));
+        dispatch(loadSummaryDashboardSuccess(response.data));
       })
       .catch(error => {
         dispatch(ajaxCallError());
         throw error;
       })
       .finally(() => {
-        dispatch(endLoadSummaryDashboard(dashboardName));
+        dispatch(endLoadSummaryDashboard());
+      });
+  };
+}
+
+export function updateDevicesOnSummaryDashboard(dashboardName, deviceIds) {
+  return function(dispatch) {
+    dispatch(beginAjaxCall());
+    dispatch(beginUpdateDevicesOnSummaryDashboard());
+
+    return iotApi
+      .updateDevicesOnSummaryDashboard(dashboardName, deviceIds)
+      .then(response => {
+        dispatch(updateDevicesOnSummaryDashboardSuccess(response.data));
+      })
+      .catch(error => {
+        dispatch(ajaxCallError());
+        throw error;
+      })
+      .finally(() => {
+        dispatch(endUpdateDevicesOnSummaryDashboard());
       });
   };
 }

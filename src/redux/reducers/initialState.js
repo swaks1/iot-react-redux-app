@@ -37,7 +37,7 @@ export default {
     }
   },
   summaryDashboard: {
-    dashboardName: "",
+    name: "",
     deviceIdsState: {
       deviceIds: [],
       loading: false
