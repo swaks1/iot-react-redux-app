@@ -1,14 +1,28 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
+
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as importedSummaryDashboardActions from "../../redux/actions/summaryDashboardActions";
+
+import toastr from "toastr";
 import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
 import BasicInformationsContainer from "./basicInformations/BasicInformationsContainer";
 import MinMaxAvgContainer from "./minMaxAvg/MinMaxAvgContainer";
 import DevicesContainer from "./devices/DevicesContainer";
 import SelectedDeviceContainer from "./selectedDevice/SelectedDeviceContainer";
 
-class SummaryDashboaddContainer extends React.Component {
+class SummaryDashboardContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+
+  componentDidMount() {
+    let { summaryDashboardActions } = this.props;
+    summaryDashboardActions
+      .loadSummaryDashboard("beehiveDashboard")
+      .catch(error => toastr.error(error));
   }
 
   render() {
@@ -80,4 +94,23 @@ class SummaryDashboaddContainer extends React.Component {
   }
 }
 
-export default SummaryDashboaddContainer;
+//can be called many times by the framework
+const mapStateToProps = (state, ownProps) => {
+  return {};
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    summaryDashboardActions: bindActionCreators(
+      importedSummaryDashboardActions,
+      dispatch
+    )
+  };
+};
+
+var SummaryDashboardContainerConnected = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SummaryDashboardContainer);
+
+export default withRouter(SummaryDashboardContainerConnected);

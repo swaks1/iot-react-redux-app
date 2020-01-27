@@ -25,13 +25,6 @@ class BasicInformationsContainer extends React.Component {
     };
   }
 
-  componentDidMount() {
-    let { summaryDashboardActions } = this.props;
-    summaryDashboardActions
-      .loadSummaryDashboard("beehiveDashboard")
-      .catch(error => toastr.error(error));
-  }
-
   handleManageDevicesDialogAction = (data, action) => {
     const { summaryDashboardActions, summaryDashboardName } = this.props;
 
@@ -67,19 +60,16 @@ class BasicInformationsContainer extends React.Component {
     }
 
     if (action == "CONFIRM-MANAGE-DATA-TYPES") {
-      // let checkedDevices = data.filter(item => item.checked);
-      // let deviceIds = checkedDevices.map(item => item.id);
-      // summaryDashboardActions
-      //   .updateDevicesOnSummaryDashboard(summaryDashboardName, deviceIds)
-      //   .then(response => {
-      //     toastr.success(`Successfully updated summary devices!`);
-      //     this.setState({ isManageDevicesDialogOpened: false });
-      //   })
-      //   .catch(error => {
-      //     this.setState({ isManageDevicesDialogOpened: false });
-      //     toastr.error("Failed to update summary devices", error);
-      //   });
-      console.log(data);
+      summaryDashboardActions
+        .updateDataTypesOnSummaryDashboard(summaryDashboardName, data)
+        .then(response => {
+          toastr.success(`Successfully updated data types!`);
+          this.setState({ isManageDataTypesDialogOpened: false });
+        })
+        .catch(error => {
+          this.setState({ isManageDataTypesDialogOpened: false });
+          toastr.error("Failed to update summary data types!", error);
+        });
       this.setState({ isManageDataTypesDialogOpened: false });
     }
 

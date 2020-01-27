@@ -47,6 +47,27 @@ export function updateDevicesOnSummaryDashboardSuccess(deviceIds) {
   };
 }
 
+export function beginUpdateDataTypesOnSummaryDashboard() {
+  return {
+    type: types.BEGIN_UPDATE_DATA_TYPES_ON_SUMMARY_DASHBOARD
+  };
+}
+
+export function endUpdateDataTypesOnSummaryDashboard() {
+  return {
+    type: types.END_UPDATE_DATA_TYPES_ON_SUMMARY_DASHBOARD
+  };
+}
+
+export function updateDataTypesOnSummaryDashboardSuccess(dataTypes) {
+  return {
+    type: types.UPDATE_DATA_TYPES_ON_SUMMARY_DASHBOARD_SUCCESS,
+    data: {
+      dataTypes
+    }
+  };
+}
+
 //THUNKS thunk async functions that return action
 export function loadSummaryDashboard(dashboardName) {
   return function(dispatch) {
@@ -84,6 +105,26 @@ export function updateDevicesOnSummaryDashboard(dashboardName, deviceIds) {
       })
       .finally(() => {
         dispatch(endUpdateDevicesOnSummaryDashboard());
+      });
+  };
+}
+
+export function updateDataTypesOnSummaryDashboard(dashboardName, dataTypes) {
+  return function(dispatch) {
+    dispatch(beginAjaxCall());
+    dispatch(beginUpdateDataTypesOnSummaryDashboard());
+
+    return iotApi
+      .updateDataTypesOnSummaryDashboard(dashboardName, dataTypes)
+      .then(response => {
+        dispatch(updateDataTypesOnSummaryDashboardSuccess(response.data));
+      })
+      .catch(error => {
+        dispatch(ajaxCallError());
+        throw error;
+      })
+      .finally(() => {
+        dispatch(endUpdateDataTypesOnSummaryDashboard());
       });
   };
 }

@@ -424,6 +424,24 @@ class IotApi {
         });
     });
   }
+
+  static updateDataTypesOnSummaryDashboard(dashboardName, dataTypes) {
+    return new Promise((resolve, reject) => {
+      axios
+        .post(
+          `http://localhost:8000/api/summaryDashboard/${dashboardName}/updateDataTypes`,
+          { dataTypes: dataTypes }
+        )
+        .then(response => {
+          setTimeout(() => {
+            resolve(response);
+          }, 400);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
 }
 
 export default IotApi;

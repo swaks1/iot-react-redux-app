@@ -71,5 +71,33 @@ export default function summaryDashboardReducer(
     };
   }
 
+  /////////////////////////////////////////////
+  // UPDATE DATA TYPES
+  ////////////////////////////////////////////
+  if (action.type == types.BEGIN_UPDATE_DATA_TYPES_ON_SUMMARY_DASHBOARD) {
+    return {
+      ...state,
+      dataTypesState: { ...state.dataTypesState, loading: true }
+    };
+  }
+
+  if (action.type == types.UPDATE_DATA_TYPES_ON_SUMMARY_DASHBOARD_SUCCESS) {
+    return {
+      ...state,
+      dataTypesState: {
+        ...state.dataTypesState,
+        dataTypes: action.data.dataTypes,
+        loading: false
+      }
+    };
+  }
+
+  if (action.type == types.END_UPDATE_DATA_TYPES_ON_SUMMARY_DASHBOARD) {
+    return {
+      ...state,
+      dataTypesState: { ...state.dataTypesState, loading: false }
+    };
+  }
+
   return state;
 }

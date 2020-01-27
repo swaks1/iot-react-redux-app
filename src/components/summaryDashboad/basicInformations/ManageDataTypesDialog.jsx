@@ -1,5 +1,6 @@
 import React from "react";
 
+import toastr from "toastr";
 import { Row, Col, FormGroup, Label, Input } from "reactstrap";
 import Modal from "./../../_common/Modal";
 import LoaderRow from "../../_common/LoaderRow";
@@ -42,7 +43,7 @@ class ManageDataTypesDialog extends React.Component {
     let dataTypes = this.state.dataTypes.map(item => {
       if (item.name == dataTypeName) {
         var newItem = { ...item };
-        newItem[minMax] = parseInt(event.target.value);
+        newItem[minMax] = event.target.value;
         return newItem;
       }
       return item;
@@ -55,8 +56,30 @@ class ManageDataTypesDialog extends React.Component {
   };
 
   localConfirmAction = () => {
+    let dataTypes = [];
+    try {
+      let checkedDataTypes = this.state.dataTypes.filter(item => item.checked);
+      dataTypes = checkedDataTypes.map(item => {
+        let minValue = parseFloat(item.minValue);
+        let maxValue = parseFloat(item.maxValue);
+        if (isNaN(minValue) || isNaN(maxValue)) {
+          toastr.error(
+            `${item.name} => enter valid numbers for minValue and maxValue !`
+          );
+          throw new Error();
+        } else {
+          return {
+            name: item.name,
+            minValue: minValue,
+            maxValue: maxValue
+          };
+        }
+      });
+    } catch (error) {
+      return;
+    }
     this.setState({ confirming: true });
-    this.props.confirmAction(this.state.dataTypes);
+    this.props.confirmAction(dataTypes);
   };
 
   render() {
