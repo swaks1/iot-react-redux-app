@@ -442,6 +442,25 @@ class IotApi {
         });
     });
   }
+
+  static loadDevicesWithData(deviceIds, dataTypes, period) {
+    return new Promise((resolve, reject) => {
+      axios
+        .post(`http://localhost:8000/api/data/getForEachDevice`, {
+          devices: deviceIds,
+          dataTypes: dataTypes,
+          period: period
+        })
+        .then(response => {
+          setTimeout(() => {
+            resolve(response);
+          }, 400);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
 }
 
 export default IotApi;

@@ -15,7 +15,10 @@ import SelectedDeviceContainer from "./selectedDevice/SelectedDeviceContainer";
 class SummaryDashboardContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      selectedDataTypeName: null,
+      selectedDevice: null // {id:'', name:'', dataType:'', dataPeriod:''}
+    };
   }
 
   componentDidMount() {
@@ -24,6 +27,72 @@ class SummaryDashboardContainer extends React.Component {
       .loadSummaryDashboard("beehiveDashboard")
       .catch(error => toastr.error(error));
   }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    let reloadDevicesWithData = false;
+    if (
+      prevProps.summaryDeviceIdsState.deviceIds !==
+      this.props.summaryDeviceIdsState.deviceIds
+    ) {
+      reloadDevicesWithData = true;
+      this.checkSelectedDevice();
+    }
+    if (
+      prevProps.summaryDataTypesState.dataTypes !==
+      this.props.summaryDataTypesState.dataTypes
+    ) {
+      reloadDevicesWithData = true;
+      this.checkSelectedDataType();
+    }
+
+    if (reloadDevicesWithData) {
+      let deviceIds = this.props.summaryDeviceIdsState.deviceIds;
+      let dataTypeNames = this.props.summaryDataTypesState.dataTypes.map(
+        item => item.name
+      );
+      this.loadDeviceWithData(deviceIds, dataTypeNames);
+    }
+  }
+
+  checkSelectedDevice = () => {
+    let deviceIds = this.props.summaryDeviceIdsState.deviceIds;
+    let selectedDeviceId = this.state.selectedDevice
+      ? this.state.selectedDevice.id
+      : null;
+    if (!deviceIds.includes(selectedDeviceId)) {
+      let newId = deviceIds.length > 0 ? deviceIds[0] : null;
+      this.setState({
+        selectedDevice: { id: newId }
+      });
+    }
+  };
+
+  checkSelectedDataType = () => {
+    let dataTypes = this.props.summaryDataTypesState.dataTypes;
+    let selectedDataTypeName = this.state.selectedDataTypeName;
+    let exists =
+      dataTypes.find(dataType => dataType.name == selectedDataTypeName) != null;
+    if (!exists) {
+      let newSelectedDataTypeName =
+        dataTypes.length > 0 ? dataTypes[0].name : null;
+      this.setState({
+        selectedDataTypeName: newSelectedDataTypeName
+      });
+    }
+  };
+
+  loadDeviceWithData = (deviceIds, dataTypeNames) => {
+    if (deviceIds.length == 0 || dataTypeNames.length == 0) {
+      toastr.warning("devicesIds or dataTypes are empty !");
+      return;
+    }
+    console.log("getting device with data: ", deviceIds, dataTypeNames);
+    let { summaryDashboardActions } = this.props;
+    summaryDashboardActions
+      .loadDevicesWithData(deviceIds, dataTypeNames)
+      .then(resp => toastr.success("Loaded devices with data !"))
+      .catch(error => toastr.error(error));
+  };
 
   render() {
     return (
@@ -96,7 +165,29 @@ class SummaryDashboardContainer extends React.Component {
 
 //can be called many times by the framework
 const mapStateToProps = (state, ownProps) => {
-  return {};
+  let summaryDashboardName = state.summaryDashboard.name;
+
+  let summaryDeviceIdsState = {
+    loading: true,
+    ...state.summaryDashboard.deviceIdsState
+  };
+
+  let summaryDataTypesState = {
+    loading: true,
+    ...state.summaryDashboard.dataTypesState
+  };
+
+  let summaryDevicesWithDataState = {
+    loading: true,
+    ...state.summaryDashboard.devicesWithDataState
+  };
+
+  return {
+    summaryDashboardName,
+    summaryDeviceIdsState,
+    summaryDataTypesState,
+    summaryDevicesWithDataState
+  };
 };
 
 const mapDispatchToProps = dispatch => {

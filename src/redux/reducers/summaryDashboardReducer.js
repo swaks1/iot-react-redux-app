@@ -11,8 +11,7 @@ export default function summaryDashboardReducer(
       ...state,
       name: action.data.dashboardName,
       deviceIdsState: { ...state.deviceIdsState, loading: true },
-      dataTypesState: { ...state.dataTypesState, loading: true },
-      devicesWithDataState: { ...state.devicesWithDataState, loading: true }
+      dataTypesState: { ...state.dataTypesState, loading: true }
     };
   }
 
@@ -29,8 +28,7 @@ export default function summaryDashboardReducer(
         ...state.dataTypesState,
         dataTypes: action.data.summaryDashboard.value.dataTypes,
         loading: false
-      },
-      devicesWithDataState: { ...state.devicesWithDataState, loading: false }
+      }
     };
   }
 
@@ -38,8 +36,7 @@ export default function summaryDashboardReducer(
     return {
       ...state,
       deviceIdsState: { ...state.deviceIdsState, loading: false },
-      dataTypesState: { ...state.dataTypesState, loading: false },
-      devicesWithDataState: { ...state.devicesWithDataState, loading: false }
+      dataTypesState: { ...state.dataTypesState, loading: false }
     };
   }
 
@@ -96,6 +93,36 @@ export default function summaryDashboardReducer(
     return {
       ...state,
       dataTypesState: { ...state.dataTypesState, loading: false }
+    };
+  }
+
+  /////////////////////////////////////////////
+  // LOAD DEVICES WITH DATA
+  ////////////////////////////////////////////
+  if (action.type == types.BEGIN_LOAD_DEVICES_WITH_DATA_ON_SUMMARY_DASHBOARD) {
+    return {
+      ...state,
+      devicesWithDataState: { ...state.devicesWithDataState, loading: true }
+    };
+  }
+
+  if (
+    action.type == types.LOAD_DEVICES_WITH_DATA_ON_SUMMARY_DASHBOARD_SUCCESS
+  ) {
+    return {
+      ...state,
+      devicesWithDataState: {
+        ...state.devicesWithDataState,
+        devices: action.data.devices,
+        loading: false
+      }
+    };
+  }
+
+  if (action.type == types.END_LOAD_DEVICES_WITH_DATA_ON_SUMMARY_DASHBOARD) {
+    return {
+      ...state,
+      devicesWithDataState: { ...state.devicesWithDataState, loading: false }
     };
   }
 
