@@ -143,7 +143,7 @@ const mapStateToProps = (state, ownProps) => {
       let dataTypeObj = getInitialDataTypeObj(dataType);
       let currentSum = 0;
       let currentNumDevices = 0;
-      for (let device of summaryDevicesWithDataState.devices) {
+      for (let device of summaryDevices) {
         let dataWithCurrentDataType = device.data.find(
           item => item.dataType == dataType
         );

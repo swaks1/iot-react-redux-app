@@ -209,7 +209,6 @@ export class BarChartHelper {
   };
 }
 
-
 // https://codesandbox.io/s/rkzro8yy4
 // https://codepen.io/davelebbing/pen/wGEQwx
 // https://www.npmjs.com/package/highcharts-react-official
@@ -271,7 +270,7 @@ export const GaugeChartHelper = {
             color: "#525f7f",
             fontSize: "1.3em"
           },
-          y: -60        // offset where the label will show on the gauge
+          y: -60 // offset where the label will show on the gauge
         },
         stops: [
           [0.1, "#55BF3B"], // green
@@ -279,11 +278,13 @@ export const GaugeChartHelper = {
           [0.9, "#DF5353"] // red
         ],
         lineWidth: 0,
-        minorTickInterval: null,
-        tickPixelInterval: 1000,
         tickWidth: 0,
+        minorTickInterval: null,
+        tickPositions: [minValue, maxValue], //the labels on the gauge (numbers on the cahrt)
+        tickAmount: 2, // max nubers of labels on the gauge
         labels: {
-          y: 16
+          y: 15, // offset from the charts for the labels(numbers on the chart)
+          x: 0
         }
       }
     };

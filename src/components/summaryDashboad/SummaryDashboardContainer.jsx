@@ -84,7 +84,6 @@ class SummaryDashboardContainer extends React.Component {
   loadDeviceWithData = (deviceIds, dataTypeNames) => {
     if (deviceIds.length == 0 || dataTypeNames.length == 0) {
       toastr.warning("devicesIds or dataTypes are empty !");
-      return;
     }
     console.log("getting device with data: ", deviceIds, dataTypeNames);
     let { summaryDashboardActions } = this.props;

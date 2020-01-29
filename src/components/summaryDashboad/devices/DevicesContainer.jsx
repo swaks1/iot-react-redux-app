@@ -1,6 +1,14 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
+
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as importedSummaryDashboardActions from "../../../redux/actions/summaryDashboardActions";
+
 import { Row, Col, Button } from "reactstrap";
 
+import LoaderRow from "../../_common/LoaderRow";
+import CustomCard from "../../_common/CustomCard";
 import DeviceGaugeChart from "./DeviceGaugeChart";
 
 class DevicesContainer extends React.Component {
@@ -10,40 +18,128 @@ class DevicesContainer extends React.Component {
   }
 
   render() {
-    let { title, faIcon, minDevice, maxDevice, avg, selected } = this.props;
+    let { devicesWithDataMapped, loading } = this.props;
 
     return (
       <>
-        <Row>
-          <Col md={2} className="d-flex justify-content-center">
-            <DeviceGaugeChart
-              minValue={0}
-              maxValue={200}
-              currentValue={22}
-              title="Device"
-            />
-          </Col>
-          <Col md={2} className="d-flex justify-content-center">
-            <DeviceGaugeChart
-              minValue={0}
-              maxValue={200}
-              currentValue={22}
-              title="Device"
-              selected={true}
-            />
-          </Col>
-          <Col md={2} className="d-flex justify-content-center">
-            <DeviceGaugeChart
-              minValue={0}
-              maxValue={200}
-              currentValue={22}
-              title="Device"
-            />
-          </Col>
-        </Row>
+        {loading ? (
+          <LoaderRow style={{ minHeight: "205px" }} />
+        ) : (
+          <Row>
+            {devicesWithDataMapped.map(device => (
+              <Col
+                md={2}
+                className="d-flex justify-content-center"
+                key={device.id}
+              >
+                {device.dataType && device.dataItem && device.dataItem.dataValue ? (
+                  <DeviceGaugeChart
+                    minValue={device.dataType.minValue}
+                    maxValue={device.dataType.maxValue}
+                    currentValue={device.dataItem.dataValue}
+                    title={
+                      device.name.length > 15
+                        ? `${device.name.substring(0, 16) + "..."}`
+                        : device.name
+                    }
+                  />
+                ) : (
+                  <CustomCard
+                    card={{
+                      className: " custom-gauge-card "
+                    }}
+                    body={{
+                      className: "text-center",
+                      elements: (
+                        <>
+                          <Row>
+                            <Col md={12} className="text-center">
+                              <div>
+                                {device.name.length > 15
+                                  ? `${device.name.substring(0, 16) + "..."}`
+                                  : device.name}
+                              </div>
+                            </Col>
+                            <Col md={12} className="text-center mt-1">
+                              <div>NO DATA !</div>
+                            </Col>
+                          </Row>
+                        </>
+                      )
+                    }}
+                  />
+                )}
+              </Col>
+            ))}
+          </Row>
+        )}
       </>
     );
   }
 }
 
-export default DevicesContainer;
+const mapStateToProps = (state, ownProps) => {
+  let allDevicesState = {
+    loading: state.devices.length == 0,
+    devices: state.devices.map(item => item.data)
+  };
+
+  let summaryDataTypesState = {
+    loading: true,
+    ...state.summaryDashboard.dataTypesState
+  };
+
+  let summaryDevicesWithDataState = {
+    loading: true,
+    ...state.summaryDashboard.devicesWithDataState
+  };
+
+  let devicesWithDataMapped = [];
+  let loading = true;
+  if (
+    allDevicesState.loading == false &&
+    summaryDataTypesState.loading == false &&
+    summaryDevicesWithDataState.loading == false
+  ) {
+    let iotDevices = allDevicesState.devices;
+    let devicesWithData = summaryDevicesWithDataState.devices;
+    let dataType = { ...summaryDataTypesState.dataTypes[0] };
+
+    devicesWithDataMapped = devicesWithData.map(device => {
+      let data = device.data.find(item => item.dataType == dataType.name);
+      return {
+        id: device.id,
+        dataItem: data ? { ...data } : null, //destruct here or there will be state corruption if dataItem is eddeited
+        dataType: dataType
+      };
+    });
+
+    // add name from iot devices, and parse the value of dataItem to float
+    for (let device of devicesWithDataMapped) {
+      let iotDevice = iotDevices.find(item => item._id == device.id);
+      device.name = iotDevice.name;
+      if (device.dataItem && device.dataItem.dataValue) {
+        device.dataItem.dataValue = parseFloat(device.dataItem.dataValue);
+      }
+    }
+    loading = false;
+  }
+  console.log(devicesWithDataMapped);
+  return { devicesWithDataMapped, loading };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    summaryDashboardActions: bindActionCreators(
+      importedSummaryDashboardActions,
+      dispatch
+    )
+  };
+};
+
+var DevicesContainerConnected = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DevicesContainer);
+
+export default withRouter(DevicesContainerConnected);
