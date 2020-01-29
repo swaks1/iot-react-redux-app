@@ -18,12 +18,17 @@ class DevicesContainer extends React.Component {
   }
 
   render() {
-    let { devicesWithDataMapped, loading } = this.props;
+    let {
+      devicesWithDataMapped,
+      loading,
+      selectedInfo,
+      onChangeDevice
+    } = this.props;
 
     return (
       <>
         {loading ? (
-          <LoaderRow style={{ minHeight: "205px" }} />
+          <LoaderRow style={{ minHeight: "210px" }} />
         ) : (
           <Row>
             {devicesWithDataMapped.map(device => (
@@ -32,21 +37,35 @@ class DevicesContainer extends React.Component {
                 className="d-flex justify-content-center"
                 key={device.id}
               >
-                {device.dataType && device.dataItem && device.dataItem.dataValue ? (
+                {device.dataType &&
+                device.dataItem &&
+                device.dataItem.dataValue != null &&
+                isNaN(device.dataItem.dataValue) == false ? (
                   <DeviceGaugeChart
+                    deviceId={device.id}
                     minValue={device.dataType.minValue}
                     maxValue={device.dataType.maxValue}
                     currentValue={device.dataItem.dataValue}
-                    title={
+                    deviceName={
                       device.name.length > 15
                         ? `${device.name.substring(0, 16) + "..."}`
                         : device.name
                     }
+                    selected={
+                      selectedInfo.selectedDevice.id &&
+                      selectedInfo.selectedDevice.id == device.id
+                    }
+                    onChangeDevice={onChangeDevice}
                   />
                 ) : (
                   <CustomCard
                     card={{
-                      className: " custom-gauge-card "
+                      className: `custom-gauge-card ${
+                        selectedInfo.selectedDevice.id &&
+                        selectedInfo.selectedDevice.id == device.id
+                          ? "border-info"
+                          : ""
+                      }`
                     }}
                     body={{
                       className: "text-center",
@@ -103,7 +122,10 @@ const mapStateToProps = (state, ownProps) => {
   ) {
     let iotDevices = allDevicesState.devices;
     let devicesWithData = summaryDevicesWithDataState.devices;
-    let dataType = { ...summaryDataTypesState.dataTypes[0] };
+    let selectedDataTypeName = ownProps.selectedInfo.selectedDataTypeName;
+    let dataType = summaryDataTypesState.dataTypes.find(
+      item => item.name == selectedDataTypeName
+    );
 
     devicesWithDataMapped = devicesWithData.map(device => {
       let data = device.data.find(item => item.dataType == dataType.name);

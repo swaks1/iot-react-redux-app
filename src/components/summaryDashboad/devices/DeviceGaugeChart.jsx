@@ -15,18 +15,27 @@ class DeviceGaugeChart extends React.Component {
   }
 
   render() {
-    const { minValue, maxValue, currentValue, title, selected } = this.props;
+    const {
+      deviceId,
+      minValue,
+      maxValue,
+      currentValue,
+      deviceName,
+      selected,
+      onChangeDevice
+    } = this.props;
 
     let chartOptions = GaugeChartHelper.getOptions(
       minValue,
       maxValue,
       currentValue,
-      title
+      deviceName
     );
     return (
       <div
         className={`card custom-bootstrap-card custom-gauge-card 
                     ${selected ? "border-info" : ""}`}
+        onClick={() => onChangeDevice(deviceId)}
       >
         <HighchartsReact highcharts={Highcharts} options={chartOptions} />
       </div>

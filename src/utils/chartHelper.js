@@ -225,8 +225,9 @@ export const GaugeChartHelper = {
           data: [currentValue],
           dataLabels: {
             format: `<div style="text-align:center">
-              <span style="font-size:30px;color:#525f7f">{y}</span><br/>              
-              </div>`
+              <span style="font-size:25px;color:#525f7f">{y}</span><br/>              
+              </div>`,
+            allowOverlap: true
           }
         }
       ],
@@ -280,6 +281,7 @@ export const GaugeChartHelper = {
         lineWidth: 0,
         tickWidth: 0,
         minorTickInterval: null,
+        tickInterval: maxValue / 1000,
         tickPositions: [minValue, maxValue], //the labels on the gauge (numbers on the cahrt)
         tickAmount: 2, // max nubers of labels on the gauge
         labels: {

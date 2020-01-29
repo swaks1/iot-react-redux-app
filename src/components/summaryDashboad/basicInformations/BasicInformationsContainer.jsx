@@ -88,11 +88,11 @@ class BasicInformationsContainer extends React.Component {
     return (
       <>
         {summaryDeviceIdsState.loading ? (
-          <LoaderRow style={{ minHeight: "205px" }} />
+          <LoaderRow style={{ minHeight: "210px" }} />
         ) : (
           <>
             <Row>
-              <Col md="12">
+              <Col md="12" className="mt-2">
                 <CustomCard
                   card={{
                     className: "custom-summary-card"

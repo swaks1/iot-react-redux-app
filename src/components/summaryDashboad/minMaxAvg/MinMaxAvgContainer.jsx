@@ -7,6 +7,7 @@ import * as importedSummaryDashboardActions from "../../../redux/actions/summary
 
 import { Row, Col, Button } from "reactstrap";
 
+import { helper } from "../../../utils/helper";
 import LoaderRow from "../../_common/LoaderRow";
 import MinMaxAvgCard from "./MinMaxAvgCard";
 
@@ -17,31 +18,40 @@ class MinMaxAvgContainer extends React.Component {
   }
 
   render() {
-    let { minMaxDataTypes, loading } = this.props;
-
+    let {
+      minMaxDataTypes,
+      loading,
+      selectedInfo,
+      onChangeDataType,
+      onChangeDevice
+    } = this.props;
     return (
       <>
         {loading ? (
-          <LoaderRow style={{ minHeight: "205px" }} />
+          <LoaderRow style={{ minHeight: "210px" }} />
         ) : (
           <Row>
             {minMaxDataTypes.map(item => (
-              <Col md={2} key={item.dataType}>
+              <Col md={3} key={item.dataType} className="mt-2">
                 <MinMaxAvgCard
                   title={item.dataType}
-                  faIcon="thermometer-half"
+                  faIcon={helper.getIconForDataType(item.dataType)}
                   minDevice={{
+                    id: item.minDevice.id,
                     name: item.minDevice.name,
                     date: item.minDevice.created,
                     value: item.minDevice.value
                   }}
                   maxDevice={{
+                    id: item.maxDevice.id,
                     name: item.maxDevice.name,
                     date: item.maxDevice.created,
                     value: item.maxDevice.value
                   }}
                   avg={item.avg}
-                  selected={true}
+                  selected={selectedInfo.selectedDataTypeName == item.dataType}
+                  onChangeDataType={onChangeDataType}
+                  onChangeDevice={onChangeDevice}
                 />
               </Col>
             ))}
@@ -112,7 +122,8 @@ const updateDeviceNames = (minMaxDataTypes, devices) => {
     for (let type of minMaxDataTypes) {
       if (type.minDevice.id == device._id) {
         type.minDevice.name = device.name;
-      } else if (type.maxDevice.id == device._id) {
+      }
+      if (type.maxDevice.id == device._id) {
         type.maxDevice.name = device.name;
       }
     }

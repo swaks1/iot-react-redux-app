@@ -7,6 +7,7 @@ import * as importedSummaryDashboardActions from "../../redux/actions/summaryDas
 
 import toastr from "toastr";
 import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
+import { helper } from "../../utils/helper";
 import BasicInformationsContainer from "./basicInformations/BasicInformationsContainer";
 import MinMaxAvgContainer from "./minMaxAvg/MinMaxAvgContainer";
 import DevicesContainer from "./devices/DevicesContainer";
@@ -17,7 +18,7 @@ class SummaryDashboardContainer extends React.Component {
     super(props);
     this.state = {
       selectedDataTypeName: null,
-      selectedDevice: null // {id:'', name:'', dataType:'', dataPeriod:''}
+      selectedDevice: null // {id:'', dataType:'', dataPeriod:''}
     };
   }
 
@@ -61,9 +62,7 @@ class SummaryDashboardContainer extends React.Component {
       : null;
     if (!deviceIds.includes(selectedDeviceId)) {
       let newId = deviceIds.length > 0 ? deviceIds[0] : null;
-      this.setState({
-        selectedDevice: { id: newId }
-      });
+      this.changeSelectedDevice(newId);
     }
   };
 
@@ -73,11 +72,8 @@ class SummaryDashboardContainer extends React.Component {
     let exists =
       dataTypes.find(dataType => dataType.name == selectedDataTypeName) != null;
     if (!exists) {
-      let newSelectedDataTypeName =
-        dataTypes.length > 0 ? dataTypes[0].name : null;
-      this.setState({
-        selectedDataTypeName: newSelectedDataTypeName
-      });
+      let newDataTypeName = dataTypes.length > 0 ? dataTypes[0].name : null;
+      this.changeSelectedDataType(newDataTypeName);
     }
   };
 
@@ -91,6 +87,18 @@ class SummaryDashboardContainer extends React.Component {
       .loadDevicesWithData(deviceIds, dataTypeNames)
       .then(resp => toastr.success("Loaded devices with data !"))
       .catch(error => toastr.error(error));
+  };
+
+  changeSelectedDataType = dataTypeName => {
+    this.setState({
+      selectedDataTypeName: dataTypeName
+    });
+  };
+
+  changeSelectedDevice = deviceId => {
+    this.setState(prevState => ({
+      selectedDevice: { ...prevState.selectedDevice, id: deviceId }
+    }));
   };
 
   render() {
@@ -119,7 +127,11 @@ class SummaryDashboardContainer extends React.Component {
                 <h5>MIN, MAX, AVG </h5>
               </CardHeader>
               <CardBody>
-                <MinMaxAvgContainer />
+                <MinMaxAvgContainer
+                  selectedInfo={this.state}
+                  onChangeDataType={this.changeSelectedDataType}
+                  onChangeDevice={this.changeSelectedDevice}
+                />
               </CardBody>
             </Card>
           </Col>
@@ -131,13 +143,22 @@ class SummaryDashboardContainer extends React.Component {
               <CardHeader>
                 <>
                   <div className="data-type-with-icon">
-                    <span>TEMPERATURE</span>
-                    <i className={`fa fa-thermometer-half`}></i>
+                    <span className="text-capitalize">
+                      {this.state.selectedDataTypeName}
+                    </span>
+                    <i
+                      className={`fa fa-${helper.getIconForDataType(
+                        this.state.selectedDataTypeName
+                      )}`}
+                    ></i>
                   </div>
                 </>
               </CardHeader>
               <CardBody>
-                <DevicesContainer />
+                <DevicesContainer
+                  selectedInfo={this.state}
+                  onChangeDevice={this.changeSelectedDevice}
+                />
               </CardBody>
             </Card>
           </Col>
