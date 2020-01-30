@@ -9,13 +9,21 @@ class DataCard extends React.Component {
   }
 
   render() {
-    let { dataType, faIcon, date, dataValue, selected } = this.props;
+    let {
+      dataType,
+      faIcon,
+      date,
+      dataValue,
+      selected,
+      onChangeDeviceDataType
+    } = this.props;
 
     return (
       <>
         <CustomCard
           card={{
-            className: `custom-data-type-card ${selected ? "border-info" : ""}`
+            className: `custom-data-type-card ${selected ? "border-info" : ""}`,
+            onClick: () => onChangeDeviceDataType(dataType)
           }}
           header={{
             elements: (

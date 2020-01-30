@@ -18,7 +18,11 @@ class SummaryDashboardContainer extends React.Component {
     super(props);
     this.state = {
       selectedDataTypeName: null,
-      selectedDevice: null // {id:'', dataType:'', dataPeriod:''}
+      selectedDevice: {
+        id: null,
+        dataType: null,
+        dataPeriod: "mostRecent"
+      }
     };
   }
 
@@ -68,12 +72,26 @@ class SummaryDashboardContainer extends React.Component {
 
   checkSelectedDataType = () => {
     let dataTypes = this.props.summaryDataTypesState.dataTypes;
+
+    // change global selected dataType
     let selectedDataTypeName = this.state.selectedDataTypeName;
     let exists =
       dataTypes.find(dataType => dataType.name == selectedDataTypeName) != null;
     if (!exists) {
       let newDataTypeName = dataTypes.length > 0 ? dataTypes[0].name : null;
       this.changeSelectedDataType(newDataTypeName);
+    }
+
+    //change selected device dataType
+    let deviceDataType =
+      this.state.selectedDevice != null
+        ? this.state.selectedDevice.dataType
+        : null;
+    exists =
+      dataTypes.find(dataType => dataType.name == deviceDataType) != null;
+    if (!exists) {
+      let newDataTypeName = dataTypes.length > 0 ? dataTypes[0].name : null;
+      this.changeSelectedDeviceDataType(newDataTypeName);
     }
   };
 
@@ -93,11 +111,26 @@ class SummaryDashboardContainer extends React.Component {
     this.setState({
       selectedDataTypeName: dataTypeName
     });
+    // also change this selected device dataType
+    this.changeSelectedDeviceDataType(dataTypeName);
   };
 
   changeSelectedDevice = deviceId => {
+    let iotDevices = this.props.allDevicesState.devices;
+    let device = { ...iotDevices.find(item => item._id == deviceId) }; // if find returns null, destruction of null is {}
+
     this.setState(prevState => ({
-      selectedDevice: { ...prevState.selectedDevice, id: deviceId }
+      selectedDevice: {
+        ...prevState.selectedDevice,
+        id: device._id ? device._id : null,
+        name: device.name ? device.name : null
+      }
+    }));
+  };
+
+  changeSelectedDeviceDataType = dataTypeName => {
+    this.setState(prevState => ({
+      selectedDevice: { ...prevState.selectedDevice, dataType: dataTypeName }
     }));
   };
 
@@ -169,11 +202,19 @@ class SummaryDashboardContainer extends React.Component {
             <Card>
               <CardHeader>
                 <>
-                  <span>DEVICE 1</span>
+                  <h3>
+                    {this.state.selectedDevice &&
+                    this.state.selectedDataTypeName
+                      ? this.state.selectedDevice.name
+                      : ""}
+                  </h3>
                 </>
               </CardHeader>
               <CardBody>
-                <SelectedDeviceContainer />
+                <SelectedDeviceContainer
+                  selectedInfo={this.state}
+                  onChangeDeviceDataType={this.changeSelectedDeviceDataType}
+                />
               </CardBody>
             </Card>
           </Col>
@@ -202,11 +243,17 @@ const mapStateToProps = (state, ownProps) => {
     ...state.summaryDashboard.devicesWithDataState
   };
 
+  let allDevicesState = {
+    loading: state.devices.length == 0,
+    devices: state.devices.map(item => item.data)
+  };
+
   return {
     summaryDashboardName,
     summaryDeviceIdsState,
     summaryDataTypesState,
-    summaryDevicesWithDataState
+    summaryDevicesWithDataState,
+    allDevicesState
   };
 };
 

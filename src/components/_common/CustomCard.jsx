@@ -15,6 +15,7 @@ class CustomCard extends React.Component {
           className={`card custom-bootstrap-card 
             ${card && card.className ? card.className : ""}`}
           style={card && card.style ? { ...card.style } : { ...{} }}
+          onClick={card && card.onClick ? card.onClick : () => {}}
         >
           {header ? (
             <div

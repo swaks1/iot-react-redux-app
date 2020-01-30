@@ -65,7 +65,8 @@ class DevicesContainer extends React.Component {
                         selectedInfo.selectedDevice.id == device.id
                           ? "border-info"
                           : ""
-                      }`
+                      }`,
+                      onClick: () => onChangeDevice(device.id)
                     }}
                     body={{
                       className: "text-center",
@@ -126,27 +127,29 @@ const mapStateToProps = (state, ownProps) => {
     let dataType = summaryDataTypesState.dataTypes.find(
       item => item.name == selectedDataTypeName
     );
-
-    devicesWithDataMapped = devicesWithData.map(device => {
-      let data = device.data.find(item => item.dataType == dataType.name);
-      return {
-        id: device.id,
-        dataItem: data ? { ...data } : null, //destruct here or there will be state corruption if dataItem is eddeited
-        dataType: dataType
-      };
-    });
-
-    // add name from iot devices, and parse the value of dataItem to float
-    for (let device of devicesWithDataMapped) {
-      let iotDevice = iotDevices.find(item => item._id == device.id);
-      device.name = iotDevice.name;
-      if (device.dataItem && device.dataItem.dataValue) {
-        device.dataItem.dataValue = parseFloat(device.dataItem.dataValue);
+    
+    if (dataType != null) {
+      devicesWithDataMapped = devicesWithData.map(device => {
+        let data = device.data.find(item => item.dataType == dataType.name);
+        return {
+          id: device.id,
+          dataItem: data ? { ...data } : null, //destruct here or there will be state corruption if dataItem is eddeited
+          dataType: dataType
+        };
+      });
+      // add name from iot devices, and parse the value of dataItem to float
+      for (let device of devicesWithDataMapped) {
+        let iotDevice = iotDevices.find(item => item._id == device.id);
+        device.name = iotDevice.name;
+        if (device.dataItem && device.dataItem.dataValue) {
+          device.dataItem.dataValue = parseFloat(device.dataItem.dataValue);
+        }
       }
     }
+
     loading = false;
   }
-  console.log(devicesWithDataMapped);
+
   return { devicesWithDataMapped, loading };
 };
 
