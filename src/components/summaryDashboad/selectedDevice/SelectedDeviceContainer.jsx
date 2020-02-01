@@ -7,10 +7,10 @@ import * as importedSummaryDashboardActions from "../../../redux/actions/summary
 
 import { Row, Col, Button } from "reactstrap";
 
-import LoaderRow from "../../_common/LoaderRow";
 import { helper } from "../../../utils/helper";
+import LoaderRow from "../../_common/LoaderRow";
 import DataCard from "./DataCard";
-import DeviceDataLineChart from "../../deviceDetails/DeviceDataLineChart";
+import DataChartView from "./DataChartView";
 
 class SelectedDeviceContainer extends React.Component {
   constructor(props) {
@@ -23,7 +23,8 @@ class SelectedDeviceContainer extends React.Component {
       loading,
       dataGrouped,
       selectedInfo,
-      onChangeDeviceDataType
+      onChangeDeviceDataType,
+      onChangeDeviceDataPeriod
     } = this.props;
 
     return (
@@ -58,18 +59,12 @@ class SelectedDeviceContainer extends React.Component {
               })}
             </Col>
             <Col md={7}>
-              <DeviceDataLineChart
-                lg="12"
-                md="12"
-                sm="12"
-                deviceData={{ data: [], labels: [], name: "temp" }}
-                deviceDataLoading={false}
-                onDataLineChartButtonClick={() => {}}
-                getDataForLineChart={() => {
-                  return { data: [], labels: [], name: "temp" };
-                }}
-                dataPeriod={"mostRecent"}
-              />
+              <Row>
+                <DataChartView
+                  selectedInfo={selectedInfo}
+                  onChangeDeviceDataPeriod={onChangeDeviceDataPeriod}
+                />
+              </Row>
             </Col>
           </Row>
         )}
@@ -109,6 +104,7 @@ const mapStateToProps = (state, ownProps) => {
 
     loading = false;
   }
+
   return {
     loading,
     dataGrouped

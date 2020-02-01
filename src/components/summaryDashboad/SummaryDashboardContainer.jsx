@@ -134,6 +134,12 @@ class SummaryDashboardContainer extends React.Component {
     }));
   };
 
+  changeSelectedDeviceDataPeriod = dataPeriod => {
+    this.setState(prevState => ({
+      selectedDevice: { ...prevState.selectedDevice, dataPeriod: dataPeriod }
+    }));
+  };
+
   render() {
     return (
       <>
@@ -214,6 +220,7 @@ class SummaryDashboardContainer extends React.Component {
                 <SelectedDeviceContainer
                   selectedInfo={this.state}
                   onChangeDeviceDataType={this.changeSelectedDeviceDataType}
+                  onChangeDeviceDataPeriod={this.changeSelectedDeviceDataPeriod}
                 />
               </CardBody>
             </Card>

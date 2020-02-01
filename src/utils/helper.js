@@ -43,7 +43,7 @@ export const helper = {
         });
         if (dataPeriod === "mostRecent") {
           labels = deviceData.map((item, index) => {
-            return item.created.slice(11, 19); //"17:44:54" only hour
+            return `${item.created.slice(0, 10)} @ ${item.created.slice(11, 19)}`;
           });
         }
         if (dataPeriod === "lastHour" || dataPeriod == "last24h") {

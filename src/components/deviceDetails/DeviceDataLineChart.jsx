@@ -14,7 +14,7 @@ import {
 } from "reactstrap";
 
 import { LineChartHelper } from "../../utils/chartHelper";
-import {helper} from "../../utils/helper"
+import { helper } from "../../utils/helper";
 import LoaderOverlay from "../_common/LoaderOverlay";
 
 const DeviceDataLineChart = ({
@@ -24,12 +24,16 @@ const DeviceDataLineChart = ({
   deviceData,
   deviceDataLoading,
   onDataLineChartButtonClick,
+  dataType,
   dataPeriod,
   hideInfoHeader
 }) => {
-  let dataType = "";
-  if (deviceData != null && deviceData.length > 0) {
-    dataType = deviceData[0].dataItem.dataType;
+  let currentDataType = dataType;
+  if (currentDataType == null) {
+    currentDataType =
+      deviceData != null && deviceData.length > 0
+        ? deviceData[0].dataItem.dataType
+        : "";
   }
 
   let response = helper.mapDataToResponse(true, deviceData, dataPeriod);
@@ -58,7 +62,7 @@ const DeviceDataLineChart = ({
                     <h5 className="card-category">Data Line Chart</h5>
                     <CardTitle tag="h3">
                       <i className="tim-icons icon-bell-55 text-info" />{" "}
-                      {dataType}
+                      {currentDataType}
                     </CardTitle>
                   </div>
                 ) : null}
