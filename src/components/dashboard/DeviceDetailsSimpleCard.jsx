@@ -32,7 +32,6 @@ const DeviceDetailsSimpleCard = ({
   onDeviceIntervalBlur,
   deviceData,
   deviceDataLoading,
-  getDataForLineChart,
   onDataLineChartButtonClick,
   getDataForBarChart,
   dataPeriod
@@ -112,7 +111,7 @@ const DeviceDetailsSimpleCard = ({
                       onDataTypeChange={onDataTypeChange}
                       deviceData={deviceData}
                       deviceDataLoading={deviceDataLoading}
-                      getDataForLineChart={getDataForLineChart}
+                      dataPeriod={dataPeriod}
                     />
 
                     <DeviceDataLineChart
@@ -123,7 +122,6 @@ const DeviceDetailsSimpleCard = ({
                       deviceDataLoading={deviceDataLoading}
                       dataPeriod={dataPeriod}
                       onDataLineChartButtonClick={onDataLineChartButtonClick}
-                      getDataForLineChart={getDataForLineChart}
                     />
 
                     <DeviceCommandsSimple

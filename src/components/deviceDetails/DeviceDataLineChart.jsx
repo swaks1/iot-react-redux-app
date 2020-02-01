@@ -14,6 +14,7 @@ import {
 } from "reactstrap";
 
 import { LineChartHelper } from "../../utils/chartHelper";
+import {helper} from "../../utils/helper"
 import LoaderOverlay from "../_common/LoaderOverlay";
 
 const DeviceDataLineChart = ({
@@ -23,21 +24,20 @@ const DeviceDataLineChart = ({
   deviceData,
   deviceDataLoading,
   onDataLineChartButtonClick,
-  getDataForLineChart,
   dataPeriod,
   hideInfoHeader
 }) => {
-  let response = getDataForLineChart(true);
+  let dataType = "";
+  if (deviceData != null && deviceData.length > 0) {
+    dataType = deviceData[0].dataItem.dataType;
+  }
+
+  let response = helper.mapDataToResponse(true, deviceData, dataPeriod);
   let lineChart = new LineChartHelper(
     response.data,
     response.labels,
     response.name
   );
-
-  let dataType = "";
-  if (deviceData != null && deviceData.length > 0) {
-    dataType = deviceData[0].dataItem.dataType;
-  }
 
   return (
     <>
@@ -161,7 +161,6 @@ const DeviceDataLineChart = ({
                       <i className="tim-icons icon-single-02" />
                     </span>
                   </Button>
-
                 </ButtonGroup>
               </Col>
             </Row>

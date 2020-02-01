@@ -7,6 +7,7 @@ import ReactTooltip from "react-tooltip";
 
 import TableWithPagination from "../_common/TableWithPagination";
 import LoaderOverlay from "../_common/LoaderOverlay";
+import { helper } from "../../utils/helper";
 
 const DeviceDataTable = ({
   lg,
@@ -15,12 +16,13 @@ const DeviceDataTable = ({
   device,
   dataType,
   onDataTypeChange,
+  deviceData,
   deviceDataLoading,
-  getDataForLineChart,
+  dataPeriod,
   onRefreshClick
 }) => {
   //let deviceDataTop10 = deviceData.slice(0, 10);
-  let response = getDataForLineChart();
+  let response = helper.mapDataToResponse(false, deviceData, dataPeriod);
 
   // create arrays of 3 elemets and add them to the following array to be rendered as buttons
   let dataTypesArray = [];

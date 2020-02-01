@@ -39,7 +39,6 @@ const DeviceDetailsCard = ({
   onDeviceIntervalBlur,
   deviceData,
   deviceDataLoading,
-  getDataForLineChart,
   onDataLineChartButtonClick,
   dataPeriod,
   getDataForBarChart
@@ -166,8 +165,9 @@ const DeviceDetailsCard = ({
                       device={device}
                       dataType={dataType}
                       onDataTypeChange={onDataTypeChange}
+                      deviceData={deviceData}
                       deviceDataLoading={deviceDataLoading}
-                      getDataForLineChart={getDataForLineChart}
+                      dataPeriod={dataPeriod}
                       onRefreshClick={onRefreshClick}
                     />
                     <Col md="8">
@@ -181,7 +181,6 @@ const DeviceDetailsCard = ({
                           onDataLineChartButtonClick={
                             onDataLineChartButtonClick
                           }
-                          getDataForLineChart={getDataForLineChart}
                           dataPeriod={dataPeriod}
                         />
                         <Col className="mt-3"></Col>
