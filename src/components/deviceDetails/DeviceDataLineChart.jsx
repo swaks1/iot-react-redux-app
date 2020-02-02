@@ -60,7 +60,7 @@ const DeviceDataLineChart = ({
                 {hideInfoHeader == null || hideInfoHeader == false ? (
                   <div>
                     <h5 className="card-category">Data Line Chart</h5>
-                    <CardTitle tag="h3">
+                    <CardTitle tag="h3" className="mt-3">
                       <i className="tim-icons icon-bell-55 text-info" />{" "}
                       {currentDataType}
                     </CardTitle>

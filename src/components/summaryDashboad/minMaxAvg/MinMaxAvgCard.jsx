@@ -40,10 +40,10 @@ class MinMaxAvgCard extends React.Component {
                 <div className="col col-md-7 text-center">
                   <div className="device-name">{minDevice.name}</div>
                   <div className="device-date text-muted">
-                    {minDevice.date.substring(0, 10)}
+                    {minDevice.date && minDevice.date.substring(0, 10)}
                   </div>
                   <div className="device-date text-muted">
-                    {minDevice.date.substring(11, 19)}
+                    {minDevice.date && minDevice.date.substring(11, 19)}
                   </div>
                 </div>
                 <div className="col col-md-4 text-center">
@@ -64,10 +64,10 @@ class MinMaxAvgCard extends React.Component {
                 <div className="col col-md-7 text-center">
                   <div className="device-name">{maxDevice.name}</div>
                   <div className="device-date text-muted">
-                    {maxDevice.date.substring(0, 10)}
+                    {maxDevice.date && maxDevice.date.substring(0, 10)}
                   </div>
                   <div className="device-date text-muted">
-                    {maxDevice.date.substring(11, 19)}
+                    {maxDevice.date && maxDevice.date.substring(11, 19)}
                   </div>
                 </div>
                 <div className="col col-md-4 text-center">

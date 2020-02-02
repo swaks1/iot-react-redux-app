@@ -38,6 +38,7 @@ export default {
   },
   summaryDashboard: {
     name: "",
+    periodInPast: 24,
     deviceIdsState: {
       deviceIds: [],
       loading: false

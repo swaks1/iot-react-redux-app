@@ -120,7 +120,7 @@ const DeviceDataTable = ({
                   </th>
                 )
               )}
-              pageSize={10}
+              pageSize={15}
               data={tableData}
               mapFunction={item => {
                 return (

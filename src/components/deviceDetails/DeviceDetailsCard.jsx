@@ -183,7 +183,7 @@ const DeviceDetailsCard = ({
                           }
                           dataPeriod={dataPeriod}
                         />
-                        <Col className="mt-3"></Col>
+                        <Col className="mt-5"></Col>
                         <DeviceDataBarChart
                           lg="12"
                           md="12"

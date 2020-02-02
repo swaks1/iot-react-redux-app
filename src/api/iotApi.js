@@ -407,6 +407,24 @@ class IotApi {
     });
   }
 
+  static updatePeriodInPast(dashboardName, periodInPast) {
+    return new Promise((resolve, reject) => {
+      axios
+        .post(
+          `http://localhost:8000/api/summaryDashboard/${dashboardName}/updatePeriodInPast`,
+          { periodInPast: periodInPast }
+        )
+        .then(response => {
+          setTimeout(() => {
+            resolve(response);
+          }, 400);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+
   static updateDevicesOnSummaryDashboard(dashboardName, deviceIds) {
     return new Promise((resolve, reject) => {
       axios

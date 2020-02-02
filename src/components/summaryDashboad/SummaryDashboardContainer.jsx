@@ -1,5 +1,5 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -49,13 +49,17 @@ class SummaryDashboardContainer extends React.Component {
       reloadDevicesWithData = true;
       this.checkSelectedDataType();
     }
+    if (prevProps.periodInPast !== this.props.periodInPast) {
+      reloadDevicesWithData = true;
+    }
 
     if (reloadDevicesWithData) {
       let deviceIds = this.props.summaryDeviceIdsState.deviceIds;
       let dataTypeNames = this.props.summaryDataTypesState.dataTypes.map(
         item => item.name
       );
-      this.loadDeviceWithData(deviceIds, dataTypeNames);
+      let { periodInPast } = this.props;
+      this.loadDeviceWithData(deviceIds, dataTypeNames, periodInPast);
     }
   }
 
@@ -95,14 +99,19 @@ class SummaryDashboardContainer extends React.Component {
     }
   };
 
-  loadDeviceWithData = (deviceIds, dataTypeNames) => {
+  loadDeviceWithData = (deviceIds, dataTypeNames, periodInPast) => {
     if (deviceIds.length == 0 || dataTypeNames.length == 0) {
       toastr.warning("devicesIds or dataTypes are empty !");
     }
-    console.log("getting device with data: ", deviceIds, dataTypeNames);
+    console.log(
+      "getting device with data: ",
+      deviceIds,
+      dataTypeNames,
+      periodInPast
+    );
     let { summaryDashboardActions } = this.props;
     summaryDashboardActions
-      .loadDevicesWithData(deviceIds, dataTypeNames)
+      .loadDevicesWithData(deviceIds, dataTypeNames, periodInPast)
       .then(resp => toastr.success("Loaded devices with data !"))
       .catch(error => toastr.error(error));
   };
@@ -210,9 +219,13 @@ class SummaryDashboardContainer extends React.Component {
                 <>
                   <h3>
                     {this.state.selectedDevice &&
-                    this.state.selectedDataTypeName
-                      ? this.state.selectedDevice.name
-                      : ""}
+                    this.state.selectedDataTypeName ? (
+                      <Link to={`/app/devices/${this.state.selectedDevice.id}`}>
+                        {this.state.selectedDevice.name}
+                      </Link>
+                    ) : (
+                      ""
+                    )}
                   </h3>
                 </>
               </CardHeader>
@@ -234,6 +247,7 @@ class SummaryDashboardContainer extends React.Component {
 //can be called many times by the framework
 const mapStateToProps = (state, ownProps) => {
   let summaryDashboardName = state.summaryDashboard.name;
+  let periodInPast = state.summaryDashboard.periodInPast;
 
   let summaryDeviceIdsState = {
     loading: true,
@@ -257,6 +271,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     summaryDashboardName,
+    periodInPast,
     summaryDeviceIdsState,
     summaryDataTypesState,
     summaryDevicesWithDataState,

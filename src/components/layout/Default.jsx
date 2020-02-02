@@ -10,6 +10,8 @@ import Footer from "./parts/Footer.jsx";
 import Sidebar from "./parts/Sidebar.jsx";
 import FixedPlugin from "./parts/FixedPlugin.jsx";
 
+import ScrollToTop from "../_common/ScrollToTop";
+
 import routes from "../../routes.js";
 import logo from "../../assets/img/react-logo.png";
 
@@ -89,43 +91,45 @@ class DefaultLayout extends React.Component {
     console.log(`Default.jsx .. ${this.props.test}`);
     return (
       <>
-        <div className="wrapper">
-          <Sidebar
-            {...this.props}
-            routes={routes}
-            bgColor={this.state.backgroundColor}
-            logo={{
-              innerLink: "/app/dashboard",
-              text: "IoT App",
-              imgSrc: logo
-            }}
-            toggleSidebar={this.toggleSidebar}
-          />
-
-          <div
-            className="main-panel"
-            ref={this.mainPanel}
-            data={this.state.backgroundColor}
-          >
-            <Navbar
+        <ScrollToTop>
+          <div className="wrapper">
+            <Sidebar
               {...this.props}
-              brandText={this.getBrandText(this.props.location.pathname)}
+              routes={routes}
+              bgColor={this.state.backgroundColor}
+              logo={{
+                innerLink: "/app/dashboard",
+                text: "IoT App",
+                imgSrc: logo
+              }}
               toggleSidebar={this.toggleSidebar}
-              sidebarOpened={this.state.sidebarOpened}
             />
 
-            <div className="content">
-              <Switch>{this.getRoutes(routes)}</Switch>
+            <div
+              className="main-panel"
+              ref={this.mainPanel}
+              data={this.state.backgroundColor}
+            >
+              <Navbar
+                {...this.props}
+                brandText={this.getBrandText(this.props.location.pathname)}
+                toggleSidebar={this.toggleSidebar}
+                sidebarOpened={this.state.sidebarOpened}
+              />
+
+              <div className="content">
+                <Switch>{this.getRoutes(routes)}</Switch>
+              </div>
+
+              <Footer fluid />
             </div>
-
-            <Footer fluid />
           </div>
-        </div>
 
-        {/* <FixedPlugin
+          {/* <FixedPlugin
           bgColor={this.state.backgroundColor}
           handleBgClick={this.handleBgClick}
         /> */}
+        </ScrollToTop>
       </>
     );
   }

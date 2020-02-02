@@ -19,6 +19,7 @@ export default function summaryDashboardReducer(
     return {
       ...state,
       name: action.data.summaryDashboard.name,
+      periodInPast: action.data.summaryDashboard.value.periodInPast,
       deviceIdsState: {
         ...state.deviceIdsState,
         deviceIds: action.data.summaryDashboard.value.devices,
@@ -37,6 +38,17 @@ export default function summaryDashboardReducer(
       ...state,
       deviceIdsState: { ...state.deviceIdsState, loading: false },
       dataTypesState: { ...state.dataTypesState, loading: false }
+    };
+  }
+
+  /////////////////////////////////////////////
+  // UPDATE PERIOD IN PAST
+  ////////////////////////////////////////////
+
+  if (action.type == types.UPDATE_PERIOD_IN_PAST_ON_SUMMARY_DASHBOARD_SUCCESS) {
+    return {
+      ...state,
+      periodInPast: action.data.periodInPast
     };
   }
 

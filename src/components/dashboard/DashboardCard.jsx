@@ -12,7 +12,7 @@ const DashboardCard = ({ devices, loading }) => {
         <Col md="12">
           <Card>
             <CardHeader>
-              <h3 className="title">Dashboard</h3>
+              <h3 className="title">Control Dashboard</h3>
               <p className="category">Devices on dashboard</p>
             </CardHeader>
             <CardBody>

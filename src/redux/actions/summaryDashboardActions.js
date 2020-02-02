@@ -26,6 +26,27 @@ export function loadSummaryDashboardSuccess(summaryDashboard) {
   };
 }
 
+export function beginUpdatePeriodInPast() {
+  return {
+    type: types.BEGIN_UPDATE_PERIOD_IN_PAST_ON_SUMMARY_DASHBOARD
+  };
+}
+
+export function endUpdatePeriodInPast() {
+  return {
+    type: types.END_UPDATE_PERIOD_IN_PAST_ON_SUMMARY_DASHBOARD
+  };
+}
+
+export function updatePeriodInPastSuccess(periodInPastObj) {
+  return {
+    type: types.UPDATE_PERIOD_IN_PAST_ON_SUMMARY_DASHBOARD_SUCCESS,
+    data: {
+      periodInPast: periodInPastObj.periodInPast
+    }
+  };
+}
+
 export function beginUpdateDevicesOnSummaryDashboard() {
   return {
     type: types.BEGIN_UPDATE_DEVICES_ON_SUMMARY_DASHBOARD
@@ -110,6 +131,26 @@ export function loadSummaryDashboard(dashboardName) {
   };
 }
 
+export function updatePeriodInPast(dashboardName, period) {
+  return function(dispatch) {
+    dispatch(beginAjaxCall());
+    dispatch(beginUpdatePeriodInPast());
+
+    return iotApi
+      .updatePeriodInPast(dashboardName, period)
+      .then(response => {
+        dispatch(updatePeriodInPastSuccess(response.data));
+      })
+      .catch(error => {
+        dispatch(ajaxCallError());
+        throw error;
+      })
+      .finally(() => {
+        dispatch(endUpdatePeriodInPast());
+      });
+  };
+}
+
 export function updateDevicesOnSummaryDashboard(dashboardName, deviceIds) {
   return function(dispatch) {
     dispatch(beginAjaxCall());
@@ -150,7 +191,7 @@ export function updateDataTypesOnSummaryDashboard(dashboardName, dataTypes) {
   };
 }
 //period in hours currently
-export function loadDevicesWithData(deviceIds, dataTypes, period = 2222) {
+export function loadDevicesWithData(deviceIds, dataTypes, period = 300) {
   return function(dispatch) {
     dispatch(beginAjaxCall());
     dispatch(beginLoadDevicesWithData());

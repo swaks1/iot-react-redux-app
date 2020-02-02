@@ -14,25 +14,51 @@ import CustomCard from "../../_common/CustomCard";
 
 import ManageDevicesDialog from "./ManageDevicesDialog";
 import ManageDataTypesDialog from "./ManageDataTypesDialog";
+import ManagePeriodInPastDialog from "./ManagePeriodInPastDialog";
 
 class BasicInformationsContainer extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      isManagePeriodInPastDialogOpened: false,
       isManageDevicesDialogOpened: false,
       isManageDataTypesDialogOpened: false
     };
   }
+  handleManagePeriodInPastDialogAction = (data, action) => {
+    const { summaryDashboardActions, summaryDashboardName } = this.props;
+
+    if (action == "OPEN") {
+      this.setState({ isManagePeriodInPastDialogOpened: true });
+    }
+
+    if (action == "CONFIRM") {
+      summaryDashboardActions
+        .updatePeriodInPast(summaryDashboardName, data)
+        .then(response => {
+          toastr.success(`Successfully updated period in past!`);
+          this.setState({ isManagePeriodInPastDialogOpened: false });
+        })
+        .catch(error => {
+          this.setState({ isManagePeriodInPastDialogOpened: false });
+          toastr.error("Failed to update peirod in past!", error);
+        });
+    }
+
+    if (action == "DENY") {
+      this.setState({ isManagePeriodInPastDialogOpened: false });
+    }
+  };
 
   handleManageDevicesDialogAction = (data, action) => {
     const { summaryDashboardActions, summaryDashboardName } = this.props;
 
-    if (action == "OPEN-MANAGE-DEVICES") {
+    if (action == "OPEN") {
       this.setState({ isManageDevicesDialogOpened: true });
     }
 
-    if (action == "CONFIRM-MANAGE-DEVICES") {
+    if (action == "CONFIRM") {
       let checkedDevices = data.filter(item => item.checked);
       let deviceIds = checkedDevices.map(item => item.id);
       summaryDashboardActions
@@ -47,7 +73,7 @@ class BasicInformationsContainer extends React.Component {
         });
     }
 
-    if (action == "DENY-MANAGE-DEVICES") {
+    if (action == "DENY") {
       this.setState({ isManageDevicesDialogOpened: false });
     }
   };
@@ -55,31 +81,30 @@ class BasicInformationsContainer extends React.Component {
   handleManageDataTypesDialogAction = (data, action) => {
     const { summaryDashboardActions, summaryDashboardName } = this.props;
 
-    if (action == "OPEN-MANAGE-DATA-TYPES") {
+    if (action == "OPEN") {
       this.setState({ isManageDataTypesDialogOpened: true });
     }
 
-    if (action == "CONFIRM-MANAGE-DATA-TYPES") {
+    if (action == "CONFIRM") {
       summaryDashboardActions
         .updateDataTypesOnSummaryDashboard(summaryDashboardName, data)
         .then(response => {
           toastr.success(`Successfully updated data types!`);
-          this.setState({ isManageDataTypesDialogOpened: false });
         })
         .catch(error => {
-          this.setState({ isManageDataTypesDialogOpened: false });
           toastr.error("Failed to update summary data types!", error);
         });
       this.setState({ isManageDataTypesDialogOpened: false });
     }
 
-    if (action == "DENY-MANAGE-DATA-TYPES") {
+    if (action == "DENY") {
       this.setState({ isManageDataTypesDialogOpened: false });
     }
   };
 
   render() {
     const {
+      periodInPast,
       summaryDeviceIdsState,
       devicesForDialog,
       dataTypesForDialog
@@ -119,7 +144,20 @@ class BasicInformationsContainer extends React.Component {
                 />
               </Col>
               <Col md={12}>
-                <Row className="mt-4">
+                <Row className="mt-3">
+                  <Col className="col text-center" md={12}>
+                    <SpanButton
+                      text={`Period in the past: ${periodInPast} Hours`}
+                      tooltip="Change Period"
+                      faIcon="clock"
+                      style={{ fontSize: "0.9em" }}
+                      onClick={() => {
+                        this.handleManagePeriodInPastDialogAction(null, "OPEN");
+                      }}
+                    />
+                  </Col>
+                </Row>
+                <Row className="mt-2">
                   <Col className="col text-left pl-2" md={6}>
                     <SpanButton
                       text="devices"
@@ -127,10 +165,7 @@ class BasicInformationsContainer extends React.Component {
                       faIcon="mobile-alt"
                       style={{ fontSize: "0.9em" }}
                       onClick={() => {
-                        this.handleManageDevicesDialogAction(
-                          null,
-                          "OPEN-MANAGE-DEVICES"
-                        );
+                        this.handleManageDevicesDialogAction(null, "OPEN");
                       }}
                     />
                   </Col>
@@ -141,46 +176,44 @@ class BasicInformationsContainer extends React.Component {
                       faIcon="link"
                       style={{ fontSize: "0.9em" }}
                       onClick={() => {
-                        this.handleManageDataTypesDialogAction(
-                          null,
-                          "OPEN-MANAGE-DATA-TYPES"
-                        );
+                        this.handleManageDataTypesDialogAction(null, "OPEN");
                       }}
                     />
                   </Col>
                 </Row>
               </Col>
             </Row>
+            <ManagePeriodInPastDialog
+              isDialogOpened={this.state.isManagePeriodInPastDialogOpened}
+              periodInPast={periodInPast}
+              confirmAction={newPeriodInPast => {
+                this.handleManagePeriodInPastDialogAction(
+                  newPeriodInPast,
+                  "CONFIRM"
+                );
+              }}
+              denyAction={() => {
+                this.handleManagePeriodInPastDialogAction(null, "DENY");
+              }}
+            />
             <ManageDevicesDialog
               isDialogOpened={this.state.isManageDevicesDialogOpened}
               devices={devicesForDialog}
               confirmAction={devices => {
-                this.handleManageDevicesDialogAction(
-                  devices,
-                  "CONFIRM-MANAGE-DEVICES"
-                );
+                this.handleManageDevicesDialogAction(devices, "CONFIRM");
               }}
               denyAction={() => {
-                this.handleManageDevicesDialogAction(
-                  null,
-                  "DENY-MANAGE-DEVICES"
-                );
+                this.handleManageDevicesDialogAction(null, "DENY");
               }}
             />
             <ManageDataTypesDialog
               isDialogOpened={this.state.isManageDataTypesDialogOpened}
               dataTypes={dataTypesForDialog}
               confirmAction={dataTypes => {
-                this.handleManageDataTypesDialogAction(
-                  dataTypes,
-                  "CONFIRM-MANAGE-DATA-TYPES"
-                );
+                this.handleManageDataTypesDialogAction(dataTypes, "CONFIRM");
               }}
               denyAction={() => {
-                this.handleManageDataTypesDialogAction(
-                  null,
-                  "DENY-MANAGE-DATA-TYPES"
-                );
+                this.handleManageDataTypesDialogAction(null, "DENY");
               }}
             />
           </>
@@ -193,6 +226,7 @@ class BasicInformationsContainer extends React.Component {
 //can be called many times by the framework
 const mapStateToProps = (state, ownProps) => {
   let summaryDashboardName = state.summaryDashboard.name;
+  let periodInPast = state.summaryDashboard.periodInPast;
 
   let summaryDeviceIdsState = {
     loading: true,
@@ -253,6 +287,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     summaryDashboardName,
+    periodInPast,
     summaryDeviceIdsState,
     allDevicesState,
     devicesForDialog,
