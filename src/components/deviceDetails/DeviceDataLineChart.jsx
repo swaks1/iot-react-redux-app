@@ -13,9 +13,9 @@ import {
   Col
 } from "reactstrap";
 
+import Spinner from "../_common/Spinner";
 import { LineChartHelper } from "../../utils/chartHelper";
 import { helper } from "../../utils/helper";
-import LoaderOverlay from "../_common/LoaderOverlay";
 
 const DeviceDataLineChart = ({
   lg,
@@ -61,8 +61,19 @@ const DeviceDataLineChart = ({
                   <div>
                     <h5 className="card-category">Data Line Chart</h5>
                     <CardTitle tag="h3" className="mt-3">
-                      <i className="tim-icons icon-bell-55 text-info" />{" "}
-                      {currentDataType}
+                      <Row>
+                        <Col md={10}>
+                          <i
+                            className={`fa fa-${helper.getIconForDataType(
+                              currentDataType
+                            )} text-info`}
+                          />{" "}
+                          {currentDataType}
+                        </Col>
+                        <Col md={2}>
+                          {deviceDataLoading ? <Spinner /> : null}
+                        </Col>
+                      </Row>
                     </CardTitle>
                   </div>
                 ) : null}
@@ -170,14 +181,12 @@ const DeviceDataLineChart = ({
             </Row>
           </CardHeader>
           <CardBody>
-            <LoaderOverlay isLoading={deviceDataLoading}>
-              <div className="chart-area">
-                <Line
-                  data={lineChart.getData} //pointer to function
-                  options={lineChart.getOptions()} //actual result of function
-                />
-              </div>
-            </LoaderOverlay>
+            <div className="chart-area">
+              <Line
+                data={lineChart.getData} //pointer to function
+                options={lineChart.getOptions()} //actual result of function
+              />
+            </div>
           </CardBody>
         </Card>
       </Col>
