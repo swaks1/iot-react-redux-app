@@ -51,5 +51,15 @@ export default {
       devices: [],
       loading: false
     }
+  },
+  alertsModule: {
+    alertsState: {
+      alerts: [],
+      loading: false
+    },
+    alertsHistoryState: {
+      alertsHistory: [],
+      loading: false
+    }
   }
 };

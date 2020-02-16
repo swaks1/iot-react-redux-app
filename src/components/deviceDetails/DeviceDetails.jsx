@@ -7,6 +7,7 @@ import { bindActionCreators } from "redux";
 import * as importedDeviceActions from "../../redux/actions/deviceActions";
 import * as importedCommandActions from "../../redux/actions/commandActions";
 import * as importedDeviceDataActions from "../../redux/actions/deviceDataActions";
+import * as importedAlertsModuleActions from "../../redux/actions/alertsModuleActions";
 
 import toastr from "toastr";
 
@@ -123,7 +124,12 @@ class DeviceDetails extends React.Component {
     }
 
     let deviceId = this.state.device._id;
-    let { deviceActions, commandActions, deviceDataActions } = this.props;
+    let {
+      deviceActions,
+      commandActions,
+      deviceDataActions,
+      alertsModuleActions
+    } = this.props;
     const { dataPeriod, dataType } = this.state;
 
     if (this.state.autoRefreshOn === true && this.state.editMode === false) {
@@ -134,6 +140,9 @@ class DeviceDetails extends React.Component {
 
       let commandsHisotryPromise = commandActions.loadDeviceCommands(deviceId);
       promises.push(commandsHisotryPromise);
+
+      let alertsModulePromise = alertsModuleActions.loadAlertsModule(deviceId);
+      promises.push(alertsModulePromise);
 
       if (dataType != "") {
         let deviceDataPromise = deviceDataActions.loadDeviceData(
@@ -536,7 +545,11 @@ const mapDispatchToProps = dispatch => {
   return {
     deviceActions: bindActionCreators(importedDeviceActions, dispatch),
     commandActions: bindActionCreators(importedCommandActions, dispatch),
-    deviceDataActions: bindActionCreators(importedDeviceDataActions, dispatch)
+    deviceDataActions: bindActionCreators(importedDeviceDataActions, dispatch),
+    alertsModuleActions: bindActionCreators(
+      importedAlertsModuleActions,
+      dispatch
+    )
   };
 };
 

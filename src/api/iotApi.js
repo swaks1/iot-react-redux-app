@@ -479,6 +479,56 @@ class IotApi {
         });
     });
   }
+
+  static loadAlerts(deviceId) {
+    return new Promise((resolve, reject) => {
+      axios
+        .get(`http://localhost:8000/api/alerts?deviceId=${deviceId}`)
+        .then(response => {
+          setTimeout(() => {
+            resolve(response);
+          }, 400);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+
+  static loadAlertsHistory(deviceId, pageSize) {
+    return new Promise((resolve, reject) => {
+      axios
+        .get(
+          `http://localhost:8000/api/alertsHistory?deviceId=${deviceId}&pageSize=${pageSize}`
+        )
+        .then(response => {
+          setTimeout(() => {
+            resolve(response);
+          }, 400);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+
+  static updateAlert(alert) {
+    return new Promise((resolve, reject) => {
+      axios
+        .post(`http://localhost:8000/api/alerts`, {
+          deviceId: alert.device,
+          alerts: [alert]
+        })
+        .then(response => {
+          setTimeout(() => {
+            resolve(response);
+          }, 400);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
 }
 
 export default IotApi;
