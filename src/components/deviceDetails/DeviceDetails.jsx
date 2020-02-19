@@ -213,12 +213,13 @@ class DeviceDetails extends React.Component {
   handleReloadDataTypeClick = event => {
     let deviceId = this.state.device._id;
 
-    let { deviceActions } = this.props;
+    let { deviceActions, alertsModuleActions } = this.props;
 
     deviceActions
       .reloadDeviceDataType(deviceId)
       .then(() => {
         toastr.success("Reloaded Device data types!");
+        alertsModuleActions.loadAlertsModule(deviceId);
       })
       .catch(error => {
         toastr.error(error);
@@ -484,19 +485,19 @@ class DeviceDetails extends React.Component {
 }
 
 const getDeviceById = (devices, id) => {
-  const filtered = devices.filter(d => d.deviceId === id);
+  const filtered = devices.filter(d => d.deviceId === id); // use find instead of filter ??
   if (filtered.length > 0) return filtered[0];
   return null;
 };
 
 const getCommandObj = (commands, deviceId) => {
-  const filtered = commands.filter(c => c.deviceId == deviceId);
+  const filtered = commands.filter(c => c.deviceId == deviceId); // use find instead of filter ??
   if (filtered.length > 0) return filtered[0];
   return null;
 };
 
 const getDeviceDataObj = (deviceData, deviceId) => {
-  const filtered = deviceData.filter(d => d.deviceId == deviceId);
+  const filtered = deviceData.filter(d => d.deviceId == deviceId); // use find instead of filter ??
   if (filtered.length > 0) return filtered[0];
   return null;
 };

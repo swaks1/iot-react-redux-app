@@ -7,6 +7,7 @@ import * as importedAlertsModuleActions from "../../../redux/actions/alertsModul
 
 import toastr from "toastr";
 import { Row, Col, Button, Card, CardHeader, CardBody } from "reactstrap";
+import * as stateHelper from "../../../redux/utils/stateHelper";
 import { helper } from "../../../utils/helper";
 
 import Spinner from "../../_common/Spinner";
@@ -161,9 +162,13 @@ class AlertsHistoryContainer extends React.Component {
 
 //can be called many times by the framework
 const mapStateToProps = (state, ownProps) => {
+  const deviceId = ownProps.match.params.id;
+  let alertItem = state.alertsModule.find(item => item.deviceId == deviceId);
+  alertItem = alertItem ? alertItem : stateHelper.getAlertItem();
+
   let alertsHistoryState = {
     loading: true,
-    ...state.alertsModule.alertsHistoryState
+    ...alertItem.alertsHistoryState
   };
 
   return {

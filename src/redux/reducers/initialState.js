@@ -52,14 +52,17 @@ export default {
       loading: false
     }
   },
-  alertsModule: {
-    alertsState: {
-      alerts: [],
-      loading: false
-    },
-    alertsHistoryState: {
-      alertsHistory: [],
-      loading: false
+  alertsModule: [
+    {
+      deviceId: null,
+      alertsState: {
+        alerts: [],
+        loading: false
+      },
+      alertsHistoryState: {
+        alertsHistory: [],
+        loading: false
+      }
     }
-  }
+  ]
 };

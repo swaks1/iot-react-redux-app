@@ -6,3 +6,21 @@ export const getDevice = () => {
 
   return copy;
 };
+
+export const getAlertItem = () => {
+  var alertItem = state.alertsModule[0];
+  let copy = {
+    ...alertItem,
+    deviceId: null,
+    alertsState: {
+      alerts: [],
+      loading: false
+    },
+    alertsHistoryState: {
+      alertsHistory: [],
+      loading: false
+    }
+  };
+
+  return copy;
+};

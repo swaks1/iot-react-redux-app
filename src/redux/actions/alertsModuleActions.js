@@ -2,44 +2,58 @@ import * as types from "./actionTypes";
 import iotApi from "../../api/iotApi";
 import { beginAjaxCall, ajaxCallError, endAjaxCall } from "./ajaxStatusActions";
 
-export function beginLoadAlertsModule() {
+export function beginLoadAlertsModule(deviceId) {
   return {
-    type: types.BEGIN_LOAD_ALERTS_MODULE
+    type: types.BEGIN_LOAD_ALERTS_MODULE,
+    data: {
+      deviceId
+    }
   };
 }
 
-export function endLoadAlertsModule() {
+export function endLoadAlertsModule(deviceId) {
   return {
-    type: types.END_LOAD_ALERTS_MODULE
+    type: types.END_LOAD_ALERTS_MODULE,
+    data: {
+      deviceId
+    }
   };
 }
 
-export function loadAlertsModuleSuccess(alertsModule) {
+export function loadAlertsModuleSuccess(deviceId, alertsModule) {
   return {
     type: types.LOAD_ALERTS_MODULE_SUCCESS,
     data: {
+      deviceId,
       alerts: alertsModule.alerts,
       alertsHistory: alertsModule.alertsHistory
     }
   };
 }
 
-export function beginUpdateAlert() {
+export function beginUpdateAlert(deviceId) {
   return {
-    type: types.BEGIN_UPDATE_ALERT
+    type: types.BEGIN_UPDATE_ALERT,
+    data: {
+      deviceId
+    }
   };
 }
 
-export function endUpdateAlert() {
+export function endUpdateAlert(deviceId) {
   return {
-    type: types.END_UPDATE_ALERT
+    type: types.END_UPDATE_ALERT,
+    data: {
+      deviceId
+    }
   };
 }
 
-export function updateAlertSuccess(alerts) {
+export function updateAlertSuccess(deviceId, alerts) {
   return {
     type: types.UPDATE_ALERT_SUCCESS,
     data: {
+      deviceId,
       alerts
     }
   };
@@ -51,7 +65,7 @@ export function loadAlertsModule(deviceId) {
     let pageSize = 20;
 
     dispatch(beginAjaxCall());
-    dispatch(beginLoadAlertsModule());
+    dispatch(beginLoadAlertsModule(deviceId));
 
     return iotApi
       .loadAlerts(deviceId)
@@ -61,34 +75,35 @@ export function loadAlertsModule(deviceId) {
             alerts: response.data,
             alertsHistory: response2.data
           };
-          dispatch(loadAlertsModuleSuccess(alertsModule));
+          dispatch(loadAlertsModuleSuccess(deviceId, alertsModule));
           dispatch(endLoadAlertsModule());
         });
       })
       .catch(error => {
         dispatch(ajaxCallError());
-        dispatch(endLoadAlertsModule());
+        dispatch(endLoadAlertsModule(deviceId));
         throw error;
       });
   };
 }
 
 export function updateAlert(alert) {
+  let deviceId = alert.device;
   return function(dispatch) {
     dispatch(beginAjaxCall());
-    dispatch(beginUpdateAlert());
+    dispatch(beginUpdateAlert(deviceId));
 
     return iotApi
       .updateAlert(alert)
       .then(response => {
-        dispatch(updateAlertSuccess(response.data));
+        dispatch(updateAlertSuccess(deviceId, response.data));
       })
       .catch(error => {
         dispatch(ajaxCallError());
         throw error;
       })
       .finally(() => {
-        dispatch(endUpdateAlert());
+        dispatch(endUpdateAlert(deviceId));
       });
   };
 }

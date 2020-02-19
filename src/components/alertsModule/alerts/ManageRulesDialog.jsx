@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Row, Col, FormGroup, Label, Input } from "reactstrap";
+import toastr from "toastr";
 
 import { helper } from "../../../utils/helper";
 
@@ -91,8 +92,18 @@ class ManageRulesDialog extends React.Component {
   };
 
   localConfirmAction = () => {
-    this.setState({ confirming: true });
-    this.props.confirmAction(this.state.alert);
+    try {
+      let rules = this.state.alert.rules;
+      if (rules.some(rule => isNaN(parseFloat(rule.operatorValue)))) {
+        toastr.error(`Enter valid numbers for operator values !`);
+        throw new Error();
+      } else {
+        this.setState({ confirming: true });
+        this.props.confirmAction(this.state.alert);
+      }
+    } catch (error) {
+      return;
+    }
   };
 
   render() {

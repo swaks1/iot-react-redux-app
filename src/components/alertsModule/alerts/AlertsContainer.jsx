@@ -4,10 +4,12 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as importedAlertsModuleActions from "../../../redux/actions/alertsModuleActions";
+import * as importedDeviceActions from "../../../redux/actions/deviceActions";
 
 import toastr from "toastr";
 import { Row, Col, Button, Card, CardHeader, CardBody } from "reactstrap";
 
+import * as stateHelper from "../../../redux/utils/stateHelper";
 import Spinner from "../../_common/Spinner";
 
 import Alert from "./Alert";
@@ -65,6 +67,22 @@ class AlertsContainer extends React.Component {
     }
   };
 
+  handleReloadDataTypeClick = event => {
+    const deviceId = this.props.match.params.id;
+    let { deviceActions, alertsModuleActions } = this.props;
+
+    deviceActions
+      .reloadDeviceDataType(deviceId)
+      .then(() => {
+        alertsModuleActions.loadAlertsModule(deviceId).then(() => {
+          toastr.success("Reloaded Device data types and alerts !");
+        });
+      })
+      .catch(error => {
+        toastr.error(error);
+      });
+  };
+
   render() {
     const { alertsState } = this.props;
 
@@ -80,15 +98,34 @@ class AlertsContainer extends React.Component {
             <Col md={1}>{alertsState.loading ? <Spinner /> : null}</Col>
           </Row>
           <Row className="mt-3">
-            <Col md={12}>
-              {alertsState.alerts.map(alert => (
-                <Alert
-                  key={alert._id}
-                  alert={alert}
-                  onChangeRule={this.handleChangeRule}
-                />
-              ))}
-            </Col>
+            {alertsState.alerts.length == 0 ? (
+              <Col md={12} className="text-left mb-3">
+                <span>
+                  If you cannot see alerts click the following refresh button.
+                </span>
+                {"  "}
+                <i
+                  className="fa fa-sync"
+                  style={{ color: "green", cursor: "pointer" }}
+                  id="ReloadDataTypeBtn"
+                  onClick={this.handleReloadDataTypeClick}
+                ></i>
+                <br />
+                <span className="text-muted" style={{ fontSize: "0.8em" }}>
+                  It will reload data types and add initial alerts.
+                </span>
+              </Col>
+            ) : (
+              <Col md={12}>
+                {alertsState.alerts.map(alert => (
+                  <Alert
+                    key={alert._id}
+                    alert={alert}
+                    onChangeRule={this.handleChangeRule}
+                  />
+                ))}
+              </Col>
+            )}
           </Row>
         </Card>
         <ManageRulesDialog
@@ -108,9 +145,13 @@ class AlertsContainer extends React.Component {
 
 //can be called many times by the framework
 const mapStateToProps = (state, ownProps) => {
+  const deviceId = ownProps.match.params.id;
+  let alertItem = state.alertsModule.find(item => item.deviceId == deviceId);
+  alertItem = alertItem ? alertItem : stateHelper.getAlertItem();
+
   let alertsState = {
     loading: true,
-    ...state.alertsModule.alertsState
+    ...alertItem.alertsState
   };
 
   return {
@@ -120,6 +161,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    deviceActions: bindActionCreators(importedDeviceActions, dispatch),
     alertsModuleActions: bindActionCreators(
       importedAlertsModuleActions,
       dispatch

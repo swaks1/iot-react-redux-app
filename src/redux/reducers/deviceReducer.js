@@ -110,7 +110,9 @@ export default function deviceReducer(state = initialState.devices, action) {
   }
 
   if (action.type == types.DELETE_IOT_DEVICE_SUCCESS) {
-    let devices = state.filter(device => device.deviceId != action.data.deviceId);
+    let devices = state.filter(
+      device => device.deviceId != action.data.deviceId
+    );
     return [...devices];
   }
 
@@ -219,6 +221,6 @@ const addDeviceToState = (state, device) => {
     }
     return item;
   });
-
+  
   return devices;
 };
