@@ -1,4 +1,5 @@
 import axios from "axios";
+import config from "../config";
 
 class IotApi {
   // ======= DEVICE ==========
@@ -6,11 +7,9 @@ class IotApi {
   static getDevices() {
     return new Promise((resolve, reject) => {
       axios
-        .get("http://localhost:8000/api/devices")
+        .get(`${config.apiUrl}/devices`)
         .then(response => {
-          setTimeout(() => {
-            resolve(response);
-          }, 400);
+          custom(resolve, response);
         })
         .catch(error => {
           //var dummyResult = getDummyDevices();
@@ -23,11 +22,9 @@ class IotApi {
   static getDevice(deviceId) {
     return new Promise((resolve, reject) => {
       axios
-        .get(`http://localhost:8000/api/devices/${deviceId}`)
+        .get(`${config.apiUrl}/devices/${deviceId}`)
         .then(response => {
-          setTimeout(() => {
-            resolve(response);
-          }, 400);
+          custom(resolve, response);
         })
         .catch(error => {
           reject(error);
@@ -38,13 +35,11 @@ class IotApi {
   static toggleDeviceToDashboard(checked, id) {
     return new Promise((resolve, reject) => {
       axios
-        .put(`http://localhost:8000/api/devices/${id}`, {
+        .put(`${config.apiUrl}/devices/${id}`, {
           isAddedToDashboard: checked
         })
         .then(response => {
-          setTimeout(() => {
-            resolve(response);
-          }, 400);
+          custom(resolve, response);
         })
         .catch(error => {
           reject(error);
@@ -55,11 +50,9 @@ class IotApi {
   static registerDevice(device) {
     return new Promise((resolve, reject) => {
       axios
-        .post(`http://localhost:8000/api/devices`, device)
+        .post(`${config.apiUrl}/devices`, device)
         .then(response => {
-          setTimeout(() => {
-            resolve(response);
-          }, 400);
+          custom(resolve, response);
         })
         .catch(error => {
           reject(error);
@@ -70,11 +63,9 @@ class IotApi {
   static deleteDevice(deviceId) {
     return new Promise((resolve, reject) => {
       axios
-        .delete(`http://localhost:8000/api/devices/${deviceId}`)
+        .delete(`${config.apiUrl}/devices/${deviceId}`)
         .then(response => {
-          setTimeout(() => {
-            resolve(response);
-          }, 400);
+          custom(resolve, response);
         })
         .catch(error => {
           reject(error);
@@ -85,11 +76,9 @@ class IotApi {
   static saveDeviceInfo(device) {
     return new Promise((resolve, reject) => {
       axios
-        .put(`http://localhost:8000/api/devices/${device._id}`, device)
+        .put(`${config.apiUrl}/devices/${device._id}`, device)
         .then(response => {
-          setTimeout(() => {
-            resolve(response);
-          }, 400);
+          custom(resolve, response);
         })
         .catch(error => {
           reject(error);
@@ -100,11 +89,9 @@ class IotApi {
   static reloadDeviceDataType(deviceId) {
     return new Promise((resolve, reject) => {
       axios
-        .post(`http://localhost:8000/api/devices/reloadDataTypes`, { deviceId })
+        .post(`${config.apiUrl}/devices/reloadDataTypes`, { deviceId })
         .then(response => {
-          setTimeout(() => {
-            resolve(response);
-          }, 400);
+          custom(resolve, response);
         })
         .catch(error => {
           reject(error);
@@ -117,11 +104,9 @@ class IotApi {
   static loadCommands(deviceId) {
     return new Promise((resolve, reject) => {
       axios
-        .get(`http://localhost:8000/api/command?deviceId=${deviceId}`)
+        .get(`${config.apiUrl}/command?deviceId=${deviceId}`)
         .then(response => {
-          setTimeout(() => {
-            resolve(response);
-          }, 400);
+          custom(resolve, response);
         })
         .catch(error => {
           reject(error);
@@ -132,7 +117,7 @@ class IotApi {
   static activateDeviceCommand(id) {
     return new Promise((resolve, reject) => {
       axios
-        .post(`http://localhost:8000/api/command`, {
+        .post(`${config.apiUrl}/command`, {
           device: id,
           commandItem: {
             commandValue: true,
@@ -141,9 +126,7 @@ class IotApi {
           channel: "WiFi"
         })
         .then(response => {
-          setTimeout(() => {
-            resolve(response);
-          }, 400);
+          custom(resolve, response);
         })
         .catch(error => {
           reject(error);
@@ -154,7 +137,7 @@ class IotApi {
   static deactivateDeviceCommand(id) {
     return new Promise((resolve, reject) => {
       axios
-        .post(`http://localhost:8000/api/command`, {
+        .post(`${config.apiUrl}/command`, {
           device: id,
           commandItem: {
             commandValue: false,
@@ -163,9 +146,7 @@ class IotApi {
           channel: "WiFi"
         })
         .then(response => {
-          setTimeout(() => {
-            resolve(response);
-          }, 400);
+          custom(resolve, response);
         })
         .catch(error => {
           reject(error);
@@ -176,7 +157,7 @@ class IotApi {
   static updateLocationCommand(id) {
     return new Promise((resolve, reject) => {
       axios
-        .post(`http://localhost:8000/api/command`, {
+        .post(`${config.apiUrl}/command`, {
           device: id,
           commandItem: {
             commandValue: "Location",
@@ -185,9 +166,7 @@ class IotApi {
           channel: "WiFi"
         })
         .then(response => {
-          setTimeout(() => {
-            resolve(response);
-          }, 400);
+          custom(resolve, response);
         })
         .catch(error => {
           reject(error);
@@ -198,7 +177,7 @@ class IotApi {
   static changeIntervalCommand(id, interval) {
     return new Promise((resolve, reject) => {
       axios
-        .post(`http://localhost:8000/api/command`, {
+        .post(`${config.apiUrl}/command`, {
           device: id,
           commandItem: {
             commandValue: interval,
@@ -207,9 +186,7 @@ class IotApi {
           channel: "WiFi"
         })
         .then(response => {
-          setTimeout(() => {
-            resolve(response);
-          }, 400);
+          custom(resolve, response);
         })
         .catch(error => {
           reject(error);
@@ -220,7 +197,7 @@ class IotApi {
   static sendGenericCommand(id, command) {
     return new Promise((resolve, reject) => {
       axios
-        .post(`http://localhost:8000/api/command`, {
+        .post(`${config.apiUrl}/command`, {
           device: id,
           commandItem: {
             commandValue: command.commandValue,
@@ -229,9 +206,7 @@ class IotApi {
           channel: command.channel
         })
         .then(response => {
-          setTimeout(() => {
-            resolve(response);
-          }, 400);
+          custom(resolve, response);
         })
         .catch(error => {
           reject(error);
@@ -245,12 +220,10 @@ class IotApi {
     return new Promise((resolve, reject) => {
       axios
         .get(
-          `http://localhost:8000/api/data?deviceId=${deviceId}&period=${dataPeriod}&pageSize=${pageSize}&dataType=${deviceType}`
+          `${config.apiUrl}/data?deviceId=${deviceId}&period=${dataPeriod}&pageSize=${pageSize}&dataType=${deviceType}`
         )
         .then(response => {
-          setTimeout(() => {
-            resolve(response);
-          }, 400);
+          custom(resolve, response);
         })
         .catch(error => {
           reject(error);
@@ -262,12 +235,10 @@ class IotApi {
     return new Promise((resolve, reject) => {
       axios
         .get(
-          `http://localhost:8000/api/data?deviceId=${deviceId}&period=monthly&pageSize=12&dataType=${deviceType}`
+          `${config.apiUrl}/data?deviceId=${deviceId}&period=monthly&pageSize=12&dataType=${deviceType}`
         )
         .then(response => {
-          setTimeout(() => {
-            resolve(response);
-          }, 400);
+          custom(resolve, response);
         })
         .catch(error => {
           reject(error);
@@ -280,14 +251,12 @@ class IotApi {
   static saveExistingTTNDevice(deviceId, existingTTNDevice) {
     return new Promise((resolve, reject) => {
       axios
-        .post(`http://localhost:8000/api/devices/modifyTTNInfo`, {
+        .post(`${config.apiUrl}/devices/modifyTTNInfo`, {
           _id: deviceId,
           ttnInfo: existingTTNDevice
         })
         .then(response => {
-          setTimeout(() => {
-            resolve(response);
-          }, 400);
+          custom(resolve, response);
         })
         .catch(error => {
           reject(error);
@@ -298,15 +267,13 @@ class IotApi {
   static registerNewTTNDevice(ttnDeviceToRegister) {
     return new Promise((resolve, reject) => {
       axios
-        .post(`http://localhost:8000/api/ttnDevices`, {
+        .post(`${config.apiUrl}/ttnDevices`, {
           devId: ttnDeviceToRegister.devId,
           description: ttnDeviceToRegister.description,
           activation: ttnDeviceToRegister.activation
         })
         .then(response => {
-          setTimeout(() => {
-            resolve(response);
-          }, 400);
+          custom(resolve, response);
         })
         .catch(error => {
           reject(error);
@@ -317,14 +284,12 @@ class IotApi {
   static deleteTTNDeviceInfo(deviceId) {
     return new Promise((resolve, reject) => {
       axios
-        .post(`http://localhost:8000/api/devices/modifyTTNInfo`, {
+        .post(`${config.apiUrl}/devices/modifyTTNInfo`, {
           _id: deviceId,
           ttnInfo: null
         })
         .then(response => {
-          setTimeout(() => {
-            resolve(response);
-          }, 400);
+          custom(resolve, response);
         })
         .catch(error => {
           reject(error);
@@ -335,11 +300,9 @@ class IotApi {
   static loadExtendedTTNInfo(deviceId) {
     return new Promise((resolve, reject) => {
       axios
-        .get(`http://localhost:8000/api/ttnDevices/${deviceId}`)
+        .get(`${config.apiUrl}/ttnDevices/${deviceId}`)
         .then(response => {
-          setTimeout(() => {
-            resolve(response);
-          }, 400);
+          custom(resolve, response);
         })
         .catch(error => {
           reject(error);
@@ -350,11 +313,9 @@ class IotApi {
   static loadTTNApplicationInfo() {
     return new Promise((resolve, reject) => {
       axios
-        .get(`http://localhost:8000/api/ttnDevices/application/info`)
+        .get(`${config.apiUrl}/ttnDevices/application/info`)
         .then(response => {
-          setTimeout(() => {
-            resolve(response);
-          }, 400);
+          custom(resolve, response);
         })
         .catch(error => {
           reject(error);
@@ -365,11 +326,9 @@ class IotApi {
   static loadTTNDevices() {
     return new Promise((resolve, reject) => {
       axios
-        .get(`http://localhost:8000/api/ttnDevices`)
+        .get(`${config.apiUrl}/ttnDevices`)
         .then(response => {
-          setTimeout(() => {
-            resolve(response);
-          }, 400);
+          custom(resolve, response);
         })
         .catch(error => {
           reject(error);
@@ -380,11 +339,9 @@ class IotApi {
   static deleteTTNDevice(devId) {
     return new Promise((resolve, reject) => {
       axios
-        .delete(`http://localhost:8000/api/ttnDevices/${devId}`)
+        .delete(`${config.apiUrl}/ttnDevices/${devId}`)
         .then(response => {
-          setTimeout(() => {
-            resolve(response);
-          }, 400);
+          custom(resolve, response);
         })
         .catch(error => {
           reject(error);
@@ -395,11 +352,9 @@ class IotApi {
   static loadSummaryDashboard(dashboardName) {
     return new Promise((resolve, reject) => {
       axios
-        .get(`http://localhost:8000/api/summaryDashboard/${dashboardName}`)
+        .get(`${config.apiUrl}/summaryDashboard/${dashboardName}`)
         .then(response => {
-          setTimeout(() => {
-            resolve(response);
-          }, 400);
+          custom(resolve, response);
         })
         .catch(error => {
           reject(error);
@@ -411,13 +366,11 @@ class IotApi {
     return new Promise((resolve, reject) => {
       axios
         .post(
-          `http://localhost:8000/api/summaryDashboard/${dashboardName}/updatePeriodInPast`,
+          `${config.apiUrl}/summaryDashboard/${dashboardName}/updatePeriodInPast`,
           { periodInPast: periodInPast }
         )
         .then(response => {
-          setTimeout(() => {
-            resolve(response);
-          }, 400);
+          custom(resolve, response);
         })
         .catch(error => {
           reject(error);
@@ -429,13 +382,11 @@ class IotApi {
     return new Promise((resolve, reject) => {
       axios
         .post(
-          `http://localhost:8000/api/summaryDashboard/${dashboardName}/updateDevices`,
+          `${config.apiUrl}/summaryDashboard/${dashboardName}/updateDevices`,
           { devices: deviceIds }
         )
         .then(response => {
-          setTimeout(() => {
-            resolve(response);
-          }, 400);
+          custom(resolve, response);
         })
         .catch(error => {
           reject(error);
@@ -447,13 +398,11 @@ class IotApi {
     return new Promise((resolve, reject) => {
       axios
         .post(
-          `http://localhost:8000/api/summaryDashboard/${dashboardName}/updateDataTypes`,
+          `${config.apiUrl}/summaryDashboard/${dashboardName}/updateDataTypes`,
           { dataTypes: dataTypes }
         )
         .then(response => {
-          setTimeout(() => {
-            resolve(response);
-          }, 400);
+          custom(resolve, response);
         })
         .catch(error => {
           reject(error);
@@ -464,15 +413,13 @@ class IotApi {
   static loadDevicesWithData(deviceIds, dataTypes, period) {
     return new Promise((resolve, reject) => {
       axios
-        .post(`http://localhost:8000/api/data/getForEachDevice`, {
+        .post(`${config.apiUrl}/data/getForEachDevice`, {
           devices: deviceIds,
           dataTypes: dataTypes,
           period: period
         })
         .then(response => {
-          setTimeout(() => {
-            resolve(response);
-          }, 400);
+          custom(resolve, response);
         })
         .catch(error => {
           reject(error);
@@ -483,11 +430,9 @@ class IotApi {
   static loadAlerts(deviceId) {
     return new Promise((resolve, reject) => {
       axios
-        .get(`http://localhost:8000/api/alerts?deviceId=${deviceId}`)
+        .get(`${config.apiUrl}/alerts?deviceId=${deviceId}`)
         .then(response => {
-          setTimeout(() => {
-            resolve(response);
-          }, 400);
+          custom(resolve, response);
         })
         .catch(error => {
           reject(error);
@@ -499,12 +444,10 @@ class IotApi {
     return new Promise((resolve, reject) => {
       axios
         .get(
-          `http://localhost:8000/api/alertsHistory?deviceId=${deviceId}&pageSize=${pageSize}`
+          `${config.apiUrl}/alertsHistory?deviceId=${deviceId}&pageSize=${pageSize}`
         )
         .then(response => {
-          setTimeout(() => {
-            resolve(response);
-          }, 400);
+          custom(resolve, response);
         })
         .catch(error => {
           reject(error);
@@ -515,14 +458,12 @@ class IotApi {
   static updateAlert(alert) {
     return new Promise((resolve, reject) => {
       axios
-        .post(`http://localhost:8000/api/alerts`, {
+        .post(`${config.apiUrl}/alerts`, {
           deviceId: alert.device,
           alerts: [alert]
         })
         .then(response => {
-          setTimeout(() => {
-            resolve(response);
-          }, 400);
+          custom(resolve, response);
         })
         .catch(error => {
           reject(error);
@@ -531,63 +472,14 @@ class IotApi {
   }
 }
 
-export default IotApi;
-
-const getDummyDevices = () => {
-  return {
-    data: [
-      {
-        location: {
-          lat: "40.1",
-          lng: "33.2",
-          description: "2location Descr"
-        },
-        _id: "5c1548154b159d33c4d7b59c",
-        name: "secondDevice",
-        description: "2device Descr",
-        __v: 0,
-        isActive: true,
-        isAddedToDashboard: false
-      },
-      {
-        location: {
-          lat: "40.1",
-          lng: "33.2",
-          description: "111location Descr"
-        },
-        _id: "5c155ac37edd5241308289a9",
-        name: "EditedFFFFFDevice",
-        description: "1device Descr",
-        __v: 0,
-        isActive: true,
-        isAddedToDashboard: true
-      },
-      {
-        location: {
-          lat: "40.1",
-          lng: "33.2",
-          description: "2location Descr"
-        },
-        _id: "5c155d5abea777461420387a",
-        name: "thirdDevice",
-        description: "2device Descr",
-        __v: 0,
-        isActive: false,
-        isAddedToDashboard: true
-      },
-      {
-        location: {
-          lat: "40.1",
-          lng: "33.2",
-          description: "2location Descr"
-        },
-        _id: "5c15685c4fdd084574660826",
-        name: "dasdasda",
-        description: "dasdasd Descr",
-        __v: 0,
-        isActive: true,
-        isAddedToDashboard: false
-      }
-    ]
-  };
+const custom = (resolve, response) => {
+  if (config.isProduction) {
+    setTimeout(() => {
+      resolve(response);
+    }, 400);
+  } else {
+    resolve(response);
+  }
 };
+
+export default IotApi;

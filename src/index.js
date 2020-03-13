@@ -18,8 +18,12 @@ import configureStore from "./redux/store/configureStore";
 import { loadDevices } from "./redux/actions/deviceActions";
 
 import toastr from "toastr";
+import config from "./config";
 
-const store = configureStore();
+const store = config.isProduction
+  ? configureStore.production()
+  : configureStore.development();
+
 store
   .dispatch(loadDevices())
   .then(() => {

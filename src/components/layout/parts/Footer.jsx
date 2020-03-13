@@ -1,5 +1,6 @@
 /*eslint-disable*/
 import React from "react";
+import config from "../../../config";
 
 // reactstrap components
 import { Container, Nav, NavItem, NavLink } from "reactstrap";
@@ -23,6 +24,9 @@ class Footer extends React.Component {
           <div className="copyright">
             © {new Date().getFullYear()} Application for managing IoT Devices{" "}
             <i className="fa fa-tachometer-alt"></i>
+            <span>
+              {config.env} | {config.apiUrl}
+            </span>
           </div>
         </Container>
       </footer>
