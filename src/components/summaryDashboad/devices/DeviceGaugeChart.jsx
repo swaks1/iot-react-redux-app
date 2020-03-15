@@ -15,22 +15,9 @@ class DeviceGaugeChart extends React.Component {
   }
 
   render() {
-    const {
-      deviceId,
-      minValue,
-      maxValue,
-      currentValue,
-      deviceName,
-      selected,
-      onChangeDevice
-    } = this.props;
+    const { deviceId, minValue, maxValue, currentValue, deviceName, selected, onChangeDevice } = this.props;
 
-    let chartOptions = GaugeChartHelper.getOptions(
-      minValue,
-      maxValue,
-      currentValue,
-      deviceName
-    );
+    let chartOptions = GaugeChartHelper.getOptions(minValue, maxValue, currentValue, deviceName);
     return (
       <div
         className={`card custom-bootstrap-card custom-gauge-card 

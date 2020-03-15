@@ -77,12 +77,7 @@ class AlertsHistoryContainer extends React.Component {
             <Col md={12}>
               <TableWithPagination
                 className="simpleTable"
-                tableHeadColumns={[
-                  "Data Type",
-                  "Date",
-                  "Channels",
-                  "Rules Triggered"
-                ].map((item, index) => (
+                tableHeadColumns={["Data Type", "Date", "Channels", "Rules Triggered"].map((item, index) => (
                   <th className="text-center" key={`th-${index}`}>
                     {item}
                   </th>
@@ -94,20 +89,13 @@ class AlertsHistoryContainer extends React.Component {
                     <tr key={`tr-${item.index}`}>
                       <td className="text-center">
                         <span>
-                          {item.dataType}{" "}
-                          <i
-                            className={`fa fa-${helper.getIconForDataType(
-                              item.dataType
-                            )}`}
-                          ></i>
+                          {item.dataType} <i className={`fa fa-${helper.getIconForDataType(item.dataType)}`}></i>
                         </span>
                       </td>
                       <td className="text-center">
                         {item.date} <br /> {item.time}
                       </td>
-                      <td className="text-center">
-                        {item.channels.join(", ")}
-                      </td>
+                      <td className="text-center">{item.channels.join(", ")}</td>
                       <td className="text-center">
                         <Table>
                           <thead>
@@ -178,16 +166,10 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    alertsModuleActions: bindActionCreators(
-      importedAlertsModuleActions,
-      dispatch
-    )
+    alertsModuleActions: bindActionCreators(importedAlertsModuleActions, dispatch)
   };
 };
 
-var AlertsHistoryContainerConnected = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AlertsHistoryContainer);
+var AlertsHistoryContainerConnected = connect(mapStateToProps, mapDispatchToProps)(AlertsHistoryContainer);
 
 export default withRouter(AlertsHistoryContainerConnected);

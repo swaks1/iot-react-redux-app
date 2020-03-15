@@ -63,9 +63,7 @@ class ManageDataTypesDialog extends React.Component {
         let minValue = parseFloat(item.minValue);
         let maxValue = parseFloat(item.maxValue);
         if (isNaN(minValue) || isNaN(maxValue)) {
-          toastr.error(
-            `${item.name} => enter valid numbers for minValue and maxValue !`
-          );
+          toastr.error(`${item.name} => enter valid numbers for minValue and maxValue !`);
           throw new Error();
         } else {
           return {

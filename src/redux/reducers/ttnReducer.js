@@ -2,10 +2,7 @@ import * as types from "../actions/actionTypes";
 import initialState from "./initialState";
 import * as stateHelper from "../utils/stateHelper";
 
-export default function ttnReducer(
-  state = initialState.ttnIntegration,
-  action
-) {
+export default function ttnReducer(state = initialState.ttnIntegration, action) {
   /////////////////////////////////////////////
   // TTN APPLICAITON INFO
   ////////////////////////////////////////////
@@ -96,9 +93,7 @@ export default function ttnReducer(
   }
 
   if (action.type == types.DELETE_TTN_DEVICE_SUCCESS) {
-    let devices = state.deviceState.devices.filter(
-      item => item.devId != action.data.devId
-    );
+    let devices = state.deviceState.devices.filter(item => item.devId != action.data.devId);
     return {
       ...state,
       deviceState: {

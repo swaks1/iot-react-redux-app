@@ -60,10 +60,7 @@ export default function deviceReducer(state = initialState.devices, action) {
     return [...devices];
   }
 
-  if (
-    action.type == types.SAVE_DEVICE_SUCCESS ||
-    action.type == types.RELOAD_DEVICE_DATATYPE_SUCCESS
-  ) {
+  if (action.type == types.SAVE_DEVICE_SUCCESS || action.type == types.RELOAD_DEVICE_DATATYPE_SUCCESS) {
     let device = {
       ...stateHelper.getDevice(),
       loading: false,
@@ -110,9 +107,7 @@ export default function deviceReducer(state = initialState.devices, action) {
   }
 
   if (action.type == types.DELETE_IOT_DEVICE_SUCCESS) {
-    let devices = state.filter(
-      device => device.deviceId != action.data.deviceId
-    );
+    let devices = state.filter(device => device.deviceId != action.data.deviceId);
     return [...devices];
   }
 
@@ -221,6 +216,6 @@ const addDeviceToState = (state, device) => {
     }
     return item;
   });
-  
+
   return devices;
 };

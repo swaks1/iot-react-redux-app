@@ -115,20 +115,13 @@ class ManageRulesDialog extends React.Component {
         <Modal
           isOpen={isDialogOpened}
           confirming={this.state.confirming}
-          modalTitle={`Manage alert for ${
-            alert && alert.dataType ? alert.dataType : ""
-          }...`}
+          modalTitle={`Manage alert for ${alert && alert.dataType ? alert.dataType : ""}...`}
           modalBody={
             <>
               <Row>
                 <Col md="12">
                   <h4 style={{ textTransform: "uppercase" }}>
-                    {alert.dataType}{" "}
-                    <i
-                      className={`fa fa-${helper.getIconForDataType(
-                        alert.dataType
-                      )}`}
-                    ></i>
+                    {alert.dataType} <i className={`fa fa-${helper.getIconForDataType(alert.dataType)}`}></i>
                   </h4>
                 </Col>
               </Row>

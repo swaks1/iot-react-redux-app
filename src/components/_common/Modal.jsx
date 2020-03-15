@@ -17,11 +17,7 @@ const ModalWrapper = props => {
 
   return (
     <div>
-      <Modal
-        isOpen={isOpen}
-        toggle={toggle}
-        className={className ? className : ""}
-      >
+      <Modal isOpen={isOpen} toggle={toggle} className={className ? className : ""}>
         <ModalHeader toggle={toggle}>{modalTitle}</ModalHeader>
         <ModalBody>{modalBody}</ModalBody>
         <ModalFooter>

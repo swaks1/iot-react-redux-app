@@ -8,16 +8,7 @@ import * as importedTTNActions from "../../../redux/actions/ttnActions";
 
 import toastr from "toastr";
 
-import {
-  Card,
-  Row,
-  Col,
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input
-} from "reactstrap";
+import { Card, Row, Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
 
 import { prefix } from "../../../routes";
 
@@ -56,9 +47,7 @@ class TTNInfomationMissing extends React.Component {
                 devId: ttnDevice.devId
               })
               .then(() => {
-                toastr.success(
-                  "Successfully registered TTN Device and connected it to this IOT device !"
-                );
+                toastr.success("Successfully registered TTN Device and connected it to this IOT device !");
               })
               .catch(error => {
                 throw error;
@@ -88,8 +77,7 @@ class TTNInfomationMissing extends React.Component {
           <Col sm="12" className="text-center">
             <h4>
               {" "}
-              No TTN Device connected...{" "}
-              <i className="fa fa-times fa-2x" style={{ color: "red" }} />
+              No TTN Device connected... <i className="fa fa-times fa-2x" style={{ color: "red" }} />
             </h4>
           </Col>
         </Row>
@@ -111,10 +99,7 @@ class TTNInfomationMissing extends React.Component {
             <LoaderRow />
           </>
         ) : (
-          <TTNInfomationMissingAvailableActions
-            location={location}
-            onTTNButtonClick={this.handleTTNButtonClick}
-          />
+          <TTNInfomationMissingAvailableActions location={location} onTTNButtonClick={this.handleTTNButtonClick} />
         )}
       </>
     );
@@ -150,8 +135,5 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-var TTNInfomationMissingConnected = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TTNInfomationMissing);
+var TTNInfomationMissingConnected = connect(mapStateToProps, mapDispatchToProps)(TTNInfomationMissing);
 export default withRouter(TTNInfomationMissingConnected);

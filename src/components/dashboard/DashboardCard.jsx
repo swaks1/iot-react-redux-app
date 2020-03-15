@@ -19,9 +19,7 @@ const DashboardCard = ({ devices, loading }) => {
               {loading ? (
                 <LoaderRow />
               ) : (
-                devices.map((item, index) => (
-                  <DeviceDetailsSimple deviceId={item._id} key={index} />
-                ))
+                devices.map((item, index) => <DeviceDetailsSimple deviceId={item._id} key={index} />)
               )}
             </CardBody>
           </Card>

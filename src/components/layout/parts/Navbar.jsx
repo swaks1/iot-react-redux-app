@@ -78,10 +78,7 @@ class NavbarWrapper extends React.Component {
   render() {
     return (
       <>
-        <Navbar
-          className={classNames("navbar-absolute", this.state.color)}
-          expand="lg"
-        >
+        <Navbar className={classNames("navbar-absolute", this.state.color)} expand="lg">
           <Container fluid>
             <div className="navbar-wrapper">
               <div
@@ -89,23 +86,14 @@ class NavbarWrapper extends React.Component {
                   toggled: this.props.sidebarOpened
                 })}
               >
-                <button
-                  className="navbar-toggler"
-                  type="button"
-                  onClick={this.props.toggleSidebar}
-                >
+                <button className="navbar-toggler" type="button" onClick={this.props.toggleSidebar}>
                   <span className="navbar-toggler-bar bar1" />
                   <span className="navbar-toggler-bar bar2" />
                   <span className="navbar-toggler-bar bar3" />
                 </button>
               </div>
               {this.props.loading ? (
-                <Loader
-                  type="ThreeDots"
-                  color="#007bff"
-                  height="50"
-                  width="50"
-                />
+                <Loader type="ThreeDots" color="#007bff" height="50" width="50" />
               ) : (
                 <NavbarBrand href="#pablo" onClick={e => e.preventDefault()}>
                   {this.props.brandText}
@@ -212,11 +200,7 @@ class NavbarWrapper extends React.Component {
             </Collapse>
           </Container>
         </Navbar>
-        <Modal
-          modalClassName="modal-search"
-          isOpen={this.state.modalSearch}
-          toggle={this.toggleModalSearch}
-        >
+        <Modal modalClassName="modal-search" isOpen={this.state.modalSearch} toggle={this.toggleModalSearch}>
           <div className="modal-header">
             <Input id="inlineFormInputGroup" placeholder="SEARCH" type="text" />
             <button

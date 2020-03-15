@@ -54,9 +54,7 @@ class FixedPlugin extends Component {
                 />{" "}
                 <span
                   className={
-                    this.props.bgColor === "blue"
-                      ? "badge filter badge-info active"
-                      : "badge filter badge-info"
+                    this.props.bgColor === "blue" ? "badge filter badge-info active" : "badge filter badge-info"
                   }
                   data-color="blue"
                   onClick={() => {
@@ -65,9 +63,7 @@ class FixedPlugin extends Component {
                 />{" "}
                 <span
                   className={
-                    this.props.bgColor === "green"
-                      ? "badge filter badge-success active"
-                      : "badge filter badge-success"
+                    this.props.bgColor === "green" ? "badge filter badge-success active" : "badge filter badge-success"
                   }
                   data-color="green"
                   onClick={() => {
@@ -78,14 +74,8 @@ class FixedPlugin extends Component {
             </li>
             <li className="adjustments-line text-center color-change">
               <span className="color-label">LIGHT MODE</span>{" "}
-              <span
-                className="badge light-badge mr-2"
-                onClick={() => this.activateMode("light")}
-              />{" "}
-              <span
-                className="badge dark-badge ml-2"
-                onClick={() => this.activateMode("dark")}
-              />{" "}
+              <span className="badge light-badge mr-2" onClick={() => this.activateMode("light")} />{" "}
+              <span className="badge dark-badge ml-2" onClick={() => this.activateMode("dark")} />{" "}
               <span className="color-label">DARK MODE</span>{" "}
             </li>
             <li className="button-container">

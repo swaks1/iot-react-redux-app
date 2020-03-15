@@ -66,8 +66,8 @@ class ManagePeriodInPastDialog extends React.Component {
               <Row>
                 <Col md={12} className="text-center">
                   <p className="text-info" style={{ fontSize: "1.3em" }}>
-                    Here you can set the max hours in the past from which the
-                    data will be loaded and shown on the dashboard.
+                    Here you can set the max hours in the past from which the data will be loaded and shown on the
+                    dashboard.
                   </p>
                   <br></br>
                 </Col>

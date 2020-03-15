@@ -9,17 +9,7 @@ import TTNInfomationExistExtendedInformation from "./TTNInfomationExistExtendedI
 
 import toastr from "toastr";
 
-import {
-  Card,
-  Row,
-  Col,
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Collapse,
-  Input
-} from "reactstrap";
+import { Card, Row, Col, Button, Form, FormGroup, Label, Collapse, Input } from "reactstrap";
 
 class TTNInfomationExist extends React.Component {
   constructor(props) {
@@ -33,15 +23,11 @@ class TTNInfomationExist extends React.Component {
     // when collapse is opened and you refresh the device info, the extedned info should be reloaded...
     if (
       prevProps.extendedTTNInfo.data.devId &&
-      prevProps.extendedTTNInfo.data.devId !==
-        this.props.extendedTTNInfo.data.devId &&
+      prevProps.extendedTTNInfo.data.devId !== this.props.extendedTTNInfo.data.devId &&
       prevState.collapseElementOpened == true
     ) {
       this.props.ttnActions
-        .loadExtendedTTNInfo(
-          this.props.device._id,
-          this.props.device.ttnInfo.devId
-        )
+        .loadExtendedTTNInfo(this.props.device._id, this.props.device.ttnInfo.devId)
         .then(() => {
           toastr.success("Successfully loaded extended TTN Info !");
         })
@@ -68,16 +54,9 @@ class TTNInfomationExist extends React.Component {
     let { extendedTTNInfo, ttnActions } = this.props;
 
     this.setState({ collapseElementOpened: !collapseElementOpened });
-    if (
-      extendedTTNInfo == null ||
-      extendedTTNInfo.data == null ||
-      extendedTTNInfo.data.appEui == null
-    ) {
+    if (extendedTTNInfo == null || extendedTTNInfo.data == null || extendedTTNInfo.data.appEui == null) {
       ttnActions
-        .loadExtendedTTNInfo(
-          this.props.device._id,
-          this.props.device.ttnInfo.devId
-        )
+        .loadExtendedTTNInfo(this.props.device._id, this.props.device.ttnInfo.devId)
         .then(() => {
           toastr.success("Successfully loaded extended TTN Info !");
         })
@@ -99,27 +78,19 @@ class TTNInfomationExist extends React.Component {
             {" "}
             App Id
           </Label>
-          <Col sm={7}>
-            {<h4 className={"col-form-label"}>{ttnInfo.appId}</h4>}
-          </Col>
+          <Col sm={7}>{<h4 className={"col-form-label"}>{ttnInfo.appId}</h4>}</Col>
         </FormGroup>
         <FormGroup row>
           <Label for="devId" sm={5}>
             {" "}
             Dev Id
           </Label>
-          <Col sm={7}>
-            {<h4 className={"col-form-label"}>{ttnInfo.devId}</h4>}
-          </Col>
+          <Col sm={7}>{<h4 className={"col-form-label"}>{ttnInfo.devId}</h4>}</Col>
         </FormGroup>
         <Row>
           {collapseElementOpened == false ? (
             <Col md={12} className="text-center">
-              <Button
-                color="btn btn-link"
-                onClick={this.handleCollapseClick}
-                style={{ marginBottom: "5px" }}
-              >
+              <Button color="btn btn-link" onClick={this.handleCollapseClick} style={{ marginBottom: "5px" }}>
                 <span style={{ fontSize: "0.8em" }}>
                   <i className="fas fa-angle-double-down"></i> View More
                 </span>
@@ -129,17 +100,10 @@ class TTNInfomationExist extends React.Component {
         </Row>
 
         <Collapse isOpen={collapseElementOpened}>
-          <TTNInfomationExistExtendedInformation
-            extendedTTNInfo={extendedTTNInfo}
-          />
+          <TTNInfomationExistExtendedInformation extendedTTNInfo={extendedTTNInfo} />
           <Row className="mt-5">
             <Col sm={{ size: 4, offset: 6 }} className="text-center">
-              <Button
-                color="danger"
-                size="sm"
-                id="deleteExisting"
-                onClick={this.handleDeleteTTNInfo}
-              >
+              <Button color="danger" size="sm" id="deleteExisting" onClick={this.handleDeleteTTNInfo}>
                 Disconnect
               </Button>
             </Col>
@@ -147,11 +111,7 @@ class TTNInfomationExist extends React.Component {
           <Row className="mt-3">
             {collapseElementOpened == true ? (
               <Col md={12} className="text-center">
-                <Button
-                  color="btn btn-link"
-                  onClick={this.handleCollapseClick}
-                  style={{ marginBottom: "5px" }}
-                >
+                <Button color="btn btn-link" onClick={this.handleCollapseClick} style={{ marginBottom: "5px" }}>
                   <span style={{ fontSize: "0.8em" }}>
                     <i className="fas fa-angle-double-up"></i> Show Less
                   </span>
@@ -195,8 +155,5 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-var TTNInfomationExistConnected = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TTNInfomationExist);
+var TTNInfomationExistConnected = connect(mapStateToProps, mapDispatchToProps)(TTNInfomationExist);
 export default withRouter(TTNInfomationExistConnected);

@@ -103,12 +103,7 @@ class BasicInformationsContainer extends React.Component {
   };
 
   render() {
-    const {
-      periodInPast,
-      summaryDeviceIdsState,
-      devicesForDialog,
-      dataTypesForDialog
-    } = this.props;
+    const { periodInPast, summaryDeviceIdsState, devicesForDialog, dataTypesForDialog } = this.props;
 
     return (
       <>
@@ -135,9 +130,7 @@ class BasicInformationsContainer extends React.Component {
                     className: "text-center",
                     elements: (
                       <>
-                        <div className="data-value">
-                          {summaryDeviceIdsState.deviceIds.length}
-                        </div>
+                        <div className="data-value">{summaryDeviceIdsState.deviceIds.length}</div>
                       </>
                     )
                   }}
@@ -187,10 +180,7 @@ class BasicInformationsContainer extends React.Component {
               isDialogOpened={this.state.isManagePeriodInPastDialogOpened}
               periodInPast={periodInPast}
               confirmAction={newPeriodInPast => {
-                this.handleManagePeriodInPastDialogAction(
-                  newPeriodInPast,
-                  "CONFIRM"
-                );
+                this.handleManagePeriodInPastDialogAction(newPeriodInPast, "CONFIRM");
               }}
               denyAction={() => {
                 this.handleManagePeriodInPastDialogAction(null, "DENY");
@@ -244,10 +234,7 @@ const mapStateToProps = (state, ownProps) => {
   };
 
   let devicesForDialog = [];
-  if (
-    summaryDeviceIdsState.loading == false &&
-    allDevicesState.loading == false
-  ) {
+  if (summaryDeviceIdsState.loading == false && allDevicesState.loading == false) {
     devicesForDialog = allDevicesState.devices.map(item => {
       return {
         id: item._id,
@@ -258,10 +245,7 @@ const mapStateToProps = (state, ownProps) => {
   }
 
   let dataTypesForDialog = [];
-  if (
-    summaryDataTypesState.loading == false &&
-    allDevicesState.loading == false
-  ) {
+  if (summaryDataTypesState.loading == false && allDevicesState.loading == false) {
     let dataTypesSet = new Set();
     allDevicesState.devices.forEach(device => {
       if (device.dataTypes && device.dataTypes.length > 0) {
@@ -273,9 +257,7 @@ const mapStateToProps = (state, ownProps) => {
     let uniqueDataTypes = [...dataTypesSet]; // just transfer set to array
 
     dataTypesForDialog = uniqueDataTypes.map(dataType => {
-      let existing = summaryDataTypesState.dataTypes.find(
-        item => item.name == dataType
-      );
+      let existing = summaryDataTypesState.dataTypes.find(item => item.name == dataType);
       return {
         name: dataType,
         minValue: existing ? existing.minValue : 0,
@@ -297,16 +279,10 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    summaryDashboardActions: bindActionCreators(
-      importedSummaryDashboardActions,
-      dispatch
-    )
+    summaryDashboardActions: bindActionCreators(importedSummaryDashboardActions, dispatch)
   };
 };
 
-var BasicInformationsContainerConnected = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(BasicInformationsContainer);
+var BasicInformationsContainerConnected = connect(mapStateToProps, mapDispatchToProps)(BasicInformationsContainer);
 
 export default withRouter(BasicInformationsContainerConnected);

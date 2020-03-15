@@ -91,18 +91,14 @@ class AlertsContainer extends React.Component {
         <Card style={{ backgroundColor: "#f7f6f6", padding: "20px 20px" }}>
           <Row>
             <Col md={11}>
-              <h4 className="text-center font-italic font-weight-light">
-                Alerts
-              </h4>
+              <h4 className="text-center font-italic font-weight-light">Alerts</h4>
             </Col>
             <Col md={1}>{alertsState.loading ? <Spinner /> : null}</Col>
           </Row>
           <Row className="mt-3">
             {alertsState.alerts.length == 0 ? (
               <Col md={12} className="text-left mb-3">
-                <span>
-                  If you cannot see alerts click the following refresh button.
-                </span>
+                <span>If you cannot see alerts click the following refresh button.</span>
                 {"  "}
                 <i
                   className="fa fa-sync"
@@ -118,11 +114,7 @@ class AlertsContainer extends React.Component {
             ) : (
               <Col md={12}>
                 {alertsState.alerts.map(alert => (
-                  <Alert
-                    key={alert._id}
-                    alert={alert}
-                    onChangeRule={this.handleChangeRule}
-                  />
+                  <Alert key={alert._id} alert={alert} onChangeRule={this.handleChangeRule} />
                 ))}
               </Col>
             )}
@@ -162,16 +154,10 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = dispatch => {
   return {
     deviceActions: bindActionCreators(importedDeviceActions, dispatch),
-    alertsModuleActions: bindActionCreators(
-      importedAlertsModuleActions,
-      dispatch
-    )
+    alertsModuleActions: bindActionCreators(importedAlertsModuleActions, dispatch)
   };
 };
 
-var AlertsContainerConnected = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AlertsContainer);
+var AlertsContainerConnected = connect(mapStateToProps, mapDispatchToProps)(AlertsContainer);
 
 export default withRouter(AlertsContainerConnected);

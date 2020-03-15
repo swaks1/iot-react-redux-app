@@ -1,15 +1,6 @@
 import React from "react";
 
-import {
-  Card,
-  Row,
-  Col,
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input
-} from "reactstrap";
+import { Card, Row, Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
 import Spinner from "../_common/Spinner";
 
 const DeviceInformations = ({
@@ -50,9 +41,7 @@ const DeviceInformations = ({
                 {" "}
                 Name
               </Label>
-              <Col sm={7}>
-                {<h4 className={"col-form-label"}>{device.name}</h4>}
-              </Col>
+              <Col sm={7}>{<h4 className={"col-form-label"}>{device.name}</h4>}</Col>
             </FormGroup>
 
             <FormGroup row>
@@ -84,8 +73,7 @@ const DeviceInformations = ({
                 </Label>
                 <Col sm={7}>
                   <h4 className={"col-form-label"}>
-                    {`(${device.location.lat} , ${device.location.lng})`} <br />{" "}
-                    {`${device.location.description}`}
+                    {`(${device.location.lat} , ${device.location.lng})`} <br /> {`${device.location.description}`}
                   </h4>
                 </Col>
               </FormGroup>
@@ -160,11 +148,7 @@ const DeviceInformations = ({
               ) : (
                 <>
                   <Col sm={{ size: 4, offset: 0 }}>
-                    <Button
-                      color="link"
-                      style={{ paddingLeft: "0px" }}
-                      onClick={onEditInfo}
-                    >
+                    <Button color="link" style={{ paddingLeft: "0px" }} onClick={onEditInfo}>
                       Edit Info
                     </Button>
                   </Col>

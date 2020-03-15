@@ -20,11 +20,7 @@ class DeviceDetails extends React.Component {
     super(props);
 
     let dataType = "";
-    if (
-      props.device &&
-      props.device.dataTypes != null &&
-      props.device.dataTypes.length > 0
-    ) {
+    if (props.device && props.device.dataTypes != null && props.device.dataTypes.length > 0) {
       dataType = props.device.dataTypes[0];
     }
 
@@ -67,11 +63,7 @@ class DeviceDetails extends React.Component {
     if (nextProps.device) {
       this.setState({ device: this.deepCopyDevice(nextProps.device) }, () => {
         //if this.state.dataType is empty set it to firstone of the nextProps.device
-        if (
-          nextProps.device.dataTypes != null &&
-          nextProps.device.dataTypes.length > 0 &&
-          this.state.dataType == ""
-        )
+        if (nextProps.device.dataTypes != null && nextProps.device.dataTypes.length > 0 && this.state.dataType == "")
           this.handleDataTypeChange(nextProps.device.dataTypes[0]);
       });
     }
@@ -89,9 +81,7 @@ class DeviceDetails extends React.Component {
       }),
       () => {
         if (this.state.autoRefreshOn === true)
-          toastr.warning(
-            `Auto Refresh  turned ON, interval is ${this.state.autoRefreshInterval} sec`
-          );
+          toastr.warning(`Auto Refresh  turned ON, interval is ${this.state.autoRefreshInterval} sec`);
         else toastr.warning("Auto Refresh turned OFF");
       }
     );
@@ -101,9 +91,7 @@ class DeviceDetails extends React.Component {
     let value = event.target.value; //seconds
     if (value < 1) {
       value = 1;
-      toastr.warning(
-        "Device interval must be greater than 1 sec... Taken default 1 sec"
-      );
+      toastr.warning("Device interval must be greater than 1 sec... Taken default 1 sec");
     }
 
     this.setState(
@@ -124,12 +112,7 @@ class DeviceDetails extends React.Component {
     }
 
     let deviceId = this.state.device._id;
-    let {
-      deviceActions,
-      commandActions,
-      deviceDataActions,
-      alertsModuleActions
-    } = this.props;
+    let { deviceActions, commandActions, deviceDataActions, alertsModuleActions } = this.props;
     const { dataPeriod, dataType } = this.state;
 
     if (this.state.autoRefreshOn === true && this.state.editMode === false) {
@@ -145,11 +128,7 @@ class DeviceDetails extends React.Component {
       promises.push(alertsModulePromise);
 
       if (dataType != "") {
-        let deviceDataPromise = deviceDataActions.loadDeviceData(
-          deviceId,
-          dataPeriod,
-          dataType
-        );
+        let deviceDataPromise = deviceDataActions.loadDeviceData(deviceId, dataPeriod, dataType);
         promises.push(deviceDataPromise);
       }
 
@@ -161,9 +140,7 @@ class DeviceDetails extends React.Component {
           toastr.error("Reload UI: " + error);
         });
     } else {
-      console.log(
-        "Auto Refresh wont happen because EditMode is on or autoRefresh is false"
-      );
+      console.log("Auto Refresh wont happen because EditMode is on or autoRefresh is false");
     }
   };
 
@@ -280,9 +257,7 @@ class DeviceDetails extends React.Component {
         commandActions
           .changeIntervalCommand(deviceId, deviceInterval)
           .then(() => {
-            toastr.success(
-              `Inserted CHANGE INTERVAL (${deviceInterval}) Command !`
-            );
+            toastr.success(`Inserted CHANGE INTERVAL (${deviceInterval}) Command !`);
           })
           .catch(error => {
             toastr.error(error);
@@ -290,10 +265,7 @@ class DeviceDetails extends React.Component {
         break;
       case "ledOn_Lora":
         commandActions
-          .sendGenericCommand(
-            deviceId,
-            commandHelper.getLoraWANCommand("LED_ON", 1)
-          )
+          .sendGenericCommand(deviceId, commandHelper.getLoraWANCommand("LED_ON", 1))
           .then(() => {
             toastr.success(`Inserted Led ON command !`);
           })
@@ -303,10 +275,7 @@ class DeviceDetails extends React.Component {
         break;
       case "ledOff_Lora":
         commandActions
-          .sendGenericCommand(
-            deviceId,
-            commandHelper.getLoraWANCommand("LED_OFF", 0)
-          )
+          .sendGenericCommand(deviceId, commandHelper.getLoraWANCommand("LED_OFF", 0))
           .then(() => {
             toastr.success(`Inserted Led OFF command !`);
           })
@@ -370,20 +339,7 @@ class DeviceDetails extends React.Component {
   getDataForBarChart = () => {
     let response = {
       data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      labels: [
-        "JAN",
-        "FEB",
-        "MAR",
-        "APR",
-        "MAY",
-        "JUN",
-        "JUL",
-        "AUG",
-        "SEP",
-        "OCT",
-        "NOV",
-        "DEC"
-      ],
+      labels: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"],
       name: ""
     };
     let { deviceDataMonthly } = this.props;
@@ -436,21 +392,8 @@ class DeviceDetails extends React.Component {
   };
 
   render() {
-    const {
-      device,
-      editMode,
-      dataPeriod,
-      dataType,
-      autoRefreshOn,
-      autoRefreshInterval
-    } = this.state;
-    const {
-      deviceLoading,
-      commandsData,
-      commandsLoading,
-      deviceData,
-      deviceDataLoading
-    } = this.props;
+    const { device, editMode, dataPeriod, dataType, autoRefreshOn, autoRefreshInterval } = this.state;
+    const { deviceLoading, commandsData, commandsLoading, deviceData, deviceDataLoading } = this.props;
 
     return (
       <DeviceDetailsCard
@@ -547,15 +490,9 @@ const mapDispatchToProps = dispatch => {
     deviceActions: bindActionCreators(importedDeviceActions, dispatch),
     commandActions: bindActionCreators(importedCommandActions, dispatch),
     deviceDataActions: bindActionCreators(importedDeviceDataActions, dispatch),
-    alertsModuleActions: bindActionCreators(
-      importedAlertsModuleActions,
-      dispatch
-    )
+    alertsModuleActions: bindActionCreators(importedAlertsModuleActions, dispatch)
   };
 };
 
-var DeviceDetailsContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(DeviceDetails);
+var DeviceDetailsContainer = connect(mapStateToProps, mapDispatchToProps)(DeviceDetails);
 export default withRouter(DeviceDetailsContainer);

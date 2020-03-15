@@ -19,13 +19,7 @@ class SelectedDeviceContainer extends React.Component {
   }
 
   render() {
-    let {
-      loading,
-      dataGrouped,
-      selectedInfo,
-      onChangeDeviceDataType,
-      onChangeDeviceDataPeriod
-    } = this.props;
+    let { loading, dataGrouped, selectedInfo, onChangeDeviceDataType, onChangeDeviceDataPeriod } = this.props;
 
     return (
       <>
@@ -47,8 +41,7 @@ class SelectedDeviceContainer extends React.Component {
                           selected={
                             selectedInfo &&
                             selectedInfo.selectedDevice &&
-                            selectedInfo.selectedDevice.dataType ==
-                              dataItem.dataType
+                            selectedInfo.selectedDevice.dataType == dataItem.dataType
                           }
                           onChangeDeviceDataType={onChangeDeviceDataType}
                         />
@@ -60,10 +53,7 @@ class SelectedDeviceContainer extends React.Component {
             </Col>
             <Col md={7}>
               <Row>
-                <DataChartView
-                  selectedInfo={selectedInfo}
-                  onChangeDeviceDataPeriod={onChangeDeviceDataPeriod}
-                />
+                <DataChartView selectedInfo={selectedInfo} onChangeDeviceDataPeriod={onChangeDeviceDataPeriod} />
               </Row>
             </Col>
           </Row>
@@ -84,11 +74,7 @@ const mapStateToProps = (state, ownProps) => {
   let dataGrouped = []; //array that will contain arrays of 2 data [[dataItem1, dataItem2],[dataItem3, dataItem4]...]
   if (summaryDevicesWithDataState.loading == false) {
     let devices = summaryDevicesWithDataState.devices;
-    if (
-      ownProps.selectedInfo &&
-      ownProps.selectedInfo.selectedDevice &&
-      ownProps.selectedInfo.selectedDevice.id
-    ) {
+    if (ownProps.selectedInfo && ownProps.selectedInfo.selectedDevice && ownProps.selectedInfo.selectedDevice.id) {
       let deviceId = ownProps.selectedInfo.selectedDevice.id;
       let device = devices.find(device => device.id == deviceId);
       if (device) {
@@ -113,16 +99,10 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    summaryDashboardActions: bindActionCreators(
-      importedSummaryDashboardActions,
-      dispatch
-    )
+    summaryDashboardActions: bindActionCreators(importedSummaryDashboardActions, dispatch)
   };
 };
 
-var SelectedDeviceContainerConnected = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SelectedDeviceContainer);
+var SelectedDeviceContainerConnected = connect(mapStateToProps, mapDispatchToProps)(SelectedDeviceContainer);
 
 export default withRouter(SelectedDeviceContainerConnected);

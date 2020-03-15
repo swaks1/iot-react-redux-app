@@ -108,9 +108,7 @@ class DeviceDetailsCard extends React.Component {
                           className="react-switch"
                           id="normal-switch"
                         />
-                        <span style={{ marginLeft: "5px", cursor: "pointer" }}>
-                          Auto Refresh
-                        </span>
+                        <span style={{ marginLeft: "5px", cursor: "pointer" }}>Auto Refresh</span>
                       </label>
                       {autoRefreshOn ? (
                         <>
@@ -130,11 +128,7 @@ class DeviceDetailsCard extends React.Component {
                             onChange={onAutoRefreshIntervalChange}
                             value={autoRefreshInterval}
                           />
-                          <span
-                            style={{ fontSize: "0.8em", marginLeft: "5px" }}
-                          >
-                            seconds
-                          </span>
+                          <span style={{ fontSize: "0.8em", marginLeft: "5px" }}>seconds</span>
                         </>
                       ) : null}
                     </div>
@@ -158,8 +152,7 @@ class DeviceDetailsCard extends React.Component {
                             <NavItem>
                               <NavLink
                                 className={classNames({
-                                  active:
-                                    this.state.activeTab === "basicDetails"
+                                  active: this.state.activeTab === "basicDetails"
                                 })}
                                 onClick={() => {
                                   this.setActiveTab("basicDetails");
@@ -232,9 +225,7 @@ class DeviceDetailsCard extends React.Component {
                                       sm="12"
                                       device={device}
                                       deviceLoading={deviceLoading}
-                                      onReloadDataTypeClick={
-                                        onReloadDataTypeClick
-                                      }
+                                      onReloadDataTypeClick={onReloadDataTypeClick}
                                     />
                                   </Row>
                                 </Col>
@@ -276,9 +267,7 @@ class DeviceDetailsCard extends React.Component {
                                       sm="12"
                                       deviceData={deviceData}
                                       deviceDataLoading={deviceDataLoading}
-                                      onDataLineChartButtonClick={
-                                        onDataLineChartButtonClick
-                                      }
+                                      onDataLineChartButtonClick={onDataLineChartButtonClick}
                                       dataPeriod={dataPeriod}
                                     />
                                     <Col className="mt-5"></Col>

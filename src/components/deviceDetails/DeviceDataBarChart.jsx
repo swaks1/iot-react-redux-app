@@ -8,20 +8,9 @@ import { BarChartHelper } from "../../utils/chartHelper";
 import Spinner from "../_common/Spinner";
 import { helper } from "../../utils/helper";
 
-const DeviceDataBarChart = ({
-  lg,
-  md,
-  sm,
-  deviceData,
-  deviceDataLoading,
-  getDataForBarChart
-}) => {
+const DeviceDataBarChart = ({ lg, md, sm, deviceData, deviceDataLoading, getDataForBarChart }) => {
   let response = getDataForBarChart();
-  let barChart = new BarChartHelper(
-    response.data,
-    response.labels,
-    response.name
-  );
+  let barChart = new BarChartHelper(response.data, response.labels, response.name);
 
   let dataType = "";
   if (deviceData != null && deviceData.length > 0) {
@@ -32,21 +21,13 @@ const DeviceDataBarChart = ({
     <>
       <Col lg={lg} md={md} sm={sm}>
         {/* */}
-        <Card
-          className="card-chart"
-          style={{ backgroundColor: "#f7f6f6", padding: "20px 20px" }}
-        >
+        <Card className="card-chart" style={{ backgroundColor: "#f7f6f6", padding: "20px 20px" }}>
           <CardHeader>
             <h5 className="card-category">Data Bar Chart</h5>
             <CardTitle tag="h3">
               <Row>
                 <Col md={10}>
-                  <i
-                    className={`fa fa-${helper.getIconForDataType(
-                      dataType
-                    )} text-info`}
-                  />{" "}
-                  {dataType}
+                  <i className={`fa fa-${helper.getIconForDataType(dataType)} text-info`} /> {dataType}
                 </Col>
                 <Col md={2}>{deviceDataLoading ? <Spinner /> : null}</Col>
               </Row>

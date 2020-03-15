@@ -1,16 +1,7 @@
 import React from "react";
 import toastr from "toastr";
 
-import {
-  Card,
-  Row,
-  Col,
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input
-} from "reactstrap";
+import { Card, Row, Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
 import Modal from "./../_common/Modal";
 
 class CreateNewDeviceDialog extends React.Component {
@@ -72,9 +63,7 @@ class CreateNewDeviceDialog extends React.Component {
             <>
               <Row>
                 <Col md={12}>
-                  <div>
-                    Enter the following information to create new IoT device:{" "}
-                  </div>
+                  <div>Enter the following information to create new IoT device: </div>
                 </Col>
               </Row>
               <FormGroup row className="mt-3">

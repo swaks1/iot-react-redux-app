@@ -8,16 +8,7 @@ import * as importedTTNActions from "../../../redux/actions/ttnActions";
 
 import toastr from "toastr";
 
-import {
-  Card,
-  Row,
-  Col,
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input
-} from "reactstrap";
+import { Card, Row, Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
 import LoaderOverlay from "../../_common/LoaderOverlay";
 import TTNInfomationExist from "./TTNInfomationExist";
 import TTNInfomationMissing from "./TTNInfomationMissing";
@@ -41,11 +32,7 @@ class TTNInformationContainer extends React.Component {
               </Col>
             </Row>
             <Form>
-              {device && device.ttnInfo && device.ttnInfo.devId ? (
-                <TTNInfomationExist />
-              ) : (
-                <TTNInfomationMissing />
-              )}
+              {device && device.ttnInfo && device.ttnInfo.devId ? <TTNInfomationExist /> : <TTNInfomationMissing />}
             </Form>
           </Card>
         </Col>
@@ -82,8 +69,5 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-var TTNInformationContainerConnected = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TTNInformationContainer);
+var TTNInformationContainerConnected = connect(mapStateToProps, mapDispatchToProps)(TTNInformationContainer);
 export default withRouter(TTNInformationContainerConnected);

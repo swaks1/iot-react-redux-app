@@ -20,9 +20,7 @@ import { loadDevices } from "./redux/actions/deviceActions";
 import toastr from "toastr";
 import config from "./config";
 
-const store = config.isProduction
-  ? configureStore.production()
-  : configureStore.development();
+const store = config.isProduction ? configureStore.production() : configureStore.development();
 
 store
   .dispatch(loadDevices())

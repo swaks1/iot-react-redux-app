@@ -28,9 +28,7 @@ const mapStateToProps = (state, ownProps) => {
     return item.data;
   });
 
-  let devicesOnDashboard = allDevices.filter(
-    item => item.isAddedToDashboard == true
-  );
+  let devicesOnDashboard = allDevices.filter(item => item.isAddedToDashboard == true);
 
   return {
     devices: devicesOnDashboard,
@@ -44,8 +42,5 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-var DashboardContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Dashboard);
+var DashboardContainer = connect(mapStateToProps, mapDispatchToProps)(Dashboard);
 export default withRouter(DashboardContainer);

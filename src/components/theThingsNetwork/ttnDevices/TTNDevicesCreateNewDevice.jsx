@@ -1,16 +1,7 @@
 import React from "react";
 import toastr from "toastr";
 
-import {
-  Card,
-  Row,
-  Col,
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input
-} from "reactstrap";
+import { Card, Row, Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
 import Modal from "./../../_common/Modal";
 import LoaderRow from "./../../_common/LoaderRow";
 
@@ -65,15 +56,13 @@ class TTNDevicesCreateNewDevice extends React.Component {
             <>
               <Row>
                 <Col md={12}>
-                  <div>
-                    Enter the following information to create new TTN device:{" "}
-                  </div>
+                  <div>Enter the following information to create new TTN device: </div>
                 </Col>
               </Row>
               <FormGroup row className="mt-3">
                 <Label for="device.devId" sm={5}>
                   {" "}
-                  Dev Id 
+                  Dev Id
                 </Label>
                 <Col sm={7}>
                   <Input
@@ -110,7 +99,7 @@ class TTNDevicesCreateNewDevice extends React.Component {
           denyText={"Cancel"}
           denyAction={this.localDenyAction}
           toggle={this.localDenyAction}
-        />       
+        />
       </>
     );
   }

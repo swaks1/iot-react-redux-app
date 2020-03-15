@@ -2,22 +2,12 @@ import React from "react";
 
 import { Card, Row, Col, Button, Input } from "reactstrap";
 
-const DeviceCommands = ({
-  lg,
-  md,
-  sm,
-  device,
-  onDeviceFieldChange,
-  onCommandClick,
-  onDeviceIntervalBlur
-}) => {
+const DeviceCommands = ({ lg, md, sm, device, onDeviceFieldChange, onCommandClick, onDeviceIntervalBlur }) => {
   return (
     <>
       <Col lg={lg} md={md} sm={sm}>
         <Card style={{ backgroundColor: "#f7f6f6", padding: "20px 20px" }}>
-          <h4 className="text-center font-italic font-weight-light">
-            Device Available Commands
-          </h4>
+          <h4 className="text-center font-italic font-weight-light">Device Available Commands</h4>
 
           <Row>
             <Col md={12}>
@@ -28,36 +18,19 @@ const DeviceCommands = ({
           <Row className="mt-2">
             {device.isActive ? (
               <Col className="text-right" md={{ size: 5, offset: 1 }}>
-                <Button
-                  color="danger"
-                  size="sm"
-                  id="deactivateBtn"
-                  className="btn-block"
-                  onClick={onCommandClick}
-                >
+                <Button color="danger" size="sm" id="deactivateBtn" className="btn-block" onClick={onCommandClick}>
                   Deactivate Device
                 </Button>
               </Col>
             ) : (
               <Col className="text-right" md={{ size: 5, offset: 1 }}>
-                <Button
-                  color="success"
-                  size="sm"
-                  id="activateBtn"
-                  className="btn-block"
-                  onClick={onCommandClick}
-                >
+                <Button color="success" size="sm" id="activateBtn" className="btn-block" onClick={onCommandClick}>
                   Activate Device
                 </Button>
               </Col>
             )}
             <Col className="text-left" md={{ size: 5 }}>
-              <Button
-                size="sm"
-                id="updateLocationBtn"
-                className="btn-block"
-                onClick={onCommandClick}
-              >
+              <Button size="sm" id="updateLocationBtn" className="btn-block" onClick={onCommandClick}>
                 Update Location
               </Button>
             </Col>
@@ -103,25 +76,13 @@ const DeviceCommands = ({
 
           <Row className="mt-2">
             <Col className="text-center" md={{ size: 5, offset: 1 }}>
-              <Button
-                size="sm"
-                id="ledOn_Lora"
-                color="success"
-                className="btn-block"
-                onClick={onCommandClick}
-              >
+              <Button size="sm" id="ledOn_Lora" color="success" className="btn-block" onClick={onCommandClick}>
                 Led On
               </Button>
             </Col>
 
             <Col className="text-center" md={{ size: 5, offset: 0 }}>
-              <Button
-                size="sm"
-                id="ledOff_Lora"
-                color="warning"
-                className="btn-block"
-                onClick={onCommandClick}
-              >
+              <Button size="sm" id="ledOff_Lora" color="warning" className="btn-block" onClick={onCommandClick}>
                 Led Off
               </Button>
             </Col>

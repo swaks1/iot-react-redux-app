@@ -24,12 +24,7 @@ class Alert extends React.Component {
               <Row>
                 <Col md="12">
                   <h4 style={{ textTransform: "uppercase" }}>
-                    {alert.dataType}{" "}
-                    <i
-                      className={`fa fa-${helper.getIconForDataType(
-                        alert.dataType
-                      )}`}
-                    ></i>
+                    {alert.dataType} <i className={`fa fa-${helper.getIconForDataType(alert.dataType)}`}></i>
                   </h4>
                 </Col>
               </Row>
@@ -37,19 +32,13 @@ class Alert extends React.Component {
                 <Col md="12" style={{ fontSize: "0.8em" }}>
                   <div>
                     <span>channels:</span>
-                    <span
-                      className="font-weight-bold"
-                      style={{ marginLeft: "5px" }}
-                    >
-                      {activeChannels.map(channel => (channel.name)).join(", ")}
+                    <span className="font-weight-bold" style={{ marginLeft: "5px" }}>
+                      {activeChannels.map(channel => channel.name).join(", ")}
                     </span>
                   </div>
                   <div>
                     <span>active rules:</span>
-                    <span
-                      className="font-weight-bold"
-                      style={{ marginLeft: "5px" }}
-                    >
+                    <span className="font-weight-bold" style={{ marginLeft: "5px" }}>
                       {activeRules.length}
                     </span>
                   </div>
@@ -86,9 +75,7 @@ class Alert extends React.Component {
                             {rule.operator == "lastSeen" ? "before" : "than"}
                           </Col>
                           <Col md={4} className="text-center">
-                            {rule.operator == "lastSeen"
-                              ? `${rule.operatorValue} min`
-                              : rule.operatorValue}
+                            {rule.operator == "lastSeen" ? `${rule.operatorValue} min` : rule.operatorValue}
                           </Col>
                         </Row>
                       </Col>

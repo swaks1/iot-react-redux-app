@@ -24,18 +24,12 @@ const TTNDevicesColumnIOTDevice = ({
   ) : editMode == true && currentDevice.devId == selectedDevice.devId ? (
     <select
       className="form-select"
-      value={
-        connectedDeviceExists(selectedDevice)
-          ? selectedDevice.connectedIotDevice._id
-          : ""
-      }
+      value={connectedDeviceExists(selectedDevice) ? selectedDevice.connectedIotDevice._id : ""}
       onChange={onSelectChange}
     >
       <option value="">{""}</option>
       {connectedDeviceExists(currentDevice) ? (
-        <option value={currentDevice.connectedIotDevice._id}>
-          {currentDevice.connectedIotDevice.name}
-        </option>
+        <option value={currentDevice.connectedIotDevice._id}>{currentDevice.connectedIotDevice.name}</option>
       ) : (
         <></>
       )}
@@ -46,13 +40,7 @@ const TTNDevicesColumnIOTDevice = ({
       ))}
     </select>
   ) : (
-    <>
-      {connectedDeviceExists(currentDevice) ? (
-        <span>{currentDevice.connectedIotDevice.name}</span>
-      ) : (
-        <span></span>
-      )}
-    </>
+    <>{connectedDeviceExists(currentDevice) ? <span>{currentDevice.connectedIotDevice.name}</span> : <span></span>}</>
   );
 };
 

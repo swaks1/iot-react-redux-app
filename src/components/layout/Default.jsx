@@ -24,8 +24,7 @@ class DefaultLayout extends React.Component {
 
     this.state = {
       backgroundColor: "blue",
-      sidebarOpened:
-        document.documentElement.className.indexOf("nav-open") !== -1
+      sidebarOpened: document.documentElement.className.indexOf("nav-open") !== -1
     };
   }
 
@@ -63,14 +62,7 @@ class DefaultLayout extends React.Component {
   // return array of routes which are possible to render
   getRoutes = routes => {
     return routes.map((prop, key) => {
-      return (
-        <Route
-          path={prop.path}
-          component={prop.component}
-          key={key}
-          exact={prop.exact === true}
-        />
-      );
+      return <Route path={prop.path} component={prop.component} key={key} exact={prop.exact === true} />;
     });
   };
 
@@ -105,11 +97,7 @@ class DefaultLayout extends React.Component {
               toggleSidebar={this.toggleSidebar}
             />
 
-            <div
-              className="main-panel"
-              ref={this.mainPanel}
-              data={this.state.backgroundColor}
-            >
+            <div className="main-panel" ref={this.mainPanel} data={this.state.backgroundColor}>
               <Navbar
                 {...this.props}
                 brandText={this.getBrandText(this.props.location.pathname)}

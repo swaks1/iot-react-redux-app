@@ -76,10 +76,7 @@ const DeviceDataTable = ({
             {dataTypesArray.map((array, arrayIndex) => {
               return (
                 <Col md={12} key={`group-${arrayIndex}`}>
-                  <ButtonGroup
-                    className="btn-group-toggle"
-                    data-toggle="buttons"
-                  >
+                  <ButtonGroup className="btn-group-toggle" data-toggle="buttons">
                     {array.map((item, index) => {
                       return (
                         <Button
@@ -96,15 +93,8 @@ const DeviceDataTable = ({
                             onDataTypeChange(item);
                           }} //was firing twice for some reason ???
                         >
-                          <input
-                            defaultChecked
-                            className="d-none"
-                            name="options"
-                            type="radio"
-                          />
-                          <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
-                            {item}
-                          </span>
+                          <input defaultChecked className="d-none" name="options" type="radio" />
+                          <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">{item}</span>
                           <span className="d-block d-sm-none">
                             <i className="tim-icons icon-tap-02" />
                           </span>
@@ -118,13 +108,11 @@ const DeviceDataTable = ({
           </Row>
           <TableWithPagination
             className="simpleTable"
-            tableHeadColumns={["DateTime", "Type", "Value/Average", ""].map(
-              (item, index) => (
-                <th className="text-center" key={`th-${index}`}>
-                  {item}
-                </th>
-              )
-            )}
+            tableHeadColumns={["DateTime", "Type", "Value/Average", ""].map((item, index) => (
+              <th className="text-center" key={`th-${index}`}>
+                {item}
+              </th>
+            ))}
             pageSize={15}
             data={tableData}
             mapFunction={item => {
@@ -138,9 +126,7 @@ const DeviceDataTable = ({
                     {item.channel ? (
                       <>
                         <ReactTooltip effect="solid" />
-                        <span
-                          style={{ paddingLeft: "10px", fontSize: "0.8em" }}
-                        >
+                        <span style={{ paddingLeft: "10px", fontSize: "0.8em" }}>
                           {item.channel == "LoraWAN" ? (
                             <i className="fa fa-signal" data-tip="LoraWAN"></i>
                           ) : (

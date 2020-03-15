@@ -5,14 +5,7 @@ import { Card, Row, Col } from "reactstrap";
 import Table from "../_common/Table";
 import Spinner from "../_common/Spinner";
 
-const DeviceCommandsHistory = ({
-  lg,
-  md,
-  sm,
-  commandsData,
-  commandsLoading,
-  onRefreshClick
-}) => {
+const DeviceCommandsHistory = ({ lg, md, sm, commandsData, commandsLoading, onRefreshClick }) => {
   return (
     <>
       <Col lg={lg} md={md} sm={sm}>
@@ -52,24 +45,14 @@ const DeviceCommandsHistory = ({
                     <td className="text-center">
                       {date} <br /> {time}
                     </td>
-                    <td className="text-center">
-                      {item.commandItem.commandType}
-                    </td>
-                    <td className="text-center">
-                      {item.commandItem.commandValue}
-                    </td>
+                    <td className="text-center">{item.commandItem.commandType}</td>
+                    <td className="text-center">{item.commandItem.commandValue}</td>
                     <td className="text-center">{item.channel}</td>
                     <td className="text-center">
                       {item.executed ? (
-                        <i
-                          className="fa fa-check fa-1x"
-                          style={{ color: "green" }}
-                        ></i>
+                        <i className="fa fa-check fa-1x" style={{ color: "green" }}></i>
                       ) : (
-                        <i
-                          className="fa fa-times fa-1x"
-                          style={{ color: "red" }}
-                        />
+                        <i className="fa fa-times fa-1x" style={{ color: "red" }} />
                       )}
                     </td>
                   </tr>

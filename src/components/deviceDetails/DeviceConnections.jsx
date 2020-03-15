@@ -1,15 +1,6 @@
 import React from "react";
 
-import {
-  Card,
-  Row,
-  Col,
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input
-} from "reactstrap";
+import { Card, Row, Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
 import TTNInformationContainer from "./ttnInformation/TTNInformationContainer";
 import Spinner from "../_common/Spinner";
 
@@ -20,9 +11,7 @@ const DeviceConnections = ({ lg, md, sm, device, deviceLoading }) => {
         <Card style={{ backgroundColor: "#f7f6f6", padding: "20px 20px" }}>
           <Row>
             <Col md={11}>
-              <h4 className="text-center font-italic font-weight-light">
-                Device Connections
-              </h4>
+              <h4 className="text-center font-italic font-weight-light">Device Connections</h4>
             </Col>
             <Col md={1}>{deviceLoading ? <Spinner /> : null}</Col>
           </Row>
@@ -39,10 +28,7 @@ const DeviceConnections = ({ lg, md, sm, device, deviceLoading }) => {
               </Label>
               <Col sm={7}>
                 {device.isActive ? (
-                  <i
-                    className="fa fa-check fa-2x"
-                    style={{ color: "green" }}
-                  ></i>
+                  <i className="fa fa-check fa-2x" style={{ color: "green" }}></i>
                 ) : (
                   <i className="fa fa-times fa-2x" style={{ color: "red" }} />
                 )}

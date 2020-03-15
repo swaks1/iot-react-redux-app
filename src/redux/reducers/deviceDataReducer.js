@@ -2,17 +2,10 @@
 import * as types from "../actions/actionTypes";
 import initialState from "./initialState";
 
-export default function deviceDataReducer(
-  state = initialState.deviceData,
-  action
-) {
+export default function deviceDataReducer(state = initialState.deviceData, action) {
   if (action.type == types.BEGIN_LOAD_DEVICE_DATA) {
-    const otherDeviceData = state.filter(
-      item => item.deviceId != action.data.deviceId
-    );
-    const thisDeviceData = state.filter(
-      item => item.deviceId == action.data.deviceId
-    )[0];
+    const otherDeviceData = state.filter(item => item.deviceId != action.data.deviceId);
+    const thisDeviceData = state.filter(item => item.deviceId == action.data.deviceId)[0];
 
     let deviceData = {};
     if (thisDeviceData != null) {
@@ -31,12 +24,8 @@ export default function deviceDataReducer(
   }
 
   if (action.type == types.END_LOAD_DEVICE_DATA) {
-    const otherDeviceData = state.filter(
-      item => item.deviceId != action.data.deviceId
-    );
-    const thisDeviceData = state.filter(
-      item => item.deviceId == action.data.deviceId
-    )[0];
+    const otherDeviceData = state.filter(item => item.deviceId != action.data.deviceId);
+    const thisDeviceData = state.filter(item => item.deviceId == action.data.deviceId)[0];
 
     let deviceData = {};
     deviceData = Object.assign({}, thisDeviceData);
@@ -46,9 +35,7 @@ export default function deviceDataReducer(
   }
 
   if (action.type == types.LOAD_DEVICE_DATA_SUCCESS) {
-    const otherDeviceData = state.filter(
-      item => item.deviceId != action.data.deviceId
-    );
+    const otherDeviceData = state.filter(item => item.deviceId != action.data.deviceId);
     let deviceData = {
       loading: false,
       deviceId: action.data.deviceId,

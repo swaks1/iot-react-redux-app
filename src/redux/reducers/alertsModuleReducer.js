@@ -2,10 +2,7 @@ import * as types from "../actions/actionTypes";
 import initialState from "./initialState";
 import * as stateHelper from "../utils/stateHelper";
 
-export default function alertsModuleReducer(
-  state = initialState.alertsModule,
-  action
-) {
+export default function alertsModuleReducer(state = initialState.alertsModule, action) {
   if (action.type == types.BEGIN_LOAD_ALERTS_MODULE) {
     const thisAlertItem = getAlertFromState(state, action.data.deviceId);
     let alertItem = {};

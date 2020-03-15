@@ -16,11 +16,7 @@ class DeviceDetailsSimple extends React.Component {
     super(props);
 
     let dataType = "";
-    if (
-      props.device &&
-      props.device.dataTypes != null &&
-      props.device.dataTypes.length > 0
-    ) {
+    if (props.device && props.device.dataTypes != null && props.device.dataTypes.length > 0) {
       dataType = props.device.dataTypes[0];
     }
 
@@ -40,12 +36,7 @@ class DeviceDetailsSimple extends React.Component {
   }
 
   componentDidMount() {
-    let {
-      deviceId,
-      deviceActions,
-      commandActions,
-      deviceDataActions
-    } = this.props;
+    let { deviceId, deviceActions, commandActions, deviceDataActions } = this.props;
     const { dataPeriod, dataType, autoRefreshInterval } = this.state;
 
     deviceActions.loadDevice(deviceId);
@@ -61,11 +52,7 @@ class DeviceDetailsSimple extends React.Component {
   componentDidUpdate(prevProps) {
     //if this.state.dataType is empty set it to firstOne of the current props->device
     if (this.state.dataType == "") {
-      if (
-        this.props.device &&
-        this.props.device.dataTypes != null &&
-        this.props.device.dataTypes.length > 0
-      ) {
+      if (this.props.device && this.props.device.dataTypes != null && this.props.device.dataTypes.length > 0) {
         this.handleDataTypeChange(this.props.device.dataTypes[0]);
       }
     }
@@ -83,9 +70,7 @@ class DeviceDetailsSimple extends React.Component {
       }),
       () => {
         if (this.state.autoRefreshOn === true)
-          toastr.warning(
-            `Auto Refresh  turned ON, interval is ${this.state.autoRefreshInterval} sec`
-          );
+          toastr.warning(`Auto Refresh  turned ON, interval is ${this.state.autoRefreshInterval} sec`);
         else toastr.warning("Auto Refresh turned OFF");
       }
     );
@@ -95,9 +80,7 @@ class DeviceDetailsSimple extends React.Component {
     let value = event.target.value; //seconds
     if (value < 1) {
       value = 1;
-      toastr.warning(
-        "Device interval must be greater than 1 sec... Taken default 1 sec"
-      );
+      toastr.warning("Device interval must be greater than 1 sec... Taken default 1 sec");
     }
 
     this.setState(
@@ -132,11 +115,7 @@ class DeviceDetailsSimple extends React.Component {
       promises.push(commandsHisotryPromise);
 
       if (dataType != "") {
-        let deviceDataPromise = deviceDataActions.loadDeviceData(
-          deviceId,
-          dataPeriod,
-          dataType
-        );
+        let deviceDataPromise = deviceDataActions.loadDeviceData(deviceId, dataPeriod, dataType);
         promises.push(deviceDataPromise);
       }
 
@@ -148,9 +127,7 @@ class DeviceDetailsSimple extends React.Component {
           toastr.error("Reload UI: " + error);
         });
     } else {
-      console.log(
-        "Auto Refresh wont happen because EditMode is on or autoRefresh is false"
-      );
+      console.log("Auto Refresh wont happen because EditMode is on or autoRefresh is false");
     }
   };
 
@@ -214,9 +191,7 @@ class DeviceDetailsSimple extends React.Component {
         commandActions
           .changeIntervalCommand(deviceId, deviceInterval)
           .then(() => {
-            toastr.success(
-              `Inserted CHANGE INTERVAL (${deviceInterval}) Command !`
-            );
+            toastr.success(`Inserted CHANGE INTERVAL (${deviceInterval}) Command !`);
           })
           .catch(error => {
             toastr.error(error);
@@ -224,10 +199,7 @@ class DeviceDetailsSimple extends React.Component {
         break;
       case "ledOn_Lora":
         commandActions
-          .sendGenericCommand(
-            deviceId,
-            commandHelper.getLoraWANCommand("LED_ON", 1)
-          )
+          .sendGenericCommand(deviceId, commandHelper.getLoraWANCommand("LED_ON", 1))
           .then(() => {
             toastr.success(`Inserted Led ON command !`);
           })
@@ -237,10 +209,7 @@ class DeviceDetailsSimple extends React.Component {
         break;
       case "ledOff_Lora":
         commandActions
-          .sendGenericCommand(
-            deviceId,
-            commandHelper.getLoraWANCommand("LED_OFF", 0)
-          )
+          .sendGenericCommand(deviceId, commandHelper.getLoraWANCommand("LED_OFF", 0))
           .then(() => {
             toastr.success(`Inserted Led OFF command !`);
           })
@@ -257,20 +226,7 @@ class DeviceDetailsSimple extends React.Component {
   getDataForBarChart = () => {
     let response = {
       data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      labels: [
-        "JAN",
-        "FEB",
-        "MAR",
-        "APR",
-        "MAY",
-        "JUN",
-        "JUL",
-        "AUG",
-        "SEP",
-        "OCT",
-        "NOV",
-        "DEC"
-      ],
+      labels: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"],
       name: ""
     };
     let { deviceDataMonthly } = this.props;
@@ -337,14 +293,7 @@ class DeviceDetailsSimple extends React.Component {
       autoRefreshInterval,
       collapseElementOpened
     } = this.state;
-    const {
-      device,
-      deviceLoading,
-      commandsData,
-      commandsLoading,
-      deviceData,
-      deviceDataLoading
-    } = this.props;
+    const { device, deviceLoading, commandsData, commandsLoading, deviceData, deviceDataLoading } = this.props;
     const deviceWrapper = {
       isActive: device.isActive,
       interval: deviceInterval
@@ -446,8 +395,5 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-var DeviceDetailsSimpleContainer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(DeviceDetailsSimple);
+var DeviceDetailsSimpleContainer = connect(mapStateToProps, mapDispatchToProps)(DeviceDetailsSimple);
 export default withRouter(DeviceDetailsSimpleContainer);

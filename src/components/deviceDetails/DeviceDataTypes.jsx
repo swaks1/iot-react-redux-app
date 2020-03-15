@@ -1,34 +1,16 @@
 import React from "react";
 
-import {
-  Card,
-  Row,
-  Col,
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input
-} from "reactstrap";
+import { Card, Row, Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
 import Spinner from "../_common/Spinner";
 
-const DeviceDataTypes = ({
-  lg,
-  md,
-  sm,
-  device,
-  deviceLoading,
-  onReloadDataTypeClick
-}) => {
+const DeviceDataTypes = ({ lg, md, sm, device, deviceLoading, onReloadDataTypeClick }) => {
   return (
     <>
       <Col lg={lg} md={md} sm={sm}>
         <Card style={{ backgroundColor: "#f7f6f6", padding: "20px 20px" }}>
           <Row>
             <Col md={10}>
-              <h4 className="text-center font-italic font-weight-light">
-                Device Data Types
-              </h4>
+              <h4 className="text-center font-italic font-weight-light">Device Data Types</h4>
             </Col>
             <Col md={2}>{deviceLoading ? <Spinner /> : null}</Col>
           </Row>
@@ -59,9 +41,8 @@ const DeviceDataTypes = ({
                 </Col>
                 <Col sm={12} className="text-left mb-3">
                   <span className="text-muted" style={{ fontSize: "0.8em" }}>
-                    If you cannot see some data type on the left list, but you
-                    think your devices are sending it, click the following
-                    refresh button.
+                    If you cannot see some data type on the left list, but you think your devices are sending it, click
+                    the following refresh button.
                   </span>
                   &nbsp;&nbsp;&nbsp;
                   <i

@@ -2,16 +2,7 @@ import React from "react";
 import classNames from "classnames";
 import { Line, Bar } from "react-chartjs-2";
 
-import {
-  Button,
-  ButtonGroup,
-  Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
-  Row,
-  Col
-} from "reactstrap";
+import { Button, ButtonGroup, Card, CardHeader, CardBody, CardTitle, Row, Col } from "reactstrap";
 
 import Spinner from "../_common/Spinner";
 import { LineChartHelper } from "../../utils/chartHelper";
@@ -30,18 +21,11 @@ const DeviceDataLineChart = ({
 }) => {
   let currentDataType = dataType;
   if (currentDataType == null) {
-    currentDataType =
-      deviceData != null && deviceData.length > 0
-        ? deviceData[0].dataItem.dataType
-        : "";
+    currentDataType = deviceData != null && deviceData.length > 0 ? deviceData[0].dataItem.dataType : "";
   }
 
   let response = helper.mapDataToResponse(true, deviceData, dataPeriod);
-  let lineChart = new LineChartHelper(
-    response.data,
-    response.labels,
-    response.name
-  );
+  let lineChart = new LineChartHelper(response.data, response.labels, response.name);
 
   return (
     <>
@@ -63,16 +47,10 @@ const DeviceDataLineChart = ({
                     <CardTitle tag="h3" className="mt-3">
                       <Row>
                         <Col md={10}>
-                          <i
-                            className={`fa fa-${helper.getIconForDataType(
-                              currentDataType
-                            )} text-info`}
-                          />{" "}
+                          <i className={`fa fa-${helper.getIconForDataType(currentDataType)} text-info`} />{" "}
                           {currentDataType}
                         </Col>
-                        <Col md={2}>
-                          {deviceDataLoading ? <Spinner /> : null}
-                        </Col>
+                        <Col md={2}>{deviceDataLoading ? <Spinner /> : null}</Col>
                       </Row>
                     </CardTitle>
                   </div>
@@ -80,10 +58,7 @@ const DeviceDataLineChart = ({
               </Col>
 
               <Col sm="6">
-                <ButtonGroup
-                  className="btn-group-toggle float-right"
-                  data-toggle="buttons"
-                >
+                <ButtonGroup className="btn-group-toggle float-right" data-toggle="buttons">
                   <Button
                     color="info"
                     id="2"
@@ -97,15 +72,8 @@ const DeviceDataLineChart = ({
                       onDataLineChartButtonClick("mostRecent");
                     }} //was firing twice for some reason ???
                   >
-                    <input
-                      defaultChecked
-                      className="d-none"
-                      name="options"
-                      type="radio"
-                    />
-                    <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
-                      Most Recent
-                    </span>
+                    <input defaultChecked className="d-none" name="options" type="radio" />
+                    <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">Most Recent</span>
                     <span className="d-block d-sm-none">
                       <i className="tim-icons icon-tap-02" />
                     </span>
@@ -125,9 +93,7 @@ const DeviceDataLineChart = ({
                     }} //was firing twice for some reason ???
                   >
                     <input className="d-none" name="options" type="radio" />
-                    <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
-                      Last 1h
-                    </span>
+                    <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">Last 1h</span>
                     <span className="d-block d-sm-none">
                       <i className="tim-icons icon-gift-2" />
                     </span>
@@ -147,9 +113,7 @@ const DeviceDataLineChart = ({
                     }} //was firing twice for some reason ???
                   >
                     <input className="d-none" name="options" type="radio" />
-                    <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
-                      Last 24h
-                    </span>
+                    <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">Last 24h</span>
                     <span className="d-block d-sm-none">
                       <i className="tim-icons icon-single-02" />
                     </span>
@@ -169,9 +133,7 @@ const DeviceDataLineChart = ({
                     }} //was firing twice for some reason ???
                   >
                     <input className="d-none" name="options" type="radio" />
-                    <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
-                      Daily
-                    </span>
+                    <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">Daily</span>
                     <span className="d-block d-sm-none">
                       <i className="tim-icons icon-single-02" />
                     </span>

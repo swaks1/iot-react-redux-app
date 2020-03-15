@@ -46,8 +46,7 @@ class TTNDevicesContainer extends React.Component {
 
     switch (btnId) {
       case "deleteBtn":
-        if (window.confirm("Are you sure you wish to delete this TTN device ?"))
-          this.handleDeleteClick(devId);
+        if (window.confirm("Are you sure you wish to delete this TTN device ?")) this.handleDeleteClick(devId);
         break;
       case "editBtn":
         this.setState({
@@ -79,16 +78,11 @@ class TTNDevicesContainer extends React.Component {
 
     var deviceToChange = this.getSelectedDevice(selectedDevice.devId);
 
-    if (
-      deviceToChange.connectedIotDevice &&
-      deviceToChange.connectedIotDevice._id
-    ) {
+    if (deviceToChange.connectedIotDevice && deviceToChange.connectedIotDevice._id) {
       ttnActions
         .deleteTTNDeviceInfo(deviceToChange.connectedIotDevice._id)
         .then(() => {
-          toastr.warning(
-            `Disconnected IOT device: ${deviceToChange.connectedIotDevice.name}`
-          );
+          toastr.warning(`Disconnected IOT device: ${deviceToChange.connectedIotDevice.name}`);
           this.updateTTNInfo();
         })
         .catch(error => {
@@ -104,10 +98,7 @@ class TTNDevicesContainer extends React.Component {
     let { ttnActions } = this.props;
     let { selectedDevice } = this.state;
 
-    if (
-      selectedDevice.connectedIotDevice &&
-      selectedDevice.connectedIotDevice._id
-    ) {
+    if (selectedDevice.connectedIotDevice && selectedDevice.connectedIotDevice._id) {
       ttnActions
         .saveExistingTTNDevice(selectedDevice.connectedIotDevice._id, {
           appId: selectedDevice.appId,
@@ -145,9 +136,7 @@ class TTNDevicesContainer extends React.Component {
       ttnActions
         .deleteTTNDeviceInfo(device.connectedIotDevice._id)
         .then(() => {
-          toastr.warning(
-            `Disconnected IOT device: ${device.connectedIotDevice.name} !`
-          );
+          toastr.warning(`Disconnected IOT device: ${device.connectedIotDevice.name} !`);
         })
         .catch(() => {
           toastr.error("Failed to deleted existing TTN Info");
@@ -199,9 +188,7 @@ class TTNDevicesContainer extends React.Component {
       ttnActions
         .registerNewTTNDevice(data)
         .then(ttnDevice => {
-          toastr.success(
-            `Successfully registered device: ${ttnDevice.devId} on app: ${ttnDevice.appId}!`
-          );
+          toastr.success(`Successfully registered device: ${ttnDevice.devId} on app: ${ttnDevice.appId}!`);
           this.setState({ showCreateNewDialog: false });
         })
         .catch(error => {
@@ -226,12 +213,7 @@ class TTNDevicesContainer extends React.Component {
   };
 
   render() {
-    const {
-      location,
-      ttnDevices,
-      ttnDevicesLoading,
-      notConnectedIotDevices
-    } = this.props;
+    const { location, ttnDevices, ttnDevicesLoading, notConnectedIotDevices } = this.props;
     const { editMode, actionExecuting, selectedDevice } = this.state;
     let redirectLocation = location.pathname.replace("/ttn", "/devices");
 
@@ -244,15 +226,10 @@ class TTNDevicesContainer extends React.Component {
             ) : (
               <Row>
                 <Col md="12" className="mt-2 pl-5">
-                  <h3 style={{ display: "inline-block", marginRight: "10px" }}>
-                    Devices
-                  </h3>
+                  <h3 style={{ display: "inline-block", marginRight: "10px" }}>Devices</h3>
                   <ReactTooltip effect="solid" id="customTooltip">
                     <div className="text-center">
-                      <h4 style={{ color: "white" }}>
-                        {" "}
-                        Register new device on the Things Network ?{" "}
-                      </h4>
+                      <h4 style={{ color: "white" }}> Register new device on the Things Network ? </h4>
                     </div>
                     <div
                       className="p-2 mb-2 bg-warning text-white"
@@ -265,19 +242,13 @@ class TTNDevicesContainer extends React.Component {
                       }}
                     >
                       <p style={{ maxWidth: "300px" }}>
-                        Currently all newly created devices will be regisered with{" "}
-                        <b>OTAA</b> Activation Method.
+                        Currently all newly created devices will be regisered with <b>OTAA</b> Activation Method.
                       </p>
                       <p style={{ maxWidth: "300px" }}>
-                        If <b>ABP</b> is the preffered one, after registering
-                        new device, click on the corresponding DevId in the
-                        table below and you will be redirected to the device details on TTN
-                        netowork.
+                        If <b>ABP</b> is the preffered one, after registering new device, click on the corresponding
+                        DevId in the table below and you will be redirected to the device details on TTN netowork.
                       </p>
-                      <p style={{ maxWidth: "300px" }}>
-                        Then just go to settings and change the Activation
-                        Method.
-                      </p>
+                      <p style={{ maxWidth: "300px" }}>Then just go to settings and change the Activation Method.</p>
                     </div>
                   </ReactTooltip>
                   <Button
@@ -376,8 +347,7 @@ const mapStateToProps = (state, ownProps) => {
   // add the iot device as property if the ttn and iot devices are connected
   ttnDevices = ttnDevices.map(ttnDevice => {
     var connectedIotDevice = iotDevices.find(
-      iotDevice =>
-        iotDevice.ttnInfo != null && iotDevice.ttnInfo.devId == ttnDevice.devId
+      iotDevice => iotDevice.ttnInfo != null && iotDevice.ttnInfo.devId == ttnDevice.devId
     );
     if (connectedIotDevice != null) {
       connectedIotDevices.push(connectedIotDevice);
@@ -395,8 +365,7 @@ const mapStateToProps = (state, ownProps) => {
   });
 
   let notConnectedIotDevices = iotDevices.filter(
-    iotDevice =>
-      connectedIotDevices.some(item => item._id == iotDevice._id) == false
+    iotDevice => connectedIotDevices.some(item => item._id == iotDevice._id) == false
   );
 
   return {
@@ -413,9 +382,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-var TTNDevicesContainerConnected = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TTNDevicesContainer);
+var TTNDevicesContainerConnected = connect(mapStateToProps, mapDispatchToProps)(TTNDevicesContainer);
 
 export default withRouter(TTNDevicesContainerConnected);

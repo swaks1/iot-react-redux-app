@@ -31,9 +31,7 @@ const DeviceLocationMap = ({ lg, md, sm, device, deviceLoading }) => {
     <>
       <Col lg={lg} md={md} sm={sm}>
         <Card style={{ backgroundColor: "#f7f6f6", padding: "10px 15px" }}>
-          <h4 className="text-center font-italic font-weight-light">
-            Device Location
-          </h4>
+          <h4 className="text-center font-italic font-weight-light">Device Location</h4>
           <LoaderOverlay isLoading={deviceLoading}>
             <div style={{ height: "40vh", width: "100%" }}>
               <GoogleMapReact
@@ -49,11 +47,7 @@ const DeviceLocationMap = ({ lg, md, sm, device, deviceLoading }) => {
                   scrollwheel: false
                 })}
               >
-                <SimpleMarker
-                  lat={device.location.lat}
-                  lng={device.location.lng}
-                  text={device.name}
-                />
+                <SimpleMarker lat={device.location.lat} lng={device.location.lng} text={device.name} />
               </GoogleMapReact>
             </div>
             <Row style={{ marginTop: "30px" }}>

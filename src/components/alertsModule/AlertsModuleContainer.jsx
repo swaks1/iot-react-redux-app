@@ -21,9 +21,7 @@ class AlertsModuleContainer extends React.Component {
   componentDidMount() {
     const deviceId = this.props.match.params.id;
     let { alertsModuleActions } = this.props;
-    alertsModuleActions
-      .loadAlertsModule(deviceId)
-      .catch(error => toastr.error(error));
+    alertsModuleActions.loadAlertsModule(deviceId).catch(error => toastr.error(error));
   }
 
   render() {
@@ -48,16 +46,10 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    alertsModuleActions: bindActionCreators(
-      importedAlertsModuleActions,
-      dispatch
-    )
+    alertsModuleActions: bindActionCreators(importedAlertsModuleActions, dispatch)
   };
 };
 
-var AlertsModuleContainerConnected = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AlertsModuleContainer);
+var AlertsModuleContainerConnected = connect(mapStateToProps, mapDispatchToProps)(AlertsModuleContainer);
 
 export default withRouter(AlertsModuleContainerConnected);

@@ -27,10 +27,7 @@ const DevicesCard = ({
             <CardHeader>
               <Row>
                 <Col md="12" className="mt-2 pl-5">
-                  <h3
-                    style={{ display: "inline-block", marginRight: "10px" }}
-                    className="title"
-                  >
+                  <h3 style={{ display: "inline-block", marginRight: "10px" }} className="title">
                     IOT Devices
                   </h3>
                   <ReactTooltip effect="solid" />
@@ -45,9 +42,7 @@ const DevicesCard = ({
                   >
                     +
                   </Button>
-                  <p className="category">
-                    All IoT devices registered on the API
-                  </p>
+                  <p className="category">All IoT devices registered on the API</p>
                 </Col>
               </Row>
             </CardHeader>
@@ -55,12 +50,7 @@ const DevicesCard = ({
               <Row>
                 <Col lg="12" md="12" sm="12" className="text-center">
                   {loading ? (
-                    <Loader
-                      type="Puff"
-                      color="#00BFFF"
-                      height="100"
-                      width="100"
-                    />
+                    <Loader type="Puff" color="#00BFFF" height="100" width="100" />
                   ) : (
                     <Table>
                       <thead className="text-primary">
@@ -95,35 +85,24 @@ const DevicesCard = ({
                               </span>
                             </td>
                             <td>
-                              <Link to={`${location.pathname}/${item._id}`}>
-                                {item.name}
-                              </Link>
+                              <Link to={`${location.pathname}/${item._id}`}>{item.name}</Link>
                             </td>
                             <td>{item.ttnInfo ? item.ttnInfo.devId : ""}</td>
                             <td>
                               {item.isActive ? (
-                                <i
-                                  className="fa fa-check fa-2x"
-                                  style={{ color: "green" }}
-                                ></i>
+                                <i className="fa fa-check fa-2x" style={{ color: "green" }}></i>
                               ) : (
-                                <i
-                                  className="fa fa-times fa-2x"
-                                  style={{ color: "red" }}
-                                />
+                                <i className="fa fa-times fa-2x" style={{ color: "red" }} />
                               )}
                             </td>
                             <td>{item.description}</td>
                             <td>
-                              {`(${item.location.lat} , ${item.location.lng})`}{" "}
-                              <br /> {`${item.location.description}`}
+                              {`(${item.location.lat} , ${item.location.lng})`} <br /> {`${item.location.description}`}
                             </td>
                             <td>
                               {
                                 <Switch
-                                  onChange={checked =>
-                                    onSwitchChange(checked, item._id)
-                                  }
+                                  onChange={checked => onSwitchChange(checked, item._id)}
                                   checked={item.isAddedToDashboard}
                                 />
                               }

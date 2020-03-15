@@ -4,13 +4,7 @@ import { Card, Row, Col, Button } from "reactstrap";
 
 import LoaderOverlay from "../../_common/LoaderOverlay";
 
-const TTNDevicesColumnActions = ({
-  editMode,
-  actionExecuting,
-  currentDevice,
-  selectedDevice,
-  onButtonClick
-}) => {
+const TTNDevicesColumnActions = ({ editMode, actionExecuting, currentDevice, selectedDevice, onButtonClick }) => {
   return editMode == false ? (
     <>
       <Button

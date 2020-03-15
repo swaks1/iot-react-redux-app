@@ -1,14 +1,5 @@
 import React from "react";
-import {
-  Card,
-  Row,
-  Col,
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input
-} from "reactstrap";
+import { Card, Row, Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
 import LoaderRow from "../../_common/LoaderRow";
 import SpanButton from "../../_common/SpanButton";
 import toastr from "toastr";
@@ -65,11 +56,7 @@ const TTNInfomationExistExtendedInformation = ({ extendedTTNInfo }) => {
                 text=""
                 tooltip="Copy to clipboard"
                 faIcon="copy"
-                onClick={() =>
-                  copyToClipborad(
-                    formatToHexArray(extendedTTNInfo.data.appSKey)
-                  )
-                }
+                onClick={() => copyToClipborad(formatToHexArray(extendedTTNInfo.data.appSKey))}
               />
             </div>
           </Col>
@@ -90,11 +77,7 @@ const TTNInfomationExistExtendedInformation = ({ extendedTTNInfo }) => {
                 text=""
                 tooltip="Copy to clipboard"
                 faIcon="copy"
-                onClick={() =>
-                  copyToClipborad(
-                    formatToHexArray(extendedTTNInfo.data.nwkSKey)
-                  )
-                }
+                onClick={() => copyToClipborad(formatToHexArray(extendedTTNInfo.data.nwkSKey))}
               />
             </div>
           </Col>
@@ -115,9 +98,7 @@ const TTNInfomationExistExtendedInformation = ({ extendedTTNInfo }) => {
                 text=""
                 tooltip="Copy to clipboard"
                 faIcon="copy"
-                onClick={() =>
-                  copyToClipborad(`0x${extendedTTNInfo.data.devAddr}`)
-                }
+                onClick={() => copyToClipborad(`0x${extendedTTNInfo.data.devAddr}`)}
               />
             </div>
           </Col>

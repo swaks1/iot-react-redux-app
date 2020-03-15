@@ -2,10 +2,7 @@ import * as types from "../actions/actionTypes";
 import initialState from "./initialState";
 import * as stateHelper from "../utils/stateHelper";
 
-export default function summaryDashboardReducer(
-  state = initialState.summaryDashboard,
-  action
-) {
+export default function summaryDashboardReducer(state = initialState.summaryDashboard, action) {
   if (action.type == types.BEGIN_LOAD_SUMMARY_DASHBOARD) {
     return {
       ...state,
@@ -118,9 +115,7 @@ export default function summaryDashboardReducer(
     };
   }
 
-  if (
-    action.type == types.LOAD_DEVICES_WITH_DATA_ON_SUMMARY_DASHBOARD_SUCCESS
-  ) {
+  if (action.type == types.LOAD_DEVICES_WITH_DATA_ON_SUMMARY_DASHBOARD_SUCCESS) {
     return {
       ...state,
       devicesWithDataState: {

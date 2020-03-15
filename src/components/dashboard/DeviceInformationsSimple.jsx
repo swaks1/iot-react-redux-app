@@ -11,9 +11,7 @@ const DeviceInformationsSimple = ({ lg, md, sm, device, deviceLoading }) => {
         <Card style={{ background: "transparent", padding: "10px 15px" }}>
           <Row>
             <Col md={10} className="text-center">
-              <h4 className="text-center font-italic font-weight-light">
-                Device Information{" "}
-              </h4>
+              <h4 className="text-center font-italic font-weight-light">Device Information </h4>
             </Col>
             <Col md={1} className="text-center">
               {deviceLoading ? <Spinner /> : null}
@@ -79,9 +77,7 @@ const DeviceInformationsSimple = ({ lg, md, sm, device, deviceLoading }) => {
               <span>TTN DevId:</span>
             </Col>
             <Col className="text-left" md={7} style={{ paddingLeft: "0px" }}>
-              <span className="font-weight-bold">
-                {device.ttnInfo ? device.ttnInfo.devId : ""}
-              </span>
+              <span className="font-weight-bold">{device.ttnInfo ? device.ttnInfo.devId : ""}</span>
             </Col>
           </Row>
         </Card>

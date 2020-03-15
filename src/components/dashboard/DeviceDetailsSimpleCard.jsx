@@ -58,11 +58,7 @@ const DeviceDetailsSimpleCard = ({
                             className="react-switch"
                             id="normal-switch"
                           />
-                          <span
-                            style={{ marginLeft: "5px", cursor: "pointer" }}
-                          >
-                            Auto Refresh
-                          </span>
+                          <span style={{ marginLeft: "5px", cursor: "pointer" }}>Auto Refresh</span>
                         </label>
                         {autoRefreshOn ? (
                           <>
@@ -82,11 +78,7 @@ const DeviceDetailsSimpleCard = ({
                               onChange={onAutoRefreshIntervalChange}
                               value={autoRefreshInterval}
                             />
-                            <span
-                              style={{ fontSize: "0.8em", marginLeft: "5px" }}
-                            >
-                              seconds
-                            </span>
+                            <span style={{ fontSize: "0.8em", marginLeft: "5px" }}>seconds</span>
                           </>
                         ) : null}
                       </div>
@@ -143,8 +135,7 @@ const DeviceDetailsSimpleCard = ({
                           style={{ marginBottom: "10px", padding: "0px 0px" }}
                         >
                           <span style={{ fontSize: "0.8em" }}>
-                            <i className="fas fa-angle-double-down"></i> View
-                            More
+                            <i className="fas fa-angle-double-down"></i> View More
                           </span>
                         </Button>
                       </Col>
@@ -153,13 +144,7 @@ const DeviceDetailsSimpleCard = ({
 
                   <Collapse isOpen={collapseElementOpened}>
                     <Row>
-                      <DeviceLocationMap
-                        lg="5"
-                        md="12"
-                        sm="12"
-                        device={device}
-                        deviceLoading={deviceLoading}
-                      />
+                      <DeviceLocationMap lg="5" md="12" sm="12" device={device} deviceLoading={deviceLoading} />
 
                       <DeviceDataBarChart
                         lg="4"
@@ -187,8 +172,7 @@ const DeviceDetailsSimpleCard = ({
                             style={{ marginBottom: "10px", padding: "0px 0px" }}
                           >
                             <span style={{ fontSize: "0.8em" }}>
-                              <i className="fas fa-angle-double-up"></i> Show
-                              Less
+                              <i className="fas fa-angle-double-up"></i> Show Less
                             </span>
                           </Button>
                         </Col>

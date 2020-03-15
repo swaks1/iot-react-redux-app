@@ -7,16 +7,7 @@ class MinMaxAvgCard extends React.Component {
   }
 
   render() {
-    let {
-      title,
-      faIcon,
-      minDevice,
-      maxDevice,
-      avg,
-      selected,
-      onChangeDataType,
-      onChangeDevice
-    } = this.props;
+    let { title, faIcon, minDevice, maxDevice, avg, selected, onChangeDataType, onChangeDevice } = this.props;
 
     return (
       <>
@@ -29,51 +20,33 @@ class MinMaxAvgCard extends React.Component {
             <span>{title}</span> <i className={`fa fa-${faIcon}`}></i>
           </div>
           <ul className="list-group list-group-flush">
-            <li
-              className="list-group-item"
-              onClick={() => onChangeDevice(minDevice.id)}
-            >
+            <li className="list-group-item" onClick={() => onChangeDevice(minDevice.id)}>
               <div className="row">
                 <div className="col col-md-1 text-center">
                   <span className="minMaxAvg">MIN</span>
                 </div>
                 <div className="col col-md-7 text-center">
                   <div className="device-name">{minDevice.name}</div>
-                  <div className="device-date text-muted">
-                    {minDevice.date && minDevice.date.substring(0, 10)}
-                  </div>
-                  <div className="device-date text-muted">
-                    {minDevice.date && minDevice.date.substring(11, 19)}
-                  </div>
+                  <div className="device-date text-muted">{minDevice.date && minDevice.date.substring(0, 10)}</div>
+                  <div className="device-date text-muted">{minDevice.date && minDevice.date.substring(11, 19)}</div>
                 </div>
                 <div className="col col-md-4 text-center">
-                  <span className="device-value">
-                    {minDevice.value.toFixed(2)}
-                  </span>
+                  <span className="device-value">{minDevice.value.toFixed(2)}</span>
                 </div>
               </div>
             </li>
-            <li
-              className="list-group-item"
-              onClick={() => onChangeDevice(maxDevice.id)}
-            >
+            <li className="list-group-item" onClick={() => onChangeDevice(maxDevice.id)}>
               <div className="row">
                 <div className="col col-md-1 text-center">
                   <span className="minMaxAvg">MAX</span>
                 </div>
                 <div className="col col-md-7 text-center">
                   <div className="device-name">{maxDevice.name}</div>
-                  <div className="device-date text-muted">
-                    {maxDevice.date && maxDevice.date.substring(0, 10)}
-                  </div>
-                  <div className="device-date text-muted">
-                    {maxDevice.date && maxDevice.date.substring(11, 19)}
-                  </div>
+                  <div className="device-date text-muted">{maxDevice.date && maxDevice.date.substring(0, 10)}</div>
+                  <div className="device-date text-muted">{maxDevice.date && maxDevice.date.substring(11, 19)}</div>
                 </div>
                 <div className="col col-md-4 text-center">
-                  <span className="device-value">
-                    {maxDevice.value.toFixed(2)}
-                  </span>
+                  <span className="device-value">{maxDevice.value.toFixed(2)}</span>
                 </div>
               </div>
             </li>

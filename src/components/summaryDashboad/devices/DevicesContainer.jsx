@@ -18,12 +18,7 @@ class DevicesContainer extends React.Component {
   }
 
   render() {
-    let {
-      devicesWithDataMapped,
-      loading,
-      selectedInfo,
-      onChangeDevice
-    } = this.props;
+    let { devicesWithDataMapped, loading, selectedInfo, onChangeDevice } = this.props;
 
     return (
       <>
@@ -32,11 +27,7 @@ class DevicesContainer extends React.Component {
         ) : (
           <Row>
             {devicesWithDataMapped.map(device => (
-              <Col
-                md={2}
-                className="d-flex justify-content-center"
-                key={device.id}
-              >
+              <Col md={2} className="d-flex justify-content-center" key={device.id}>
                 {device.dataType &&
                 device.dataItem &&
                 device.dataItem.dataValue != null &&
@@ -46,23 +37,15 @@ class DevicesContainer extends React.Component {
                     minValue={device.dataType.minValue}
                     maxValue={device.dataType.maxValue}
                     currentValue={device.dataItem.dataValue}
-                    deviceName={
-                      device.name.length > 15
-                        ? `${device.name.substring(0, 16) + "..."}`
-                        : device.name
-                    }
-                    selected={
-                      selectedInfo.selectedDevice.id &&
-                      selectedInfo.selectedDevice.id == device.id
-                    }
+                    deviceName={device.name.length > 15 ? `${device.name.substring(0, 16) + "..."}` : device.name}
+                    selected={selectedInfo.selectedDevice.id && selectedInfo.selectedDevice.id == device.id}
                     onChangeDevice={onChangeDevice}
                   />
                 ) : (
                   <CustomCard
                     card={{
                       className: `custom-gauge-card ${
-                        selectedInfo.selectedDevice.id &&
-                        selectedInfo.selectedDevice.id == device.id
+                        selectedInfo.selectedDevice.id && selectedInfo.selectedDevice.id == device.id
                           ? "border-info"
                           : ""
                       }`,
@@ -75,9 +58,7 @@ class DevicesContainer extends React.Component {
                           <Row>
                             <Col md={12} className="text-center">
                               <div>
-                                {device.name.length > 15
-                                  ? `${device.name.substring(0, 16) + "..."}`
-                                  : device.name}
+                                {device.name.length > 15 ? `${device.name.substring(0, 16) + "..."}` : device.name}
                               </div>
                             </Col>
                             <Col md={12} className="text-center mt-1">
@@ -124,10 +105,8 @@ const mapStateToProps = (state, ownProps) => {
     let iotDevices = allDevicesState.devices;
     let devicesWithData = summaryDevicesWithDataState.devices;
     let selectedDataTypeName = ownProps.selectedInfo.selectedDataTypeName;
-    let dataType = summaryDataTypesState.dataTypes.find(
-      item => item.name == selectedDataTypeName
-    );
-    
+    let dataType = summaryDataTypesState.dataTypes.find(item => item.name == selectedDataTypeName);
+
     if (dataType != null) {
       devicesWithDataMapped = devicesWithData.map(device => {
         let data = device.data.find(item => item.dataType == dataType.name);
@@ -155,16 +134,10 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    summaryDashboardActions: bindActionCreators(
-      importedSummaryDashboardActions,
-      dispatch
-    )
+    summaryDashboardActions: bindActionCreators(importedSummaryDashboardActions, dispatch)
   };
 };
 
-var DevicesContainerConnected = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(DevicesContainer);
+var DevicesContainerConnected = connect(mapStateToProps, mapDispatchToProps)(DevicesContainer);
 
 export default withRouter(DevicesContainerConnected);

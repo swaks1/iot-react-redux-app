@@ -28,24 +28,16 @@ class SummaryDashboardContainer extends React.Component {
 
   componentDidMount() {
     let { summaryDashboardActions } = this.props;
-    summaryDashboardActions
-      .loadSummaryDashboard("beehiveDashboard")
-      .catch(error => toastr.error(error));
+    summaryDashboardActions.loadSummaryDashboard("beehiveDashboard").catch(error => toastr.error(error));
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     let reloadDevicesWithData = false;
-    if (
-      prevProps.summaryDeviceIdsState.deviceIds !==
-      this.props.summaryDeviceIdsState.deviceIds
-    ) {
+    if (prevProps.summaryDeviceIdsState.deviceIds !== this.props.summaryDeviceIdsState.deviceIds) {
       reloadDevicesWithData = true;
       this.checkSelectedDevice();
     }
-    if (
-      prevProps.summaryDataTypesState.dataTypes !==
-      this.props.summaryDataTypesState.dataTypes
-    ) {
+    if (prevProps.summaryDataTypesState.dataTypes !== this.props.summaryDataTypesState.dataTypes) {
       reloadDevicesWithData = true;
       this.checkSelectedDataType();
     }
@@ -55,9 +47,7 @@ class SummaryDashboardContainer extends React.Component {
 
     if (reloadDevicesWithData) {
       let deviceIds = this.props.summaryDeviceIdsState.deviceIds;
-      let dataTypeNames = this.props.summaryDataTypesState.dataTypes.map(
-        item => item.name
-      );
+      let dataTypeNames = this.props.summaryDataTypesState.dataTypes.map(item => item.name);
       let { periodInPast } = this.props;
       this.loadDeviceWithData(deviceIds, dataTypeNames, periodInPast);
     }
@@ -65,9 +55,7 @@ class SummaryDashboardContainer extends React.Component {
 
   checkSelectedDevice = () => {
     let deviceIds = this.props.summaryDeviceIdsState.deviceIds;
-    let selectedDeviceId = this.state.selectedDevice
-      ? this.state.selectedDevice.id
-      : null;
+    let selectedDeviceId = this.state.selectedDevice ? this.state.selectedDevice.id : null;
     if (!deviceIds.includes(selectedDeviceId)) {
       let newId = deviceIds.length > 0 ? deviceIds[0] : null;
       this.changeSelectedDevice(newId);
@@ -79,20 +67,15 @@ class SummaryDashboardContainer extends React.Component {
 
     // change global selected dataType
     let selectedDataTypeName = this.state.selectedDataTypeName;
-    let exists =
-      dataTypes.find(dataType => dataType.name == selectedDataTypeName) != null;
+    let exists = dataTypes.find(dataType => dataType.name == selectedDataTypeName) != null;
     if (!exists) {
       let newDataTypeName = dataTypes.length > 0 ? dataTypes[0].name : null;
       this.changeSelectedDataType(newDataTypeName);
     }
 
     //change selected device dataType
-    let deviceDataType =
-      this.state.selectedDevice != null
-        ? this.state.selectedDevice.dataType
-        : null;
-    exists =
-      dataTypes.find(dataType => dataType.name == deviceDataType) != null;
+    let deviceDataType = this.state.selectedDevice != null ? this.state.selectedDevice.dataType : null;
+    exists = dataTypes.find(dataType => dataType.name == deviceDataType) != null;
     if (!exists) {
       let newDataTypeName = dataTypes.length > 0 ? dataTypes[0].name : null;
       this.changeSelectedDeviceDataType(newDataTypeName);
@@ -103,12 +86,7 @@ class SummaryDashboardContainer extends React.Component {
     if (deviceIds.length == 0 || dataTypeNames.length == 0) {
       toastr.warning("devicesIds or dataTypes are empty !");
     }
-    console.log(
-      "getting device with data: ",
-      deviceIds,
-      dataTypeNames,
-      periodInPast
-    );
+    console.log("getting device with data: ", deviceIds, dataTypeNames, periodInPast);
     let { summaryDashboardActions } = this.props;
     summaryDashboardActions
       .loadDevicesWithData(deviceIds, dataTypeNames, periodInPast)
@@ -191,22 +169,13 @@ class SummaryDashboardContainer extends React.Component {
               <CardHeader>
                 <>
                   <div className="data-type-with-icon">
-                    <span className="text-capitalize">
-                      {this.state.selectedDataTypeName}
-                    </span>
-                    <i
-                      className={`fa fa-${helper.getIconForDataType(
-                        this.state.selectedDataTypeName
-                      )}`}
-                    ></i>
+                    <span className="text-capitalize">{this.state.selectedDataTypeName}</span>
+                    <i className={`fa fa-${helper.getIconForDataType(this.state.selectedDataTypeName)}`}></i>
                   </div>
                 </>
               </CardHeader>
               <CardBody>
-                <DevicesContainer
-                  selectedInfo={this.state}
-                  onChangeDevice={this.changeSelectedDevice}
-                />
+                <DevicesContainer selectedInfo={this.state} onChangeDevice={this.changeSelectedDevice} />
               </CardBody>
             </Card>
           </Col>
@@ -218,11 +187,8 @@ class SummaryDashboardContainer extends React.Component {
               <CardHeader>
                 <>
                   <h3>
-                    {this.state.selectedDevice &&
-                    this.state.selectedDataTypeName ? (
-                      <Link to={`/app/devices/${this.state.selectedDevice.id}`}>
-                        {this.state.selectedDevice.name}
-                      </Link>
+                    {this.state.selectedDevice && this.state.selectedDataTypeName ? (
+                      <Link to={`/app/devices/${this.state.selectedDevice.id}`}>{this.state.selectedDevice.name}</Link>
                     ) : (
                       ""
                     )}
@@ -281,16 +247,10 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    summaryDashboardActions: bindActionCreators(
-      importedSummaryDashboardActions,
-      dispatch
-    )
+    summaryDashboardActions: bindActionCreators(importedSummaryDashboardActions, dispatch)
   };
 };
 
-var SummaryDashboardContainerConnected = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SummaryDashboardContainer);
+var SummaryDashboardContainerConnected = connect(mapStateToProps, mapDispatchToProps)(SummaryDashboardContainer);
 
 export default withRouter(SummaryDashboardContainerConnected);

@@ -4,14 +4,12 @@ import DefaultLayout from "./layout/Default.jsx";
 
 class App extends React.Component {
   render() {
+    console.log(process.env.EXTEND_ESLINT);
     let thisProps = this.props; //for passing current props also
     return (
       <>
         <Switch>
-          <Route
-            path="/app"
-            render={props => <DefaultLayout {...props} {...thisProps} />}
-          />
+          <Route path="/app" render={props => <DefaultLayout {...props} {...thisProps} />} />
           <Redirect from="/" to="/app/dashboard" />
         </Switch>
       </>

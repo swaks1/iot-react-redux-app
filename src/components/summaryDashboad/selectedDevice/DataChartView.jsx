@@ -19,11 +19,7 @@ class DataChartView extends React.Component {
   componentDidMount() {
     let { deviceDataActions } = this.props;
     if (this.props.selectedInfo && this.props.selectedInfo.selectedDevice) {
-      const {
-        id,
-        dataType,
-        dataPeriod
-      } = this.props.selectedInfo.selectedDevice;
+      const { id, dataType, dataPeriod } = this.props.selectedInfo.selectedDevice;
       if (id != null && dataType != null && dataPeriod != null) {
         deviceDataActions.loadDeviceData(id, dataPeriod, dataType);
       }
@@ -33,13 +29,9 @@ class DataChartView extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     let { deviceDataActions } = this.props;
     let prevSelectedDevice =
-      prevProps.selectedInfo && prevProps.selectedInfo.selectedDevice
-        ? prevProps.selectedInfo.selectedDevice
-        : {};
+      prevProps.selectedInfo && prevProps.selectedInfo.selectedDevice ? prevProps.selectedInfo.selectedDevice : {};
     let currentSelectedDevice =
-      this.props.selectedInfo && this.props.selectedInfo.selectedDevice
-        ? this.props.selectedInfo.selectedDevice
-        : {};
+      this.props.selectedInfo && this.props.selectedInfo.selectedDevice ? this.props.selectedInfo.selectedDevice : {};
 
     if (
       prevSelectedDevice.id !== currentSelectedDevice.id ||
@@ -54,14 +46,7 @@ class DataChartView extends React.Component {
   }
 
   render() {
-    let {
-      selectedInfo,
-      onChangeDeviceDataPeriod,
-      loading,
-      data,
-      dataType,
-      dataPeriod
-    } = this.props;
+    let { selectedInfo, onChangeDeviceDataPeriod, loading, data, dataType, dataPeriod } = this.props;
 
     return (
       <>
@@ -87,11 +72,7 @@ const mapStateToProps = (state, ownProps) => {
   let dataType = "";
   let dataPeriod = "mostRecent";
 
-  if (
-    ownProps.selectedInfo &&
-    ownProps.selectedInfo.selectedDevice &&
-    ownProps.selectedInfo.selectedDevice.id
-  ) {
+  if (ownProps.selectedInfo && ownProps.selectedInfo.selectedDevice && ownProps.selectedInfo.selectedDevice.id) {
     dataType = ownProps.selectedInfo.selectedDevice.dataType;
     dataPeriod = ownProps.selectedInfo.selectedDevice.dataPeriod;
 
@@ -117,9 +98,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-var DataChartViewConnected = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(DataChartView);
+var DataChartViewConnected = connect(mapStateToProps, mapDispatchToProps)(DataChartView);
 
 export default withRouter(DataChartViewConnected);

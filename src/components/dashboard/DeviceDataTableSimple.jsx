@@ -65,9 +65,7 @@ const DeviceDataTableSimple = ({
         >
           <Row>
             <Col md={11} className="text-center">
-              <h4 className="text-center font-italic font-weight-light">
-                Device Data{" "}
-              </h4>
+              <h4 className="text-center font-italic font-weight-light">Device Data </h4>
             </Col>
             <Col md={1} className="text-center">
               {deviceDataLoading ? <Spinner /> : null}
@@ -77,10 +75,7 @@ const DeviceDataTableSimple = ({
             {dataTypesArray.map((array, arrayIndex) => {
               return (
                 <Col md={12} key={`group-${arrayIndex}`}>
-                  <ButtonGroup
-                    className="btn-group-toggle"
-                    data-toggle="buttons"
-                  >
+                  <ButtonGroup className="btn-group-toggle" data-toggle="buttons">
                     {array.map((item, index) => {
                       return (
                         <Button
@@ -97,15 +92,8 @@ const DeviceDataTableSimple = ({
                             onDataTypeChange(item);
                           }} //was firing twice for some reason ???
                         >
-                          <input
-                            defaultChecked
-                            className="d-none"
-                            name="options"
-                            type="radio"
-                          />
-                          <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">
-                            {item}
-                          </span>
+                          <input defaultChecked className="d-none" name="options" type="radio" />
+                          <span className="d-none d-sm-block d-md-block d-lg-block d-xl-block">{item}</span>
                           <span className="d-block d-sm-none">
                             <i className="tim-icons icon-tap-02" />
                           </span>
@@ -119,13 +107,11 @@ const DeviceDataTableSimple = ({
           </Row>
           <TableWithPagination
             className="simpleTable"
-            tableHeadColumns={["DateTime", "Type", "Value/Average", ""].map(
-              (item, index) => (
-                <th className="text-center" key={`th-${index}`}>
-                  {item}
-                </th>
-              )
-            )}
+            tableHeadColumns={["DateTime", "Type", "Value/Average", ""].map((item, index) => (
+              <th className="text-center" key={`th-${index}`}>
+                {item}
+              </th>
+            ))}
             pageSize={5}
             data={tableData}
             mapFunction={item => {
@@ -139,9 +125,7 @@ const DeviceDataTableSimple = ({
                     {item.channel ? (
                       <>
                         <ReactTooltip effect="solid" />
-                        <span
-                          style={{ paddingLeft: "10px", fontSize: "0.8em" }}
-                        >
+                        <span style={{ paddingLeft: "10px", fontSize: "0.8em" }}>
                           {item.channel == "LoraWAN" ? (
                             <i className="fa fa-signal" data-tip="LoraWAN"></i>
                           ) : (

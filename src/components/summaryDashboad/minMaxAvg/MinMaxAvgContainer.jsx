@@ -18,13 +18,7 @@ class MinMaxAvgContainer extends React.Component {
   }
 
   render() {
-    let {
-      minMaxDataTypes,
-      loading,
-      selectedInfo,
-      onChangeDataType,
-      onChangeDevice
-    } = this.props;
+    let { minMaxDataTypes, loading, selectedInfo, onChangeDataType, onChangeDevice } = this.props;
     return (
       <>
         {loading ? (
@@ -143,10 +137,7 @@ const mapStateToProps = (state, ownProps) => {
 
   let loading = true;
   let minMaxDataTypes = [];
-  if (
-    allDevicesState.loading == false &&
-    summaryDevicesWithDataState.loading == false
-  ) {
+  if (allDevicesState.loading == false && summaryDevicesWithDataState.loading == false) {
     let summaryDevices = summaryDevicesWithDataState.devices;
     let uniqueDataTypes = getUniqueDataTypes(summaryDevices);
 
@@ -155,18 +146,11 @@ const mapStateToProps = (state, ownProps) => {
       let currentSum = 0;
       let currentNumDevices = 0;
       for (let device of summaryDevices) {
-        let dataWithCurrentDataType = device.data.find(
-          item => item.dataType == dataType
-        );
+        let dataWithCurrentDataType = device.data.find(item => item.dataType == dataType);
         if (dataWithCurrentDataType) {
           var value = parseFloat(dataWithCurrentDataType.dataValue);
           if (!isNaN(value)) {
-            tryUpdateDataTypeObj(
-              dataTypeObj,
-              device.id,
-              value,
-              dataWithCurrentDataType.created
-            );
+            tryUpdateDataTypeObj(dataTypeObj, device.id, value, dataWithCurrentDataType.created);
             currentSum += value;
             currentNumDevices++;
           }
@@ -183,16 +167,10 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    summaryDashboardActions: bindActionCreators(
-      importedSummaryDashboardActions,
-      dispatch
-    )
+    summaryDashboardActions: bindActionCreators(importedSummaryDashboardActions, dispatch)
   };
 };
 
-var MinMaxAvgContainerConnected = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MinMaxAvgContainer);
+var MinMaxAvgContainerConnected = connect(mapStateToProps, mapDispatchToProps)(MinMaxAvgContainer);
 
 export default withRouter(MinMaxAvgContainerConnected);

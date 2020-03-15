@@ -22,7 +22,7 @@
     "react-perfect-scrollbar": "^1.4.4",
     "react-redux": "^6.0.1",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "2.1.3",
+    "react-scripts": "^3.4.0",
     "react-switch": "^5.0.1",
     "react-tooltip": "^3.11.2",
     "reactstrap": "^8.2.0",
@@ -35,10 +35,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "compile-scss": "node-sass src/assets/scss/black-dashboard-react.scss src/assets/css/black-dashboard-react.css"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
+    "compile-scss": "node-sass src/assets/scss/black-dashboard-react.scss src/assets/css/black-dashboard-react.css",
+    "prettier": "prettier --write src/**/*.{js,jsx}",
+    "eslint": "eslint src/**/*.{js,jsx}"
   },
   "browserslist": [
     ">0.2%",
@@ -47,6 +46,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "prettier": "^1.19.1",
     "redux-immutable-state-invariant": "^2.1.0"
   }
 }

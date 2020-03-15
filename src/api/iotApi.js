@@ -234,9 +234,7 @@ class IotApi {
   static loadDeviceDataMonthly(deviceId, deviceType) {
     return new Promise((resolve, reject) => {
       axios
-        .get(
-          `${config.apiUrl}/data?deviceId=${deviceId}&period=monthly&pageSize=12&dataType=${deviceType}`
-        )
+        .get(`${config.apiUrl}/data?deviceId=${deviceId}&period=monthly&pageSize=12&dataType=${deviceType}`)
         .then(response => {
           custom(resolve, response);
         })
@@ -365,10 +363,7 @@ class IotApi {
   static updatePeriodInPast(dashboardName, periodInPast) {
     return new Promise((resolve, reject) => {
       axios
-        .post(
-          `${config.apiUrl}/summaryDashboard/${dashboardName}/updatePeriodInPast`,
-          { periodInPast: periodInPast }
-        )
+        .post(`${config.apiUrl}/summaryDashboard/${dashboardName}/updatePeriodInPast`, { periodInPast: periodInPast })
         .then(response => {
           custom(resolve, response);
         })
@@ -381,10 +376,7 @@ class IotApi {
   static updateDevicesOnSummaryDashboard(dashboardName, deviceIds) {
     return new Promise((resolve, reject) => {
       axios
-        .post(
-          `${config.apiUrl}/summaryDashboard/${dashboardName}/updateDevices`,
-          { devices: deviceIds }
-        )
+        .post(`${config.apiUrl}/summaryDashboard/${dashboardName}/updateDevices`, { devices: deviceIds })
         .then(response => {
           custom(resolve, response);
         })
@@ -397,10 +389,7 @@ class IotApi {
   static updateDataTypesOnSummaryDashboard(dashboardName, dataTypes) {
     return new Promise((resolve, reject) => {
       axios
-        .post(
-          `${config.apiUrl}/summaryDashboard/${dashboardName}/updateDataTypes`,
-          { dataTypes: dataTypes }
-        )
+        .post(`${config.apiUrl}/summaryDashboard/${dashboardName}/updateDataTypes`, { dataTypes: dataTypes })
         .then(response => {
           custom(resolve, response);
         })
@@ -443,9 +432,7 @@ class IotApi {
   static loadAlertsHistory(deviceId, pageSize) {
     return new Promise((resolve, reject) => {
       axios
-        .get(
-          `${config.apiUrl}/alertsHistory?deviceId=${deviceId}&pageSize=${pageSize}`
-        )
+        .get(`${config.apiUrl}/alertsHistory?deviceId=${deviceId}&pageSize=${pageSize}`)
         .then(response => {
           custom(resolve, response);
         })

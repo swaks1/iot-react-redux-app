@@ -4,12 +4,8 @@ import initialState from "./initialState";
 
 export default function commandReducer(state = initialState.commands, action) {
   if (action.type == types.BEGIN_DEVICE_COMMANDS) {
-    const otherCommands = state.filter(
-      item => item.deviceId != action.data.deviceId
-    );
-    const thisCommand = state.filter(
-      item => item.deviceId == action.data.deviceId
-    )[0];
+    const otherCommands = state.filter(item => item.deviceId != action.data.deviceId);
+    const thisCommand = state.filter(item => item.deviceId == action.data.deviceId)[0];
 
     let command = {};
     if (thisCommand != null) {
@@ -27,12 +23,8 @@ export default function commandReducer(state = initialState.commands, action) {
   }
 
   if (action.type == types.END_DEVICE_COMMANDS) {
-    const otherCommands = state.filter(
-      item => item.deviceId != action.data.deviceId
-    );
-    const thisCommand = state.filter(
-      item => item.deviceId == action.data.deviceId
-    )[0];
+    const otherCommands = state.filter(item => item.deviceId != action.data.deviceId);
+    const thisCommand = state.filter(item => item.deviceId == action.data.deviceId)[0];
 
     let command = {};
     command = Object.assign({}, thisCommand);
@@ -49,9 +41,7 @@ export default function commandReducer(state = initialState.commands, action) {
     action.type == types.UPDATE_LOCATION_COMMAND_SUCCESS ||
     action.type == types.CHANGE_INTERVAL_COMMAND_SUCCESS
   ) {
-    const otherCommands = state.filter(
-      item => item.deviceId != action.data.deviceId
-    );
+    const otherCommands = state.filter(item => item.deviceId != action.data.deviceId);
     let command = {
       loading: false,
       deviceId: action.data.deviceId,

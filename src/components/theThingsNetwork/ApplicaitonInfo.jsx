@@ -19,9 +19,7 @@ class ApplicaitonInfo extends React.Component {
 
   componentDidMount() {
     let { ttnActions } = this.props;
-    ttnActions
-      .loadTTNApplicationInfo()
-      .catch(error => toastr.error(error));
+    ttnActions.loadTTNApplicationInfo().catch(error => toastr.error(error));
   }
 
   render() {
@@ -37,9 +35,7 @@ class ApplicaitonInfo extends React.Component {
               <Label md={3} className={"text-right"}>
                 Applicaiton Id:
               </Label>
-              <span className={"text-left col-md-7 font-weight-bold"}>
-                {applicationInfo.appId}
-              </span>
+              <span className={"text-left col-md-7 font-weight-bold"}>{applicationInfo.appId}</span>
             </Col>
             <Col md="8" className="text-center">
               <Row>
@@ -94,9 +90,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-var ApplicaitonInfoConnected = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ApplicaitonInfo);
+var ApplicaitonInfoConnected = connect(mapStateToProps, mapDispatchToProps)(ApplicaitonInfo);
 
 export default withRouter(ApplicaitonInfoConnected);
