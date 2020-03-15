@@ -4,7 +4,6 @@ import DefaultLayout from "./layout/Default.jsx";
 
 class App extends React.Component {
   render() {
-    console.log(process.env.EXTEND_ESLINT);
     let thisProps = this.props; //for passing current props also
     return (
       <>
