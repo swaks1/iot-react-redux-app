@@ -4,15 +4,15 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import * as importedTTNActions from "../../../redux/actions/ttnActions";
+import * as importedTTNActions from "../../../../redux/actions/ttnActions";
 
 import toastr from "toastr";
 
 import { Card, Row, Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
-import LoaderOverlay from "../../_common/LoaderOverlay";
+import LoaderOverlay from "../../../_common/LoaderOverlay";
 import TTNInfomationExist from "./TTNInfomationExist";
 import TTNInfomationMissing from "./TTNInfomationMissing";
-
+ 
 class TTNInformationContainer extends React.Component {
   constructor(props) {
     super(props);

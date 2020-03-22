@@ -23,15 +23,9 @@ import {
 
 import LoaderRow from "../_common/LoaderRow";
 import Switch from "react-switch";
-import DeviceInformations from "./DeviceInformations";
-import DeviceDataTypes from "./DeviceDataTypes";
-import DeviceConnections from "./DeviceConnections";
-import DeviceCommands from "./DeviceCommands";
-import DeviceCommandsHistory from "./DeviceCommandsHistory";
-import DeviceDataTable from "./DeviceDataTable";
-import DeviceDataLineChart from "./DeviceDataLineChart";
-import DeviceDataBarChart from "./DeviceDataBarChart";
-import DeviceLocationMap from "./DeviceLocationMap";
+import BasicDetailsContainer from "./basicDetails/BasicDetailsContainer";
+import DataContainer from "./data/DataContainer";
+import CommandsContainer from "./commands/CommandsContainer";
 import AlertsModuleContainer from "../alertsModule/AlertsModuleContainer";
 
 class DeviceDetailsCard extends React.Component {
@@ -58,33 +52,7 @@ class DeviceDetailsCard extends React.Component {
   };
 
   render() {
-    const {
-      toggleAutoRefresh,
-      autoRefreshOn,
-      autoRefreshInterval,
-      onAutoRefreshIntervalChange,
-      device,
-      deviceLoading,
-      dataType,
-      onDataTypeChange,
-      location,
-      onRefreshClick,
-      onReloadDataTypeClick,
-      onDeviceFieldChange,
-      editMode,
-      onEditInfo,
-      onCancelEditInfo,
-      onSaveInfo,
-      onCommandClick,
-      commandsData,
-      commandsLoading,
-      onDeviceIntervalBlur,
-      deviceData,
-      deviceDataLoading,
-      onDataLineChartButtonClick,
-      dataPeriod,
-      getDataForBarChart
-    } = this.props;
+    const { toggleAutoRefresh, autoRefreshOn, autoRefreshInterval, onAutoRefreshIntervalChange, device } = this.props;
 
     return (
       <>
@@ -151,49 +119,32 @@ class DeviceDetailsCard extends React.Component {
                           <Nav tabs>
                             <NavItem>
                               <NavLink
-                                className={classNames({
-                                  active: this.state.activeTab === "basicDetails"
-                                })}
-                                onClick={() => {
-                                  this.setActiveTab("basicDetails");
-                                }}
+                                className={classNames({ active: this.state.activeTab === "basicDetails" })}
+                                onClick={() => this.setActiveTab("basicDetails")}
                               >
                                 Basic Details
-                                {/* <i className="fa fa-home" /> */}
                               </NavLink>
                             </NavItem>
                             <NavItem>
                               <NavLink
-                                className={classNames({
-                                  active: this.state.activeTab === "data"
-                                })}
-                                onClick={() => {
-                                  this.setActiveTab("data");
-                                }}
+                                className={classNames({ active: this.state.activeTab === "data" })}
+                                onClick={() => this.setActiveTab("data")}
                               >
                                 Data
                               </NavLink>
                             </NavItem>
                             <NavItem>
                               <NavLink
-                                className={classNames({
-                                  active: this.state.activeTab === "commands"
-                                })}
-                                onClick={() => {
-                                  this.setActiveTab("commands");
-                                }}
+                                className={classNames({ active: this.state.activeTab === "commands" })}
+                                onClick={() => this.setActiveTab("commands")}
                               >
                                 Commands
                               </NavLink>
                             </NavItem>
                             <NavItem>
                               <NavLink
-                                className={classNames({
-                                  active: this.state.activeTab === "alerts"
-                                })}
-                                onClick={() => {
-                                  this.setActiveTab("alerts");
-                                }}
+                                className={classNames({ active: this.state.activeTab === "alerts" })}
+                                onClick={() => this.setActiveTab("alerts")}
                               >
                                 Alerts
                               </NavLink>
@@ -201,106 +152,13 @@ class DeviceDetailsCard extends React.Component {
                           </Nav>
                           <TabContent activeTab={this.state.activeTab}>
                             <TabPane tabId="basicDetails">
-                              <Row>
-                                <Col lg="4" md="12" sm="12">
-                                  <Row>
-                                    <DeviceInformations
-                                      lg="12"
-                                      md="12"
-                                      sm="12"
-                                      device={device}
-                                      deviceLoading={deviceLoading}
-                                      onRefreshClick={onRefreshClick}
-                                      editMode={editMode}
-                                      onDeviceFieldChange={onDeviceFieldChange}
-                                      onEditInfo={onEditInfo}
-                                      onCancelEditInfo={onCancelEditInfo}
-                                      onSaveInfo={onSaveInfo}
-                                    />
-                                  </Row>
-                                  <Row>
-                                    <DeviceDataTypes
-                                      lg="12"
-                                      md="12"
-                                      sm="12"
-                                      device={device}
-                                      deviceLoading={deviceLoading}
-                                      onReloadDataTypeClick={onReloadDataTypeClick}
-                                    />
-                                  </Row>
-                                </Col>
-                                <DeviceConnections
-                                  lg="4"
-                                  md="12"
-                                  sm="12"
-                                  device={device}
-                                  deviceLoading={deviceLoading}
-                                />
-                                <DeviceLocationMap
-                                  lg="4"
-                                  md="12"
-                                  sm="12"
-                                  device={device}
-                                  deviceLoading={deviceLoading}
-                                />
-                              </Row>
+                              <BasicDetailsContainer {...this.props} />
                             </TabPane>
                             <TabPane tabId="data">
-                              <Row>
-                                <DeviceDataTable
-                                  lg="4"
-                                  md="4"
-                                  sm="4"
-                                  device={device}
-                                  dataType={dataType}
-                                  onDataTypeChange={onDataTypeChange}
-                                  deviceData={deviceData}
-                                  deviceDataLoading={deviceDataLoading}
-                                  dataPeriod={dataPeriod}
-                                  onRefreshClick={onRefreshClick}
-                                />
-                                <Col md="8">
-                                  <Row>
-                                    <DeviceDataLineChart
-                                      lg="12"
-                                      md="12"
-                                      sm="12"
-                                      deviceData={deviceData}
-                                      deviceDataLoading={deviceDataLoading}
-                                      onDataLineChartButtonClick={onDataLineChartButtonClick}
-                                      dataPeriod={dataPeriod}
-                                    />
-                                    <Col className="mt-5"></Col>
-                                    <DeviceDataBarChart
-                                      lg="12"
-                                      md="12"
-                                      sm="12"
-                                      deviceData={deviceData}
-                                      deviceDataLoading={deviceDataLoading}
-                                      getDataForBarChart={getDataForBarChart}
-                                    />
-                                  </Row>
-                                </Col>
-                              </Row>
+                              <DataContainer {...this.props} />
                             </TabPane>
                             <TabPane tabId="commands">
-                              <Row>
-                                <DeviceCommands
-                                  lg="6"
-                                  sm="12"
-                                  device={device}
-                                  onCommandClick={onCommandClick}
-                                  onDeviceFieldChange={onDeviceFieldChange}
-                                  onDeviceIntervalBlur={onDeviceIntervalBlur}
-                                />
-                                <DeviceCommandsHistory
-                                  lg="6"
-                                  sm="12"
-                                  commandsData={commandsData}
-                                  onRefreshClick={onRefreshClick}
-                                  commandsLoading={commandsLoading}
-                                />
-                              </Row>
+                              <CommandsContainer {...this.props} />
                             </TabPane>
                             <TabPane tabId="alerts">
                               <AlertsModuleContainer />

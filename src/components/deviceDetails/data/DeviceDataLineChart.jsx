@@ -4,9 +4,9 @@ import { Line, Bar } from "react-chartjs-2";
 
 import { Button, ButtonGroup, Card, CardHeader, CardBody, CardTitle, Row, Col } from "reactstrap";
 
-import Spinner from "../_common/Spinner";
-import { LineChartHelper } from "../../utils/chartHelper";
-import { helper } from "../../utils/helper";
+import Spinner from "../../_common/Spinner";
+import { LineChartHelper } from "../../../utils/chartHelper";
+import { helper } from "../../../utils/helper";
 
 const DeviceDataLineChart = ({
   lg,

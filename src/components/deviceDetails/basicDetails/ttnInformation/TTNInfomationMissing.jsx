@@ -4,17 +4,17 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import * as importedTTNActions from "../../../redux/actions/ttnActions";
+import * as importedTTNActions from "../../../../redux/actions/ttnActions";
 
 import toastr from "toastr";
 
 import { Card, Row, Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
 
-import { prefix } from "../../../routes";
+import { prefix } from "../../../../routes";
 
-import LoaderRow from "../../_common/LoaderRow";
+import LoaderRow from "../../../_common/LoaderRow";
 import TTNInfomationMissingAvailableActions from "./TTNInfomationMissingAvailableActions";
-import TTNDevicesCreateNewDevice from "../../theThingsNetwork/ttnDevices/TTNDevicesCreateNewDevice";
+import TTNDevicesCreateNewDevice from "../../../theThingsNetwork/ttnDevices/TTNDevicesCreateNewDevice";
 
 class TTNInfomationMissing extends React.Component {
   constructor(props) {

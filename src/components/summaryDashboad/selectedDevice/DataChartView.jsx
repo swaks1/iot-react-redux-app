@@ -8,7 +8,7 @@ import * as importedDeviceDataActions from "../../../redux/actions/deviceDataAct
 import { Row, Col, Button } from "reactstrap";
 
 import LoaderRow from "../../_common/LoaderRow";
-import DeviceDataLineChart from "../../deviceDetails/DeviceDataLineChart";
+import DeviceDataLineChart from "../../deviceDetails/data/DeviceDataLineChart";
 
 class DataChartView extends React.Component {
   constructor(props) {

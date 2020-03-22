@@ -6,11 +6,11 @@ import { Button, Card, CardBody, Row, Col, Collapse, Input } from "reactstrap";
 
 import LoaderRow from "../_common/LoaderRow";
 import DeviceInformationsSimple from "./DeviceInformationsSimple";
-import DeviceDataTableSimple from ".//DeviceDataTableSimple";
-import DeviceDataLineChart from "../deviceDetails/DeviceDataLineChart";
-import DeviceDataBarChart from "../deviceDetails/DeviceDataBarChart";
+import DeviceDataTableSimple from "./DeviceDataTableSimple";
+import DeviceDataLineChart from "../deviceDetails/data/DeviceDataLineChart";
+import DeviceDataBarChart from "../deviceDetails/data/DeviceDataBarChart";
 import DeviceCommandsSimple from "./DeviceCommandsSimple";
-import DeviceLocationMap from "../deviceDetails/DeviceLocationMap";
+import DeviceLocationMap from "../deviceDetails/basicDetails/DeviceLocationMap";
 import DeviceCommandsHistorySimple from "./DeviceCommandsHistorySimple";
 
 const DeviceDetailsSimpleCard = ({

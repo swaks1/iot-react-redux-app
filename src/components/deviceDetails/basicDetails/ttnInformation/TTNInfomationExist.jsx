@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import * as importedTTNActions from "../../../redux/actions/ttnActions";
+import * as importedTTNActions from "../../../../redux/actions/ttnActions";
 import TTNInfomationExistExtendedInformation from "./TTNInfomationExistExtendedInformation";
 
 import toastr from "toastr";

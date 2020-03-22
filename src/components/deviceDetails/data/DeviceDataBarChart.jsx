@@ -3,10 +3,10 @@ import { Bar } from "react-chartjs-2";
 
 import { Card, CardHeader, CardBody, CardTitle, Row, Col } from "reactstrap";
 
-import { BarChartHelper } from "../../utils/chartHelper";
+import { BarChartHelper } from "../../../utils/chartHelper";
 
-import Spinner from "../_common/Spinner";
-import { helper } from "../../utils/helper";
+import Spinner from "../../_common/Spinner";
+import { helper } from "../../../utils/helper";
 
 const DeviceDataBarChart = ({ lg, md, sm, deviceData, deviceDataLoading, getDataForBarChart }) => {
   let response = getDataForBarChart();

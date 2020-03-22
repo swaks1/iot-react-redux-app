@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Row, Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
-import LoaderRow from "../../_common/LoaderRow";
-import SpanButton from "../../_common/SpanButton";
+import LoaderRow from "../../../_common/LoaderRow";
+import SpanButton from "../../../_common/SpanButton";
 import toastr from "toastr";
 import ReactTooltip from "react-tooltip";
 

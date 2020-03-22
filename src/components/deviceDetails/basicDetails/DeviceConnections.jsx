@@ -2,7 +2,7 @@ import React from "react";
 
 import { Card, Row, Col, Button, Form, FormGroup, Label, Input } from "reactstrap";
 import TTNInformationContainer from "./ttnInformation/TTNInformationContainer";
-import Spinner from "../_common/Spinner";
+import Spinner from "../../_common/Spinner";
 
 const DeviceConnections = ({ lg, md, sm, device, deviceLoading }) => {
   return (

@@ -2,8 +2,8 @@ import React from "react";
 
 import { Card, Col, Row } from "reactstrap";
 import GoogleMapReact from "google-map-react";
-import SimpleMarker from "../_common/SimpleMarker";
-import LoaderOverlay from "../_common/LoaderOverlay";
+import SimpleMarker from "../../_common/SimpleMarker";
+import LoaderOverlay from "../../_common/LoaderOverlay";
 
 const DeviceLocationMap = ({ lg, md, sm, device, deviceLoading }) => {
   let lat = 41.996;
