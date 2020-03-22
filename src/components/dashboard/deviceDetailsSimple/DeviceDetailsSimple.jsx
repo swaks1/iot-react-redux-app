@@ -3,12 +3,12 @@ import { withRouter } from "react-router-dom";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import * as importedDeviceActions from "../../redux/actions/deviceActions";
-import * as importedCommandActions from "../../redux/actions/commandActions";
-import * as importedDeviceDataActions from "../../redux/actions/deviceDataActions";
+import * as importedDeviceActions from "../../../redux/actions/deviceActions";
+import * as importedCommandActions from "../../../redux/actions/commandActions";
+import * as importedDeviceDataActions from "../../../redux/actions/deviceDataActions";
 
 import toastr from "toastr";
-import { commandHelper } from "./../../utils/commandHelper";
+import { commandHelper } from "./../../../utils/commandHelper";
 import DeviceDetailsSimpleCard from "./DeviceDetailsSimpleCard";
 
 class DeviceDetailsSimple extends React.Component {

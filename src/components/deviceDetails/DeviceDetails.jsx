@@ -134,7 +134,7 @@ class DeviceDetails extends React.Component {
 
       Promise.all(promises)
         .then(values => {
-          toastr.success("Reloaded full UI!");
+          //toastr.success("Reloaded full UI!");
         })
         .catch(error => {
           toastr.error("Reload UI: " + error);

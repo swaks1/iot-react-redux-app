@@ -2,8 +2,8 @@ import React from "react";
 
 import { Card, Row, Col } from "reactstrap";
 
-import Table from "../_common/Table";
-import Spinner from "../_common/Spinner";
+import Table from "../../../_common/Table";
+import Spinner from "../../../_common/Spinner";
 
 const DeviceCommandsHistorySimple = ({ lg, md, sm, commandsData, commandsLoading }) => {
   return (

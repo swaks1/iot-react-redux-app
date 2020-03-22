@@ -73,12 +73,18 @@ class TTNInfomationMissing extends React.Component {
 
     return (
       <>
-        <Row>
-          <Col sm="12" className="text-center">
-            <h4>
-              {" "}
-              No TTN Device connected... <i className="fa fa-times fa-2x" style={{ color: "red" }} />
-            </h4>
+        <Row className="mt-3">
+          <Label for="active" sm={5}>
+            Active
+          </Label>
+          <Col sm={7}>
+            <i className="fa fa-times fa-2x" style={{ color: "red" }} />
+          </Col>
+          <Label for="active" sm={5}>
+            Status
+          </Label>
+          <Col sm={7}>
+            <span>No TTN Device connected !</span>
           </Col>
         </Row>
         {this.state.connectNew ? (

@@ -3,7 +3,7 @@ import React from "react";
 
 import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
 import LoaderRow from "../_common/LoaderRow";
-import DeviceDetailsSimple from "./DeviceDetailsSimple";
+import DeviceDetailsSimple from "./deviceDetailsSimple/DeviceDetailsSimple";
 
 const DashboardCard = ({ devices, loading }) => {
   return (

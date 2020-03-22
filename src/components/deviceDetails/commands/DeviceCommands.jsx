@@ -17,19 +17,19 @@ const DeviceCommands = ({ lg, md, sm, device, onDeviceFieldChange, onCommandClic
 
           <Row className="mt-2">
             {device.isActive ? (
-              <Col className="text-right" md={{ size: 5, offset: 1 }}>
+              <Col className="text-right" md={{ size: 4, offset: 2 }}>
                 <Button color="danger" size="sm" id="deactivateBtn" className="btn-block" onClick={onCommandClick}>
                   Deactivate Device
                 </Button>
               </Col>
             ) : (
-              <Col className="text-right" md={{ size: 5, offset: 1 }}>
+              <Col className="text-right" md={{ size: 4, offset: 2 }}>
                 <Button color="success" size="sm" id="activateBtn" className="btn-block" onClick={onCommandClick}>
                   Activate Device
                 </Button>
               </Col>
             )}
-            <Col className="text-left" md={{ size: 5 }}>
+            <Col className="text-left" md={{ size: 4 }}>
               <Button size="sm" id="updateLocationBtn" className="btn-block" onClick={onCommandClick}>
                 Update Location
               </Button>
@@ -75,13 +75,13 @@ const DeviceCommands = ({ lg, md, sm, device, onDeviceFieldChange, onCommandClic
           </Row>
 
           <Row className="mt-2">
-            <Col className="text-center" md={{ size: 5, offset: 1 }}>
+            <Col className="text-center" md={{ size: 4, offset: 2 }}>
               <Button size="sm" id="ledOn_Lora" color="success" className="btn-block" onClick={onCommandClick}>
                 Led On
               </Button>
             </Col>
 
-            <Col className="text-center" md={{ size: 5, offset: 0 }}>
+            <Col className="text-center" md={{ size: 4, offset: 0 }}>
               <Button size="sm" id="ledOff_Lora" color="warning" className="btn-block" onClick={onCommandClick}>
                 Led Off
               </Button>

@@ -4,14 +4,14 @@ import Switch from "react-switch";
 
 import { Button, Card, CardBody, Row, Col, Collapse, Input } from "reactstrap";
 
-import LoaderRow from "../_common/LoaderRow";
-import DeviceInformationsSimple from "./DeviceInformationsSimple";
-import DeviceDataTableSimple from "./DeviceDataTableSimple";
-import DeviceDataLineChart from "../deviceDetails/data/DeviceDataLineChart";
-import DeviceDataBarChart from "../deviceDetails/data/DeviceDataBarChart";
-import DeviceCommandsSimple from "./DeviceCommandsSimple";
-import DeviceLocationMap from "../deviceDetails/basicDetails/DeviceLocationMap";
-import DeviceCommandsHistorySimple from "./DeviceCommandsHistorySimple";
+import LoaderRow from "../../_common/LoaderRow";
+import DeviceInformationsSimple from "./basicDetails/DeviceInformationsSimple";
+import DeviceDataTableSimple from "./data/DeviceDataTableSimple";
+import DeviceCommandsSimple from "./commands/DeviceCommandsSimple";
+import DeviceCommandsHistorySimple from "./commands/DeviceCommandsHistorySimple";
+import DeviceDataLineChart from "../../deviceDetails/data/DeviceDataLineChart";
+import DeviceDataBarChart from "../../deviceDetails/data/DeviceDataBarChart";
+import DeviceLocationMap from "../../deviceDetails/basicDetails/DeviceLocationMap";
 
 const DeviceDetailsSimpleCard = ({
   collapseElementOpened,

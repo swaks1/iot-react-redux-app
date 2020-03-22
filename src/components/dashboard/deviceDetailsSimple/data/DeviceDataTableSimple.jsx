@@ -5,9 +5,9 @@ import classNames from "classnames";
 import { Card, Row, Col, Button, ButtonGroup } from "reactstrap";
 import ReactTooltip from "react-tooltip";
 
-import TableWithPagination from "../_common/TableWithPagination";
-import Spinner from "../_common/Spinner";
-import { helper } from "../../utils/helper";
+import TableWithPagination from "../../../_common/TableWithPagination";
+import Spinner from "../../../_common/Spinner";
+import { helper } from "../../../../utils/helper";
 
 const DeviceDataTableSimple = ({
   lg,

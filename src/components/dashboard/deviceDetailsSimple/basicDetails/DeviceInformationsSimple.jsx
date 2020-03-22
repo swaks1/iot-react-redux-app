@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { Card, Row, Col, Button } from "reactstrap";
-import Spinner from "../_common/Spinner";
+import Spinner from "../../../_common/Spinner";
 
 const DeviceInformationsSimple = ({ lg, md, sm, device, deviceLoading }) => {
   return (
@@ -64,6 +64,19 @@ const DeviceInformationsSimple = ({ lg, md, sm, device, deviceLoading }) => {
             </Col>
             <Col md={12} style={{ fontSize: "0.8em" }}>
               <i className="fa fa-signal"></i> LoraWAN
+            </Col>
+          </Row>
+
+          <Row style={{ marginTop: "10px " }}>
+            <Col className="text-left" md={5} style={{ fontSize: "0.9em" }}>
+              <span>Active:</span>
+            </Col>
+            <Col className="text-left" md={7} style={{ paddingLeft: "0px" }}>
+              {device.ttnInfo && device.ttnInfo.devId != "" ? (
+                <i className="fa fa-check fa" style={{ color: "green" }}></i>
+              ) : (
+                <i className="fa fa-times fa" style={{ color: "red" }} />
+              )}
             </Col>
           </Row>
 
