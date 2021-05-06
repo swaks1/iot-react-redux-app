@@ -8,7 +8,7 @@
     "chart.js": "^2.7.3",
     "classnames": "^2.2.6",
     "google-map-react": "^1.1.5",
-    "highcharts": "^8.0.0",
+    "highcharts": "^9.0.0",
     "highcharts-react-official": "^2.2.2",
     "history": "^4.7.2",
     "node-sass": "^4.13.0",
